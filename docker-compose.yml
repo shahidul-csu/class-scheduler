@@ -1,0 +1,32 @@
+version: "3.2"
+services:
+  backend:
+    restart: always
+    container_name: backend
+    command : python3 manage.py runserver 0.0.0.0:8000
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - localNet
+
+  frontend:
+    restart: always
+    command : npm start
+    container_name: frontend
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    depends_on:
+      - backend
+    networks:
+      - localNet
+
+networks:
+  localNet:
+    driver: bridge
