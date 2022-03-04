@@ -6,17 +6,18 @@ import '../../styles/adminFacultyPreferences.css'
 const Header = () => {
   return (
     <div>
-        <div className='navbar'>
-            <h1>Class Scheduler</h1>
-            <nav>
+      <div className='heading'>
+          <div className='navbar'>
+              <h1>Class Scheduler</h1>
                 <ul className='nav_links'>
-                    <li><a href='#'>Update Options</a></li>
-                    <li><a href='#'>Schedule</a></li>
-                    <li><a href='#'>Preferences</a></li>
+                    <li className='lists'><a className='as' href='#'>Update Options</a></li>
+                    <li className='lists'><a className='as' href='#'>Schedule</a></li>
+                    <li className='lists'><a className='as' href='#'>Preferences</a></li>
                 </ul>
-            </nav>
-        </div>
-        <hr></hr>
+          </div>
+          
+      </div>
+      <hr></hr>
     </div>
   )
 }
