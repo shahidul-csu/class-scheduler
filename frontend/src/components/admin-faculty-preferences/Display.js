@@ -3,6 +3,8 @@
 import React, { useState } from 'react'
 import Dropdown from './Dropdown'
 import '../../styles/adminFacultyPreferences.css'
+import Preference from './Preference'
+import Button from './Button'
 
 const Display = () => {
 
@@ -22,6 +24,12 @@ const Display = () => {
     {id: 7, user_id: 2,name: "fall", year: "2020"},
   ])
   
+  const [preferences, setPreferences] = useState([
+    {"id": 1, "weekday": "Monday", "timeslot": "10am-12pm"},
+    {"id": 1, "weekday": "Wednesday", "timeslot": "2pm-4pm"},
+    {"id": 1, "weekday": "Thursday", "timeslot": "10am-12pm"},
+    {"id": 1, "weekday": "Tuesday", "timeslot": "6pm-8pm"},
+])
 
   return (
     <div>
@@ -31,8 +39,8 @@ const Display = () => {
                 <Dropdown name="Semester" group={semesters} />
             </div>
             <div className='right'>
-                right
-                yes
+                <Preference preferences={preferences} />
+                <Button />
             </div>
         </div>
     </div>
