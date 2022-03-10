@@ -25,8 +25,15 @@ SECRET_KEY = 'django-insecure-9$y#5)y!!=&dl(%0l%so16ap1)td6b=_c%&e89z8@yr2&65!3^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+LOGIN_URL = '/login/'
+
 ALLOWED_HOSTS = ["*"]
 
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny']
+}
 
 # Application definition
 
@@ -37,6 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -47,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
+
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -76,8 +88,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7odchui08ggs4',
+        'USER': 'ffesmtozmpyghm',
+        'PASSWORD': 'dc203ed02f12dcc3b402201415eba2ee53a891196a69de65d6494c304b27cffa',
+        'HOST': 'ec2-3-212-45-192.compute-1.amazonaws.com',
+        'PORT': '5432',
+        'TEST': {
+            'NAME': 'd7odchui08ggs4',
+            'SERIALIZE': False,
+        },
     }
 }
 
