@@ -3,8 +3,8 @@
 import React, { useState } from 'react'
 import Dropdown from './Dropdown'
 import '../../styles/adminFacultyPreferences.css'
-import Preference from './Preference'
-import Button from './Button'
+import Preferences from './Preferences'
+import Submit from './Submit'
 
 const Display = () => {
 
@@ -39,8 +39,8 @@ const Display = () => {
                 <Dropdown name="Semester" group={semesters} />
             </div>
             <div className='right'>
-                <Preference preferences={preferences} />
-                <Button />
+                <Preferences preferences={preferences} />
+                <Submit />
             </div>
         </div>
     </div>
