@@ -3,12 +3,12 @@
 import React from 'react'
 import "../../styles/adminFacultyPreferences.css"
 
-const Button = () => {
+const Submit = () => {
   return (
-    <div>
-        <Button>Submit</Button>
-    </div>
+    <>
+        <button>Hello</button>
+    </>
   )
 }
 
-export default Button
+export default Submit
