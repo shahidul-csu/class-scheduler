@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from .models import User, DayTime, WeekDay, Classroom, Semester, ParameterData, \
-    TimeSlot, UserGroupClassParameter, UserTimeParameter, Course, Teaches, \
-    Schedule, ScheduledCourse, CourseTimeParameter, ClassroomParameter, SemesterParameter
+from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
