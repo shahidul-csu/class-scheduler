@@ -1,1 +1,0 @@
-// This file is going to display the top nav bar of the admin faculty preferneces page
