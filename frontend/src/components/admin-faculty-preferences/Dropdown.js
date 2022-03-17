@@ -18,7 +18,7 @@ const Dropdown = ({ name, group, onSelected }) => {
               <select name={name} id={name}>
                 <option value="0">Select {name}:</option>
                 {group.map((obj) => (
-                    <option value={obj.id}>
+                    <option key={obj.id} value={obj.id}>
                       {obj.hasOwnProperty('last_name') ? obj.last_name : obj.name}
                     </option>
                 ))}

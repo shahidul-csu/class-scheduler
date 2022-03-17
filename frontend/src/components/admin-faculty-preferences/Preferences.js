@@ -19,7 +19,9 @@ const Preferences = ({ preferences }) => {
                 </thead>
                 <tbody>
                     {preferences.map((preference) => (
-                        <Preference preference={preference}/>
+                        
+                            <Preference key={preference.id} id={preference.id} preference={preference}/>
+                        
                     ))}
                     
                 </tbody>
