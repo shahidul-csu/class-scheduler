@@ -3,7 +3,7 @@
 import React from 'react'
 import "../../styles/adminFacultyPreferences.css"
 
-const Preference = ({ preference }) => {
+const Preference = ({ id, preference }) => {
   return (
     <>
         <tr>

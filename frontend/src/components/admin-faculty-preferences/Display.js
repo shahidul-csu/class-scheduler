@@ -26,9 +26,9 @@ const Display = () => {
   
   const [preferences, setPreferences] = useState([
     {"id": 1, "weekday": "Monday", "timeslot": "10am-12pm"},
-    {"id": 1, "weekday": "Wednesday", "timeslot": "2pm-4pm"},
-    {"id": 1, "weekday": "Thursday", "timeslot": "10am-12pm"},
-    {"id": 1, "weekday": "Tuesday", "timeslot": "6pm-8pm"},
+    {"id": 2, "weekday": "Wednesday", "timeslot": "2pm-4pm"},
+    {"id": 3, "weekday": "Thursday", "timeslot": "10am-12pm"},
+    {"id": 4, "weekday": "Tuesday", "timeslot": "6pm-8pm"},
 ])
 
   return (
