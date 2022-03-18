@@ -1,0 +1,44 @@
+.heading {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 1%;
+    background-color: #112E51;
+    border-bottom: solid thin black;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10%;
+}
+
+.lists, .as, button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+}
+
+h1 {
+    cursor: pointer;
+    color: white;
+}
+
+.nav_links {
+    list-style: none;
+}
+
+.nav_links li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav_links li a {
+    transition: all 0.3s ease 0s;
+}
+
+.nav_links li a:hover {
+    color: #112E51
+}
