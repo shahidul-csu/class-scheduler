@@ -37,25 +37,25 @@ class SemesterSerializer(serializers.ModelSerializer):
 class ParameterDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParameterData
-        fields = ['paramteret_id', 'approved', 'requrement', 'score']
+        fields = ['parameter_id', 'approved', 'requirement', 'score']
 
 
 class TimeSlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeSlot
-        fields = ['time_slot_id', 'week_day_obj', 'day_time_obj']
+        fields = ['time_slot_id', 'week_day_id', 'day_time_id']
 
 
 class UserGroupClassParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserGroupClassParameter
-        fields = ['user_obj', 'parameter_obj']
+        fields = ['user_id', 'parameter_id']
 
 
 class UserTimeParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserTimeParameter
-        fields = ['user_obj, parameter_obj, time_slot_obj']
+        fields = ['user_id', 'parameter_id', 'time_slot_id']
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -67,7 +67,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class TeachesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teaches
-        fields = ['user_obj', 'course_obj', 'semester_obj']
+        fields = ['user_id', 'course_id', 'semester_id']
 
 
 class ScheduleSerializer(serializers.ModelSerializer):
@@ -79,23 +79,23 @@ class ScheduleSerializer(serializers.ModelSerializer):
 class ScheduledCourseSerializers(serializers.ModelSerializer):
     class Meta:
         model = ScheduledCourse
-        fields = ['schedule_obj', 'user_obj', 'course_obj', 'time_slot_obj',
-                  'semester_obj', 'classroom_obj']
+        fields = ['schedule_id', 'user_id', 'course_id', 'time_slot_id',
+                  'semester_id', 'classroom_id']
 
 
 class CourseTimeParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseTimeParameter
-        fields = ['parameter_obj', 'course_obj', 'time_slot_obj']
+        fields = ['parameter_id', 'course_id', 'time_slot_id']
 
 
 class ClassroomParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassroomParameter
-        fields = ['parameter_obj', 'course_obj', 'classroom_obj']
+        fields = ['parameter_id', 'course_id', 'classroom_id']
 
 
 class SemesterParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = SemesterParameter
-        fields = ['parameter_obj', 'course_obj', 'semester_obj']
+        fields = ['parameter_id', 'course_id', 'semester_id']

@@ -39,6 +39,9 @@ class Semester(models.Model):
 class ParameterData(models.Model):
     class Meta:
         db_table = 'parameter_data'
+        constraints = [
+            models.UniqueConstraint(fields=['parameter_id', 'approved', 'requirement'], name='unique_parameter_data')
+        ]
 
     parameter_id = models.AutoField(primary_key=True)
     approved = models.BooleanField(default=False)
@@ -51,32 +54,32 @@ class TimeSlot(models.Model):
         db_table = 'time_slot'
 
     time_slot_id = models.AutoField(primary_key=True)
-    week_day_obj = models.ForeignKey(WeekDay, null=True, default=None, on_delete=models.CASCADE)
-    day_time_obj = models.ForeignKey(DayTime, null=True, default=None, on_delete=models.CASCADE)
+    week_day_id = models.ForeignKey(WeekDay, null=True, default=None, on_delete=models.CASCADE)
+    day_time_id = models.ForeignKey(DayTime, null=True, default=None, on_delete=models.CASCADE)
 
 
 class UserGroupClassParameter(models.Model):
     class Meta:
         db_table = 'user_group_class_parameter'
         constraints = [
-            models.UniqueConstraint(fields=['user_obj', 'parameter_obj'], name='unique_user_group_class_parameter')
+            models.UniqueConstraint(fields=['user_id', 'parameter_id'], name='unique_user_group_class_parameter')
         ]
 
-    user_obj = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    parameter_obj = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
 
 
 class UserTimeParameter(models.Model):
     class Meta:
         db_table = 'user_time_parameter'
         constraints = [
-            models.UniqueConstraint(fields=['user_obj', 'parameter_obj', 'time_slot_obj'],
+            models.UniqueConstraint(fields=['user_id', 'parameter_id', 'time_slot_id'],
                                     name='unique_user_time_parameter')
         ]
 
-    user_obj = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    parameter_obj = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    time_slot_obj = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
+    time_slot_id = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
 
 
 class Course(models.Model):
@@ -95,13 +98,13 @@ class Teaches(models.Model):
     class Meta:
         db_table = 'teaches'
         constraints = [
-            models.UniqueConstraint(fields=['user_obj', 'course_obj', 'semester_obj'],
+            models.UniqueConstraint(fields=['user_id', 'course_id', 'semester_id'],
                                     name='unique_teaches')
         ]
 
-    user_obj = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    course_obj = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    semester_obj = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
+    semester_id = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
 
 
 class Schedule(models.Model):
@@ -116,53 +119,53 @@ class ScheduledCourse(models.Model):
     class Meta:
         db_table = 'scheduled_course'
         constraints = [
-            models.UniqueConstraint(fields=['schedule_obj', 'user_obj', 'course_obj', 'time_slot_obj', 'semester_obj',
-                                            'classroom_obj'],
+            models.UniqueConstraint(fields=['schedule_id', 'user_id', 'course_id', 'time_slot_id', 'semester_id',
+                                            'classroom_id'],
                                     name='unique_scheduled_course')
         ]
 
-    schedule_obj = models.ForeignKey(Schedule, default=None, on_delete=models.CASCADE)
-    user_obj = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    course_obj = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    time_slot_obj = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
-    semester_obj= models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
-    classroom_obj = models.ForeignKey(Classroom, default=None, on_delete=models.CASCADE)
+    schedule_id = models.ForeignKey(Schedule, default=None, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
+    time_slot_id = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
+    semester_id = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
+    classroom_id = models.ForeignKey(Classroom, default=None, on_delete=models.CASCADE)
 
 
 class CourseTimeParameter(models.Model):
     class Meta:
         db_table = 'course_time_parameter'
         constraints = [
-            models.UniqueConstraint(fields=['parameter_obj', 'course_obj', 'time_slot_obj'],
+            models.UniqueConstraint(fields=['parameter_id', 'course_id', 'time_slot_id'],
                                     name='unique_course_time_parameter')
         ]
 
-    parameter_obj = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    course_obj = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    time_slot_obj = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
+    time_slot_id = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
 
 
 class ClassroomParameter(models.Model):
     class Meta:
         db_table = 'classroom_parameter'
         constraints = [
-            models.UniqueConstraint(fields=['parameter_obj', 'course_obj', 'classroom_obj'],
+            models.UniqueConstraint(fields=['parameter_id', 'course_id', 'classroom_id'],
                                     name='unique_classroom_parameter')
         ]
 
-    parameter_obj = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    course_obj = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    classroom_obj = models.ForeignKey(Classroom, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
+    classroom_id = models.ForeignKey(Classroom, default=None, on_delete=models.CASCADE)
 
 
 class SemesterParameter(models.Model):
     class Meta:
         db_table = 'semester_parameter'
         constraints = [
-            models.UniqueConstraint(fields=['parameter_obj', 'course_obj', 'semester_obj'],
+            models.UniqueConstraint(fields=['parameter_id', 'course_id', 'semester_id'],
                                     name='unique_semester_parameter')
         ]
 
-    parameter_obj = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    course_obj = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    semester_obj = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
+    semester_id = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
