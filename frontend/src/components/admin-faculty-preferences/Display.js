@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react'
 import Dropdown from './Dropdown'
-import '../../styles/adminFacultyPreferences.css'
-import Preferences from './Preferences'
-import Submit from './Submit'
+import '../../styles/Display.css'
+import Header from '../Header'
+import Preference from './Preference'
+import Button from './Button'
+
 
 const Display = () => {
 
@@ -26,25 +28,28 @@ const Display = () => {
   
   const [preferences, setPreferences] = useState([
     {"id": 1, "weekday": "Monday", "timeslot": "10am-12pm"},
-    {"id": 2, "weekday": "Wednesday", "timeslot": "2pm-4pm"},
-    {"id": 3, "weekday": "Thursday", "timeslot": "10am-12pm"},
-    {"id": 4, "weekday": "Tuesday", "timeslot": "6pm-8pm"},
+    {"id": 1, "weekday": "Wednesday", "timeslot": "2pm-4pm"},
+    {"id": 1, "weekday": "Thursday", "timeslot": "10am-12pm"},
+    {"id": 1, "weekday": "Tuesday", "timeslot": "6pm-8pm"},
 ])
 
   return (
-    <div>
-        <div className='parent'>
-            <div className='left'>
-                <Dropdown name="Professor" group={professors}/>
-                <Dropdown name="Semester" group={semesters} />
+    <div className="Parent">
+      <div className="Row">
+          <div className="Col1">
+            <div className="Left">
+                  <Dropdown name="Professor" group={professors}/>
+                  <Dropdown name="Semester" group={semesters} />
             </div>
-            <div className='right'>
-                <Preferences preferences={preferences} />
-                <Submit />
+          </div>
+          <div className="Col2">
+            <div className="Right">
+                  <Preference preferences={preferences} />
+                  {/* <Button /> */}
             </div>
+          </div>
         </div>
     </div>
   )
 }
-
 export default Display

@@ -1,0 +1,53 @@
+.app-container{
+    /* border: solid brown; */
+    text-align: center;
+}
+
+.container{
+    text-align: center;
+    padding-top: 500%;
+}
+
+.app-container .container {
+    table-layout: fixed;
+    width: 74%;
+    border-collapse: collapse;
+    border: solid thin black;
+}
+
+thead th{
+    background-color: #112E51;
+    color: white;
+    font-weight: normal;
+}
+
+thead tr{
+    font-size: 25px;
+}
+
+thead th:nth-child(1){
+    width: 25%;
+    border-bottom: solid thin black;
+}
+thead th:nth-child(2){
+    border-bottom: solid thin black;
+    width: 25%;
+}
+thead th:nth-child(3){
+    border-bottom: solid thin black;
+    width: 12%;
+}
+thead th:nth-child(4){
+    border-bottom: solid thin black;
+    width: 12%;
+}
+tbody td{
+    border: solid thin black;
+    background-color: white;
+    padding: 0.9%;
+}
+tbody tr .action-td button{
+    display: block;
+    margin: 0 auto;
+    height: 10px;
+}

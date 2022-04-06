@@ -1,33 +1,50 @@
 // This file is to create a preference that the faculty has requested
 
 import React from 'react'
-import "../../styles/adminFacultyPreferences.css"
+import "../../styles/Preference.css"
 
-const Preference = ({ id, preference }) => {
+const Preference = ({ preferences }) => {
   return (
-    <>
-        <tr>
-            <td>{preference.weekday}</td>
-            <td>{preference.timeslot}</td>
-            <td className='action-td'>
-                <button
-                    className='action-btn'
-                    type="button"
-                    onClick={() => console.log("hello")}
-                >
-                </button>
+    <div className='app-container'>
+        <table className="container">
+            <thead>
+                <tr>
+                    <th className='col-header'>Weekday</th>
+                    <th className='col-header'>Timeslot</th>
+                    <th className='col-header actions'>Approve</th>
+                    <th className='col-header actions'>Deny</th>
+                </tr>
+            </thead>
+            <tbody>
+                {preferences.map((preference) => (
+                    <tr>
+                        
+                        <td>{preference.weekday}</td>
+                        <td>{preference.timeslot}</td>
+                        
+                        <td className='action-td'>
+                            <button
+                                className='action-btn'
+                                type="button"
+                                onClick={() => console.log("hello")}
+                            >
+                            </button>
+                            
+                        </td>
+                        <td className='action-td'>
+                            <button 
+                                className='action-btn'
+                                type="button" 
+                                onClick={() => console.log("hello")}
+                            >
+                            </button>
+                        </td>
+                    </tr>
+                ))}
                 
-            </td>
-            <td className='action-td'>
-                <button 
-                    className='action-btn'
-                    type="button" 
-                    onClick={() => console.log("hello")}
-                >
-                </button>
-            </td>
-        </tr>
-    </>
+            </tbody>
+        </table>
+    </div>
   )
 }
 
