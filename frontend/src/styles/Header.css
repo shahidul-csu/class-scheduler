@@ -21,7 +21,7 @@
     text-decoration: none;
 }
 
-h1 {
+.navbar h1 {
     cursor: pointer;
     color: white;
 }
@@ -40,5 +40,5 @@ h1 {
 }
 
 .nav_links li a:hover {
-    color: #112E51
+    color: #d4d4d4
 }
