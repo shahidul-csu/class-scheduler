@@ -1,0 +1,21 @@
+.footer{
+    background-color: #e9e9e9;
+    position: relative;
+    text-align: center;
+    border-top: solid thin black;
+    padding-top: .5%;
+    margin: 0;
+    left: 0; 
+    bottom: 0;
+    right: 0;
+}
+
+.footer p{
+    margin-bottom: 0em;
+}
+
+.footer a{
+    text-decoration: none;
+    font-weight: bold;
+    color: #112E51;
+}
