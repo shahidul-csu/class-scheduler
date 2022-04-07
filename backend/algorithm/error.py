@@ -1,0 +1,2 @@
+class GenerationError(Exception):
+    pass
