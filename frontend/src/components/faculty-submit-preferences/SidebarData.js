@@ -1,74 +1,67 @@
 import React from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
+import { IoSchoolSharp } from "react-icons/io5";
 import * as IoIcons from 'react-icons/io';
 import * as RiIcons from 'react-icons/ri';
 
 export const SidebarData = [
   {
-    title: 'Overview',
-    path: '/overview',
-    icon: <AiIcons.AiFillHome />,
+    title: 'Semester',
+    path: '/Semester',
+    icon: <IoSchoolSharp />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
 
     subNav: [
       {
-        title: 'Users',
+        title: 'Spring 2020',
         path: '/overview/users',
-        icon: <IoIcons.IoIosPaper />
+        icon: <IoSchoolSharp />
       },
       {
-        title: 'Revenue',
+        title: 'Fall 2020',
         path: '/overview/revenue',
-        icon: <IoIcons.IoIosPaper />
-      }
+        icon: <IoSchoolSharp />
+      },
+      {
+        title: 'Spring 2021',
+        path: '/overview/users',
+        icon: <IoSchoolSharp />
+      },
+      {
+        title: 'Fall 2021',
+        path: '/overview/revenue',
+        icon: <IoSchoolSharp />
+      },
+      {
+        title: 'Spring 2022',
+        path: '/overview/users',
+        icon: <IoSchoolSharp />
+      },
     ]
   },
   {
-    title: 'Reports',
-    path: '/reports',
+    title: 'Class',
+    path: '/Class',
     icon: <IoIcons.IoIosPaper />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
 
     subNav: [
       {
-        title: 'Reports',
+        title: 'CST 270',
         path: '/reports/reports1',
         icon: <IoIcons.IoIosPaper />,
         cName: 'sub-nav'
       },
       {
-        title: 'Reports 2',
+        title: 'CST 338',
         path: '/reports/reports2',
         icon: <IoIcons.IoIosPaper />,
         cName: 'sub-nav'
       },
       {
-        title: 'Reports 3',
+        title: 'CST 402',
         path: '/reports/reports3',
-        icon: <IoIcons.IoIosPaper />
-      }
-    ]
-  },
-  {
-    title: 'Messages',
-    path: '/messages',
-    icon: <FaIcons.FaEnvelopeOpenText />,
-
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-
-    subNav: [
-      {
-        title: 'Message 1',
-        path: '/messages/message1',
-        icon: <IoIcons.IoIosPaper />
-      },
-      {
-        title: 'Message 2',
-        path: '/messages/message2',
         icon: <IoIcons.IoIosPaper />
       }
     ]

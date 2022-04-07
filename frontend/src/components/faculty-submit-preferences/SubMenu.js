@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+// css for the main element clicked to see dropdown
 const SidebarLink = styled(Link)`
   display: flex;
   color: #e1e9fc;
@@ -14,9 +15,9 @@ const SidebarLink = styled(Link)`
   font-size: 18px;
 
   &:hover {
-    background: #252831;
-    border-left: 4px solid #632ce4;
+    background: #061d3d;
     cursor: pointer;
+    color: #d4d4d4;
   }
 `;
 
@@ -24,6 +25,7 @@ const SidebarLabel = styled.span`
   margin-left: 16px;
 `;
 
+// css for the drop down elements 
 const DropdownLink = styled(Link)`
   background: #414757;
   height: 60px;
@@ -31,12 +33,13 @@ const DropdownLink = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #f5f5f5;
+  color: white;
   font-size: 18px;
 
   &:hover {
-    background: #632ce4;
+    background: #224599;
     cursor: pointer;
+    color: #d4d4d4;
   }
 `;
 

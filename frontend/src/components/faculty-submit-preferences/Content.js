@@ -1,8 +1,15 @@
 import React from 'react'
+import Sidebar from './Sidebar'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const Content = () => {
   return (
-    <div>fsdfsd</div>
+    <div>
+
+      <Router>
+        <Sidebar />
+      </Router>
+    </div>
   )
 }
 
