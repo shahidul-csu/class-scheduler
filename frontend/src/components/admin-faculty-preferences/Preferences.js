@@ -1,1 +1,0 @@
-// This file displays all the preferneces of a professor for the semester, and lists if they need to be accepted/decliend. this will also list preferences that were accpeted already. preferences that need an answer will show at the top
