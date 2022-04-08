@@ -1,0 +1,21 @@
+.btn-weekday{
+    background-color: white; 
+    border: none;
+    padding: 10px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 100%;
+    vertical-align: middle;
+}
+
+.btn-score{
+    background-color: white; 
+    border: none;
+    padding: 10px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 100%;
+    vertical-align: middle;
+    margin-left: 20px;
+    margin-right: 20px;
+}
