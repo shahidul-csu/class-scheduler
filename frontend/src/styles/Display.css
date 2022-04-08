@@ -33,7 +33,7 @@
 
 /* Left side of the page */
 .Parent .Col1 .Left{
-    border-right: solid thin black;
+    /* border-right: solid thin black; */
     padding-top: 20%;
     /* Change bottom to 42% */
     padding-bottom: 113%;
@@ -44,6 +44,7 @@
     /* border: solid magenta; */
     padding-top: 5%;
     padding-bottom: 10%;
+    border-left: solid thin black;
     padding-left: 10%;
     padding-right: 10%;
 }
