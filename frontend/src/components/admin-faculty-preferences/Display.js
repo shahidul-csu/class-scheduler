@@ -10,12 +10,12 @@ import PreferenceDropdown from './PreferenceDropdown';
 const Display = () => {
 
   // Dummy data
-  const [professors, setProfessors] = useState([
-    {id:1, last_name: "Espinoza"}, 
-    {id:2, last_name: "Lara"}, 
-    {id:3, last_name: "Su"},
-  ])
   const [semesters, setSemesters] = useState([
+    {id:1, last_name: "Fall 2020"}, 
+    {id:2, last_name: "Spring 2021"}, 
+    {id:3, last_name: "Fall 2021"},
+  ])
+  const [courses, setCourses] = useState([
     {id: 1, user_id: 1,name: "CST 370"},
     {id: 2, user_id: 2,name: "CST 338"},
     {id: 3, user_id: 2,name: "CST 438"},
@@ -27,8 +27,8 @@ const Display = () => {
       <div className="Row">
           <div className="Col1">
             <div className="Left">
-                  <Dropdown name="Professor" group={professors}/>
-                  <Dropdown name="Course" group={semesters} />
+                  <Dropdown name="Semester" group={semesters}/>
+                  <Dropdown name="Course" group={courses} />
             </div>
           </div>
           <div className="Col2">
