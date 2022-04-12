@@ -36,6 +36,7 @@ const Display = () => {
                   <Router>
                       <PreferenceDropdown />
                   </Router>
+                  <button className='submission'>Submit</button>
             </div>
           </div>
         </div>
