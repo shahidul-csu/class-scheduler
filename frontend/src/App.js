@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer.js'
 import LandingPage from './components/LandingPage';
-import Display from './components/faculty-submitPreferences/Display';
+import Display from './components/faculty-submitAvailability/Display';
 
 function App() {
   return (

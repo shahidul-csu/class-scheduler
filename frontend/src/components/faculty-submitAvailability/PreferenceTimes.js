@@ -42,12 +42,6 @@ const DropdownLink = styled(Link)`
   }
 `;
 
-const Score = styled.span`
-  margin-right: 20px;
-  margin-left: auto; 
-
-`;
-
 const PreferenceTimes = ({ item }) => {
     const [subnav, setSubnav] = useState(false);
   
@@ -78,15 +72,6 @@ const PreferenceTimes = ({ item }) => {
               <DropdownLink to={item.path} key={index}>
                 <button className='btn-weekday'></button>
                 <SidebarLabel>{item.title}</SidebarLabel>
-                <Score>
-                    LO 
-                    <button className='btn-score'></button>
-                    <button className='btn-score'></button>
-                    <button className='btn-score'></button>
-                    <button className='btn-score'></button>
-                    <button className='btn-score'></button>
-                    HI
-                </Score>
               </DropdownLink>
             );
           })}
