@@ -76,7 +76,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
         fields = ['schedule_id', 'fitness_score']
 
 
-class ScheduledCourseSerializers(serializers.ModelSerializer):
+class ScheduledCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ScheduledCourse
         fields = ['schedule_id', 'user_id', 'course_id', 'time_slot_id',
