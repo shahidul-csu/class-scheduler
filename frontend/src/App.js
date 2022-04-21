@@ -13,17 +13,18 @@ function App() {
         <Route path='/'  element={ 
          <div>
             <Header />
-            <Display /> 
+            <LandingPage /> 
             <Footer />
          </div> 
         } />
         <Route path='/login' element={ 
          <div>
             <Header />
-            <LandingPage /> 
+            <Display /> 
             <Footer />
          </div> 
-        } />
+        }/>
+
       </Routes>
     </Router>
   );
