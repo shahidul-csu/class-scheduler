@@ -3,7 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from .models import *
 from .serializers import *
-from .view_manager import *
+from .view_manager.view_utils import *
+from .view_manager.data_access_view import *
 
 
 class UserView(DataAccessView):
