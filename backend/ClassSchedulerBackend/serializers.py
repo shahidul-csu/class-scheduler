@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from rest_framework.authtoken.models import Token
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,6 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', 'first_name', 'last_name', 'email', 'password',
                   'group', 'user_permissions', 'is_staff', 'is_active',
                   'is_superuser', 'last_login', 'data_joined']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        Token.objects.create(user=user)
+        return user
 
 
 class DayTimeSerializer(serializers.ModelSerializer):
