@@ -49,8 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'ClassSchedulerBackend',
-    'models'
+    'ClassSchedulerBackend'
 ]
 
 MIDDLEWARE = [

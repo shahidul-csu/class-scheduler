@@ -1,7 +1,7 @@
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 from django.urls import reverse
-from backend.ClassSchedulerBackend.models import User
+from ClassSchedulerBackend.models import User
 from .test_utils import *
 
 
