@@ -1,5 +1,8 @@
-import copy
 from functools import reduce
+from typing import List, Tuple
+
+from base_entities import WeekDay
+from error import CourseError
 from parameters import Parameter, TimeParameter, ClassroomParameter
 
 
@@ -50,14 +53,18 @@ class Instructor(ParameterizedEntity):
 class Course(ParameterizedEntity):
     def __init__(
             self,
-            parameters: list[Parameter],
+            parameters: List[Parameter],
             course_id: str,
             instructors: list[Instructor],
+            *,
             units: int,
             number_per_week: int,
             capacity: int,
-            sync_time: bool = True
+            sync_time: bool = True,
+            week_day_set_pool: List[Tuple[WeekDay]] = None
     ):
+        if number_per_week < 1:
+            raise CourseError("Invalid number_per_week")
         super().__init__(parameters)
         self.__course_id = course_id
         self.__instructors = instructors
@@ -65,6 +72,9 @@ class Course(ParameterizedEntity):
         self.__number_per_week = number_per_week
         self.__capacity = capacity
         self.__sync_time = sync_time
+        self.__week_day_set_pool = WeekDay.get_week_day_sets(number_per_week) if week_day_set_pool is None else week_day_set_pool
+        self.__time_pool = self.get_time_pool(True)
+        self.__classroom_pool = self.get_classroom_pool(True)
 
     def get_course_id(self):
         return self.__course_id
@@ -84,6 +94,9 @@ class Course(ParameterizedEntity):
     def get_sync_time(self):
         return self.__sync_time
 
+    def get_week_day_set_pool(self):
+        return self.__week_day_set_pool
+
     def get_params_of_type(self, param_type):
         if param_type == TimeParameter:
             accum = list(filter(lambda p: isinstance(p, param_type), self._parameters))
@@ -91,6 +104,20 @@ class Course(ParameterizedEntity):
                 accum.extend(filter(lambda p: isinstance(p, param_type), inst.get_parameters()))
             return accum
         return list(filter(lambda p: isinstance(p, param_type), self._parameters))
+
+    def get_time_pool(self, generate_new=False):
+        return list(map(lambda p: p.get_time_slot(), filter(lambda p: p.is_requirement(), self.get_params_of_type(TimeParameter)))) \
+            if generate_new \
+            else self.__time_pool
+
+    def get_classroom_pool(self, generate_new=False):
+        return list(map(lambda p: p.get_classroom(), self.get_params_of_type(ClassroomParameter)))\
+            if generate_new \
+            else self.__classroom_pool
+
+    def get_requirements_value(self, max_value: int):
+        req_value = len(self.get_time_pool()) + len(self.get_classroom_pool())
+        return max_value if req_value == 0 else req_value
 
     def __hash__(self):
         return hash(self.__course_id)
@@ -109,3 +136,11 @@ class Course(ParameterizedEntity):
 
     def __repr__(self):
         return "\n" + self.__str__() + "\n"
+
+
+def main(*args, **kwargs):
+    pass
+
+
+if __name__ == '__main__':
+    main()
