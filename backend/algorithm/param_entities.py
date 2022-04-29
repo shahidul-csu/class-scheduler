@@ -7,7 +7,7 @@ from parameters import Parameter, TimeParameter, ClassroomParameter
 
 
 class ParameterizedEntity:
-    def __init__(self, parameters: list[Parameter]):
+    def __init__(self, parameters: List[Parameter]):
         self._parameters = parameters
 
     def get_parameters(self):
@@ -21,7 +21,7 @@ class ParameterizedEntity:
 
 
 class Instructor(ParameterizedEntity):
-    def __init__(self, parameters: list[Parameter], user_id: int, username: str, first_name: str, last_name: str):
+    def __init__(self, parameters: List[Parameter], user_id: int, username: str, first_name: str, last_name: str):
         super().__init__(parameters)
         self.__user_id = user_id
         self.__username = username
@@ -55,7 +55,7 @@ class Course(ParameterizedEntity):
             self,
             parameters: List[Parameter],
             course_id: str,
-            instructors: list[Instructor],
+            instructors: List[Instructor],
             *,
             units: int,
             number_per_week: int,

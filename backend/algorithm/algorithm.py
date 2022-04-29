@@ -72,7 +72,7 @@ class Schedule:
         k, v = list(data_dict.items())[index]
         return k
 
-    def __init__(self, scheduled_courses: list[ScheduledCourse], fitness_score: int = None):
+    def __init__(self, scheduled_courses: List[ScheduledCourse], fitness_score: int = None):
         self.__scheduled_courses = scheduled_courses
         self.__fitness_score = fitness_score
         self.__matrix = None
@@ -168,7 +168,7 @@ class GeneticAlgorithm:
         CROSSOVER_RATE: float = 0.2
         MUTATION_RATE: float = 0.3
 
-    def __init__(self, courses: list[Course], classrooms: list[Classroom], semester: Semester):
+    def __init__(self, courses: List[Course], classrooms: List[Classroom], semester: Semester):
         self.__courses = courses
         self.__classrooms = classrooms
         self.__semester = semester
