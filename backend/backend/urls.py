@@ -21,7 +21,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="admin"),
+    path('login/', obtain_auth_token, name="login"),
+    path('sign_up/', signUpView, name="sign_up"),
     path('api/', include([
         path('user/', UserView.as_view(), name='user'),
         path('day_time/', DayTimeView.as_view(), name='day_time'),
@@ -40,4 +42,4 @@ urlpatterns = [
         path('classroom_parameter/', ClassroomParameterView.as_view(), name='classroom_parameter'),
         path('semester_parameter/', SemesterParameterView.as_view(), name='semester_parameter'),
     ]))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]

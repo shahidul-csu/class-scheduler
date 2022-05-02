@@ -4,6 +4,20 @@ from .models import *
 from .tests_manager.data_access_view_tests import *
 
 
+class LoginViewTest(TestCase):
+    credentials = {
+        'username': 'admin',
+        'password': 'admin'
+    }
+    user = User.objects.get(username=credentials["username"])
+
+    def test_login(self):
+        response = self.client.post(reverse('login'), data=LoginViewTest.credentials, follow=True)
+        self.assertTrue("token" in decode_content(response.content))
+        self.assertTrue(LoginViewTest.user.is_authenticated)
+        self.assertEqual(response.status_code, 200)
+
+
 class UserViewTest(TestCase, DAVTestTemplate):
     add_data = {
         "username": "AutoTestUserUsername",

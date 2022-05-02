@@ -1,10 +1,22 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import *
 from .serializers import *
-from .view_manager.view_utils import *
+from django.db.utils import IntegrityError
+from django.views.decorators.csrf import csrf_exempt
 from .view_manager.data_access_view import *
+
+
+@csrf_exempt
+def signUpView(request):
+    try:
+        body = get_body(request)
+        User.objects.create_user(**body)
+        status = 200
+    except IntegrityError as e:
+        body = {"error": str(e)}
+        status = 400
+    return get_response(body, status=status)
 
 
 class UserView(DataAccessView):
