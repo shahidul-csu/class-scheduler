@@ -1,9 +1,9 @@
 from functools import reduce
 from typing import List, Tuple
 
-from base_entities import WeekDay
-from error import CourseError
-from parameters import Parameter, TimeParameter, ClassroomParameter
+from .base_entities import WeekDay
+from .error import CourseError
+from .parameters import Parameter, TimeParameter, ClassroomParameter
 
 
 class ParameterizedEntity:

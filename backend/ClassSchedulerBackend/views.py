@@ -6,6 +6,8 @@ from django.db.utils import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 from .view_manager.data_access_view import *
 
+from .algorithm.algorithm import main
+
 
 @csrf_exempt
 def signUpView(request):
@@ -17,6 +19,14 @@ def signUpView(request):
         body = {"error": str(e)}
         status = 400
     return get_response(body, status=status)
+
+
+def generateSchedule(request):
+    return get_response({
+        "Schedules": [
+            [sc for sc in s.get_scheduled_courses()] for s in main()
+        ]
+    }, status=200)
 
 
 class UserView(DataAccessView):

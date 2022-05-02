@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('login/', obtain_auth_token, name="login"),
     path('sign_up/', signUpView, name="sign_up"),
+    path('gen_sch/', generateSchedule, name="gen_sch"),
     path('api/', include([
         path('user/', UserView.as_view(), name='user'),
         path('day_time/', DayTimeView.as_view(), name='day_time'),

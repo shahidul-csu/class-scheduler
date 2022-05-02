@@ -1,5 +1,5 @@
-from error import ParameterError
-from base_entities import Classroom, TimeSlot, Semester, TimeParameterType
+from .error import ParameterError
+from .base_entities import Classroom, TimeSlot, Semester, TimeParameterType
 
 
 class Parameter:

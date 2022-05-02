@@ -1,7 +1,7 @@
 import random as rd
-from param_entities import Instructor, Course
-from parameters import TimeParameter, UserGroupClassParameter, ClassroomParameter
-from base_entities import TimeSlot, WeekDay, TimeBlock, Time, Classroom, TimeParameterType
+from .param_entities import Instructor, Course
+from .parameters import TimeParameter, UserGroupClassParameter, ClassroomParameter
+from .base_entities import TimeSlot, WeekDay, TimeBlock, Time, Classroom, TimeParameterType
 
 # TimeBlock
 START_TIME = 8

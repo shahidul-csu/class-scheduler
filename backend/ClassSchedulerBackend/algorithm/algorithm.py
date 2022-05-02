@@ -5,13 +5,13 @@ from dataclasses import dataclass
 from typing import List, Dict
 from tabulate import tabulate
 
-from error import GenerationError, ParameterError, CrossoverError
-from parameters import TimeParameter, ClassroomParameter, UserGroupClassParameter
-from base_entities import Classroom, WeekDay, TimeBlock, Time, TimeSlot, Semester
-from param_entities import Course, Instructor
-from test_data import TIME_SLOTS, CLASSROOMS
-from test_data import INSTRUCTORS_PREDETERMINED as INSTRUCTORS
-from test_data import COURSES_PREDETERMINED as COURSES
+from .error import GenerationError, ParameterError, CrossoverError
+from .parameters import TimeParameter, ClassroomParameter, UserGroupClassParameter
+from .base_entities import Classroom, WeekDay, TimeBlock, Time, TimeSlot, Semester
+from .param_entities import Course, Instructor
+from .test_data import TIME_SLOTS, CLASSROOMS
+from .test_data import INSTRUCTORS_PREDETERMINED as INSTRUCTORS
+from .test_data import COURSES_PREDETERMINED as COURSES
 
 
 class ScheduledCourse:
@@ -306,12 +306,12 @@ class GeneticAlgorithm:
             self.create_random_schedule()
             for _ in range(self.__settings.INITIAL_POPULATION_SIZE)
         ]
-
-        for pop in self.__population:
-            print(pop.get_fitness())
-
-        for p in self.__population:
-            print(p)
+        #
+        # for pop in self.__population:
+        #     print(pop.get_fitness())
+        #
+        # for p in self.__population:
+        #     print(p)
 
         return self.__population
 
@@ -346,8 +346,8 @@ def main(*args, **kwargs):
     # ], 0)
     # print(s)
     ga = GeneticAlgorithm(COURSES, CLASSROOMS, Semester.SPRING)
-    print(ga.run())
+    return ga.run()
 
 
 if __name__ == '__main__':
-    main()
+    print(main())
