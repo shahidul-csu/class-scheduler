@@ -1,10 +1,11 @@
-from enum import Enum
-
+from error import ParameterError
 from base_entities import Classroom, TimeSlot, Semester, TimeParameterType
 
 
 class Parameter:
     def __init__(self, requirement: bool, score: int = None):
+        if not requirement and score is None:
+            raise ParameterError("score is None on preference")
         self._requirement = requirement
         self._score = score
 
@@ -97,3 +98,11 @@ class SemesterParameter(Parameter):
 class UserGroupClassParameter(Parameter):
     def __init__(self, requirement: bool, score: int = None):
         super().__init__(requirement, score)
+
+
+def main(*args, **kwargs):
+    print(Parameter(False, 0))
+
+
+if __name__ == '__main__':
+    main()
