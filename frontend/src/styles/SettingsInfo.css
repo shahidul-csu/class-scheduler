@@ -1,0 +1,59 @@
+/* Setup of Page */
+.SettingsInfo{
+    background-color: #e9e9e9;
+}
+.SettingsInfo .Row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.SettingsInfo .Col1{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 0 20%;
+}
+.SettingsInfo .Col2{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 79vh;
+    border-left: solid thin black;
+}
+
+/* Left side of the page */
+.SettingsInfo .NavBar .Login{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsInfo .NavBar .UserManagement{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsInfo .NavBar a{
+    text-decoration: none;
+    font-size: 25px;
+}
+
+/* Right side of the page */
+.SettingsInfo .Col2 .Right{
+    padding: 4%;
+}
+.SettingsInfo .Col2 .Right .UpdatePassword{
+    border: solid black thin;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #dadada;
+}
+.SettingsInfo .Col2 .Right .GeneralInformation{
+    border: solid black thin;
+    background-color: #dadada;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}

@@ -1,11 +1,11 @@
 // This page will hold both the left professors/semesters drop downs, and the preferences to accept for professors on the right side.
 
-import React, { useState } from 'react'
-import Dropdown from './Dropdown'
-import '../../styles/Display.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import PreferenceDropdown from './PreferenceDropdown';
-
+import Dropdown from './Dropdown';
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import '../../styles/Display.css';
 
 const Display = () => {
 
@@ -33,9 +33,13 @@ const Display = () => {
           </div>
           <div className="Col2">
             <div className="Right">
-                  <Router>
                       <PreferenceDropdown />
-                  </Router>
+
+                      {/* Error: Can not have routes inside routes. We need to pass info if not the dropsown doens't work correctly */}
+
+                      {/* <Router>
+                      <PreferenceDropdown />
+                      </Router> */}
                   <button className='submission'>Submit</button>
             </div>
           </div>

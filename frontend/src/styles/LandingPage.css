@@ -1,48 +1,46 @@
+/* Hide the nav buttons on LandingPage */
+.nav_links{
+    visibility: hidden;
+}
+
+/* Flex box structure */
 .Container{
     background-color: #e9e9e9;
     margin: auto;
 }
-/* Hide the nav buttons on LandingPage */
-.as{
-    display: none;
-}
-
-/* Flex box structure */
-.Row{
+.Container .Row{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
 }
-
-.Col1{
+.Container .Col1{
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex-wrap: wrap;
     flex: 1;
 }
-
-.Col2{
+.Container .Col2{
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex-wrap: wrap;
     flex: 0 40%;
+    min-height: 79vh;
+    border-left: solid thin black;
 }
 
 /* Left side of the landing page */
-.LeftCol{
+.Container .LeftCol{
     padding-top: 14.5%;
 }
-
-.LeftCol p {
+.Container .LeftCol p {
     padding-top: 1%;
     padding-left: 18%;
-    padding-right: 15%;
+    padding-right: 20%;
 }
-
-.LeftCol h1{
+.Container .LeftCol h1{
     padding-left: 17.6%; 
     font-weight: 100;
     color: #112E51;
@@ -50,17 +48,15 @@
 }
 
 /* Right side of the landing page */
-.RightCol{
+.Container .RightCol{
     background-color: #e9e9e9;
     text-align: center;
-    border-left: solid thin black;
     padding-top: 21.8%;
     padding-left: 20%;
     padding-right: 20%;
     padding-bottom: 21.8%;
 }
-
-.SignIn{
+.Container .SignIn{
     background-color: #dadada;
     text-align: center;
     margin-bottom: 30px;
@@ -68,12 +64,11 @@
     padding: 50px max(min(120px, calc((100% - 1024px) / 2)), 20px);
     border: solid thin black;
 }
-
-input {
+.Container input {
     text-align: center;
 }
 
-/* .SignUp{
+/* .Container .SignUp{
     background-color: #dadada;
     text-align: center;
     margin-bottom: 30px;

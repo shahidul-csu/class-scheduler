@@ -1,0 +1,70 @@
+ /* Setup of Page*/
+ .SettingsUsers{
+    background-color: #e9e9e9;
+ }
+
+ .SettingsUsers .Row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+ }
+ .SettingsUsers .Col1{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 0 20%;
+}
+.SettingsUsers .Col2{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 79vh;
+    border-left: solid thin black;
+}
+ 
+/* Left Side of the Page*/
+.SettingsUsers .NavBar .Login{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsUsers .NavBar .UserManagement{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsUsers .NavBar a{
+    text-decoration: none;
+    font-size: 25px;
+}
+
+/* Right Side of the Page */
+.SettingsUsers .Col2 .Right{
+    padding: 4%;
+}
+/* Add A User */
+.submitUser{
+    background-color: #dadada;
+    border: black solid thin;
+    max-width: 60%;
+    padding: 2%;
+    padding: 1% 1% 0.5% 1%;
+    max-width: 70%;
+}
+
+/* All Users */
+.allUsers{
+    margin-top: 2%;
+    max-width: 70%;
+}
+.allUsers table{
+    border: solid thin black;
+    text-align: center;
+}
+.allUsers table th{
+    color: black;
+    font-size: large;
+    font-weight: bold;
+}
