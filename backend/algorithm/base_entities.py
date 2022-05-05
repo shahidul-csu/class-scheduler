@@ -1,9 +1,12 @@
+import copy
 from enum import Enum
 from datetime import time
 
 
 class Time(time):
     def __new__(cls, hour: int, minute: int = 0, seconds: int = 0):
+        if isinstance(hour, bytes):
+            hour = int.from_bytes(hour, "little")
         return super().__new__(cls, hour, minute, seconds)
 
     def __add__(self, other):
@@ -62,6 +65,25 @@ class WeekDay(Enum):
     def from_str(text):
         return next((day for day in WeekDay if day.value == text), "not found")
 
+    @staticmethod
+    def get_work_days():
+        return list(WeekDay)[:-2]
+
+    @staticmethod
+    def get_week_day_sets(allocations_num: int):
+        if allocations_num == 3:
+            return [(WeekDay.TUESDAY, WeekDay.WEDNESDAY, WeekDay.THURSDAY), (WeekDay.MONDAY, WeekDay.WEDNESDAY, WeekDay.FRIDAY)]
+        elif allocations_num == 2:
+            return [(WeekDay.MONDAY, WeekDay.WEDNESDAY), (WeekDay.TUESDAY, WeekDay.THURSDAY), (WeekDay.WEDNESDAY, WeekDay.FRIDAY)]
+        elif allocations_num == 1:
+            return [(wd,) for wd in WeekDay]
+
+    @staticmethod
+    def get_next(week_day, scope=None):
+        if scope is None:
+            scope = list(WeekDay)
+        return copy.deepcopy(scope[(scope.index(week_day) + 1) % len(scope)])
+
 
 class TimeSlot:
     def __init__(self, week_day: WeekDay, time_block: TimeBlock):
@@ -71,8 +93,22 @@ class TimeSlot:
     def get_week_day(self):
         return self.__week_day
 
+    def set_week_day(self, week_day: WeekDay):
+        self.__week_day = week_day
+
     def get_time_block(self):
         return self.__time_block
+
+    def set_time_block(self, time_block: TimeBlock):
+        self.__time_block = time_block
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, copy.deepcopy(v, memo))
+        return result
 
     def __hash__(self):
         return hash((self.__time_block, self.__time_block))
