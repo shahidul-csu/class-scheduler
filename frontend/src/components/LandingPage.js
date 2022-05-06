@@ -1,13 +1,13 @@
 /* This page will display the landing page, from which users can read the website description and login */
 
 import React, {useEffect} from "react";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles/LandingPage.css";
 import "../styles/Header.css";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-// import Col from 'react-bootstrap/Col';
-// import Row from 'react-bootstrap/Row';
 
 const LandingPage = () => {
 
@@ -21,7 +21,7 @@ const LandingPage = () => {
             <div className="Row">
                 <div className="Col1">
                     <div className="LeftCol">
-                        <h1>Finding the optimal class shedule</h1>
+                        <h1>Finding the optimal class schedule</h1>
                         <p> Class Scheduler is designed to take a list of resources and constraints and recommend a class
                             schedule that meets all of the strict requirements while maximizing the preference requirements.
                         </p>
@@ -40,9 +40,11 @@ const LandingPage = () => {
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control type="password"/> 
                                 </Form.Group>
-                                <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}}>
+                                {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
                                     Login
-                                </Button>
+                                </Button> */}
+
+                                <Link to="/display">submit</Link>
                             </Form>
                         </div>
                         {/* <div className="SignUp">

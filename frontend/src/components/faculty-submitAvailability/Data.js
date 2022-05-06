@@ -6,7 +6,7 @@ import * as RiIcons from 'react-icons/ri';
 export const Data = [
   {
     title: 'Monday',
-    path: '/Semester',
+    path: '/display',
     icon: <IoSchoolSharp />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -40,7 +40,7 @@ export const Data = [
   },
   {
     title: 'Tuesday',
-    path: '/Semester',
+    path: '/display',
     icon: <IoSchoolSharp />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -74,7 +74,7 @@ export const Data = [
   },
   {
     title: 'Wednesday',
-    path: '/Semester',
+    path: '/display',
     icon: <IoSchoolSharp />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -108,7 +108,7 @@ export const Data = [
   },
   {
     title: 'Thursday',
-    path: '/Semester',
+    path: '/display',
     icon: <IoSchoolSharp />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -142,7 +142,7 @@ export const Data = [
   },
   {
     title: 'Friday',
-    path: '/Semester',
+    path: '/display',
     icon: <IoSchoolSharp />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,

@@ -2,19 +2,21 @@
 .as{
     display: unset;
 }
+.nav_links{
+    /* display: unset; */
+    visibility: visible;
+}
 
 /* Flex box grid container */
 .Parent {
     background-color: #e9e9e9;
 }
-
 .Parent .Row{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
 }
-
 .Parent .Col1{
     display: flex;
     flex-direction: column;
@@ -22,33 +24,29 @@
     flex-wrap: wrap;
     flex: 0 20%;
 }
-
 .Parent .Col2{
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
     flex-wrap: wrap;
     flex: 1;
+    min-height: 79.3vh;
+    border-left: solid thin black;
 }
 
 /* Left side of the page */
 .Parent .Col1 .Left{
-    /* border-right: solid thin black; */
     padding-top: 20%;
-    /* Change bottom to 42% */
     padding-bottom: 113%;
 }
 
 /* Right side of the page */
 .Parent .Col2 .Right{
-    /* border: solid magenta; */
     padding-top: 5%;
     padding-bottom: 10%;
-    border-left: solid thin black;
     padding-left: 10%;
     padding-right: 10%;
 }
-
 .submission {
     margin: 20px;
     background-color: #112E51;
@@ -56,26 +54,3 @@
     padding-left: 10px;
     padding-right: 10px;
 }
-
-
-/*
-- - - PAST EDITS - - - 
-.parent left {
-	float:left;
-	width:35%;
-    border-right: solid 1px;
-    padding:15px;
-	box-sizing: border-box;
-    text-align: center;
-    border: seagreen solid;
-}
-
-.right
-{
-	float:left;
-	width:65%;
-    padding:15px;
-	box-sizing: border-box;
-    text-align: center;
-    border: indigo solid;
-} */
