@@ -26,14 +26,14 @@ environ.Env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 PORT = "3000"
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-ALLOWED_ORIGINS = [
-    "http://localhost:{}".format(PORT),
-    "http://0.0.0.0:{}".format(PORT)
-    # Add server ip if frontend is hosted on remote server
-]
+ALLOWED_ORIGINS = ["*"]
+#     "http://localhost:{}".format(PORT),
+#     "http://0.0.0.0:{}".format(PORT)
+#     # Add server ip if frontend is hosted on remote server
+# ]
 
 CSRF_COOKIE_NAME = "XSRF-TOKEN"
 

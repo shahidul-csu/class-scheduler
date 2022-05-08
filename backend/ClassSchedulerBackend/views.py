@@ -22,11 +22,14 @@ def signUpView(request):
 
 
 def generateSchedule(request):
-    return get_response({
-        "Schedules": [
-            [sc for sc in s.get_scheduled_courses()] for s in main()
-        ]
-    }, status=200)
+    return get_response(main(), status=200)
+    # return get_response({
+    #     "schedules": [
+    #              json.loads(
+    #                  json.dumps(s, default=lambda o: getattr(o, '__dict__', str(o)))
+    #              ) for s in main()
+    #          ]
+    #     }, status=200)
 
 
 class UserView(DataAccessView):

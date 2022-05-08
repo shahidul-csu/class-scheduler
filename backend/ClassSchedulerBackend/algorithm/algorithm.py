@@ -27,16 +27,16 @@ class ScheduledCourse:
         self.__semester = semester
         self.__classroom = classroom
 
-    def get_course(self):
+    def get_course(self) -> Course:
         return self.__course
 
-    def get_time_slot(self):
+    def get_time_slot(self) -> TimeSlot:
         return self.__time_slot
 
-    def get_semester(self):
+    def get_semester(self) -> Semester:
         return self.__semester
 
-    def get_classroom(self):
+    def get_classroom(self) -> Classroom:
         return self.__classroom
 
     """
@@ -72,7 +72,7 @@ class Schedule:
         k, v = list(data_dict.items())[index]
         return k
 
-    def __init__(self, scheduled_courses: List[ScheduledCourse], fitness_score: int = None):
+    def __init__(self, scheduled_courses: list[ScheduledCourse], fitness_score: int = None):
         self.__scheduled_courses = scheduled_courses
         self.__fitness_score = fitness_score
         self.__matrix = None
@@ -90,7 +90,7 @@ class Schedule:
     def get_scheduled_courses(self) -> List[ScheduledCourse]:
         return self.__scheduled_courses
 
-    def get_fitness_score(self):
+    def get_fitness_score(self) -> int:
         return self.__fitness_score
 
     def get_matrix(self):
@@ -132,7 +132,7 @@ class Schedule:
                 return False
         return True
 
-    def get_fitness(self):
+    def get_fitness(self) -> int:
         return sum([sc.get_fitness() for sc in self.__scheduled_courses])
 
     def __iter__(self):
@@ -168,7 +168,7 @@ class GeneticAlgorithm:
         CROSSOVER_RATE: float = 0.2
         MUTATION_RATE: float = 0.3
 
-    def __init__(self, courses: List[Course], classrooms: List[Classroom], semester: Semester):
+    def __init__(self, courses: list[Course], classrooms: list[Classroom], semester: Semester):
         self.__courses = courses
         self.__classrooms = classrooms
         self.__semester = semester
@@ -176,23 +176,23 @@ class GeneticAlgorithm:
         self.__settings = None
         self.__course_pools = None
 
-    def get_max_req_value(self):
+    def get_max_req_value(self) -> int:
         return len(Schedule.TIME_BLOCKS) * len(Schedule.WEEK_DAYS) + len(self.__classrooms)
 
-    def get_num_mutations(self, schedule: Schedule):
-        return int(len(schedule.get_scheduled_courses())*self.__settings.MUTATION_RATE)
+    def get_num_mutations(self, schedule: Schedule) -> int:
+        return int(len(schedule.get_scheduled_courses()) * self.__settings.MUTATION_RATE)
 
-    def get_num_crossover(self):
-        return int(len(self.__population)*self.__settings.CROSSOVER_RATE)
+    def get_num_crossover(self) -> int:
+        return int(len(self.__population) * self.__settings.CROSSOVER_RATE)
 
-    def remove_contradictions(self, cctp: list) -> list:
-        def is_full_overlap(overlap_type):
+    def remove_contradictions(self, cctp: List) -> List:
+        def is_full_overlap(overlap_type) -> None:
             overlap = set(pools[overlap_type]) & set(inner_pools[overlap_type])
             return (len(pools[overlap_type]) == len(overlap) and
                     len(inner_pools[overlap_type]) == len(overlap) and
                     len(overlap) > self.get_max_req_value() * self.__settings.REQUIREMENT_OVERLAP_ACCEPTANCE_THRESHOLD)
 
-        def remove_overlap(overlap_type):
+        def remove_overlap(overlap_type) -> None:
             overlap = set(pools[overlap_type]) & set(inner_pools[overlap_type])
             if len(overlap) > 0:
                 max_course = max((course, inner_course), key=lambda c: c.get_requirements_value(self.get_max_req_value()))
@@ -212,7 +212,7 @@ class GeneticAlgorithm:
                 k += 1
         return cctp
 
-    def allocate_time(self, course: Course, time_pool: List[TimeSlot]):
+    def allocate_time(self, course: Course, time_pool: List[TimeSlot]) -> tuple:
         ts_wdr_pool = set()
         for _ in range(self.__settings.COURSE_TIME_SLOT_ALLOCATION_TRIES):
             time_slot = rd.choice(time_pool)
@@ -223,7 +223,7 @@ class GeneticAlgorithm:
                 break
         return rd.choice(list(ts_wdr_pool))
 
-    def schedule_course(self, course, pools):
+    def schedule_course(self, course, pools) -> List:
         time_slot, week_day_set = self.allocate_time(course, TIME_SLOTS if len(pools[TimeSlot]) == 0 else pools[TimeSlot])
         classroom = rd.choice(CLASSROOMS if len(pools[Classroom]) == 0 else pools[Classroom])
         temp_ts = copy.deepcopy(time_slot)
@@ -233,7 +233,7 @@ class GeneticAlgorithm:
             sc_list.append(ScheduledCourse(course, copy.deepcopy(temp_ts), self.__semester, classroom))
         return sc_list
 
-    def create_random_schedule(self):
+    def create_random_schedule(self) -> Schedule:
         self.__course_pools = dict(sorted(
             self.remove_contradictions([(course, {
                 TimeSlot: course.get_time_pool(),
@@ -241,6 +241,7 @@ class GeneticAlgorithm:
             }) for course in self.__courses]),
             key=lambda el: el[0].get_requirements_value(self.get_max_req_value())
         ))
+
         for _ in range(self.__settings.SCHEDULE_GENERATION_TRIES):
             s = Schedule([])
             regenerate = False
@@ -256,7 +257,7 @@ class GeneticAlgorithm:
                 return s
         raise GenerationError("Requirements are too tight")
 
-    def crossover(self):
+    def crossover(self) -> None:
         schedule1, schedule2 = rd.sample(self.__population, 2)
         old_scheduled_courses1 = copy.deepcopy(schedule1.get_scheduled_courses())
         old_scheduled_courses2 = copy.deepcopy(schedule2.get_scheduled_courses())
@@ -280,7 +281,7 @@ class GeneticAlgorithm:
         allow for only time swap
         """
 
-    def mutate(self, schedule: Schedule):
+    def mutate(self, schedule: Schedule) -> None:
         old_scheduled_courses = copy.deepcopy(schedule.get_scheduled_courses())
         for _ in range(self.get_num_mutations(schedule)):
             sc = rd.choice(schedule.get_scheduled_courses())
@@ -306,14 +307,26 @@ class GeneticAlgorithm:
             self.create_random_schedule()
             for _ in range(self.__settings.INITIAL_POPULATION_SIZE)
         ]
-        #
+
         # for pop in self.__population:
         #     print(pop.get_fitness())
         #
         # for p in self.__population:
         #     print(p)
 
+        # s = self.__population[0]
+        # print("Not mutated\n", s)
+        # self.mutate(s)
+        # print("Mutated\n", s)
+
         return self.__population
+
+    def get_population_as_json_parsable(self) -> List:
+        return [{
+            str(ts): [
+                repr(sc) for sc in filter(lambda sc: sc.get_time_slot() == ts, s.get_scheduled_courses())
+            ] for ts in TIME_SLOTS
+        } for s in self.__population]
 
     # 1    generate initial population
     # 2          verify no conflicts ? continue : regenerate
@@ -328,10 +341,10 @@ class GeneticAlgorithm:
                "Classrooms: \n{classrooms}\n" \
                "Population:   {population}\n" \
             .format(
-                courses=self.__courses,
-                classrooms="\n".join(map(str, self.__classrooms)),
-                population=self.__population
-            )
+            courses=self.__courses,
+            classrooms="\n".join(map(str, self.__classrooms)),
+            population=self.__population
+        )
 
 
 def main(*args, **kwargs):
@@ -346,8 +359,14 @@ def main(*args, **kwargs):
     # ], 0)
     # print(s)
     ga = GeneticAlgorithm(COURSES, CLASSROOMS, Semester.SPRING)
-    return ga.run()
+    ga.run()
+    return ga.get_population_as_json_parsable()
+
+    # return {
+    #     "week_days": [wd.value() for wd in WeekDay],
+    #
+    # }
 
 
 if __name__ == '__main__':
-    print(main())
+    main()

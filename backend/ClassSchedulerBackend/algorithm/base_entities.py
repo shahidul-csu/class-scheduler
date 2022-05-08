@@ -90,16 +90,16 @@ class TimeSlot:
         self.__week_day = week_day
         self.__time_block = time_block
 
-    def get_week_day(self):
+    def get_week_day(self) -> WeekDay:
         return self.__week_day
 
-    def set_week_day(self, week_day: WeekDay):
+    def set_week_day(self, week_day: WeekDay) -> None:
         self.__week_day = week_day
 
-    def get_time_block(self):
+    def get_time_block(self) -> TimeBlock:
         return self.__time_block
 
-    def set_time_block(self, time_block: TimeBlock):
+    def set_time_block(self, time_block: TimeBlock) -> None:
         self.__time_block = time_block
 
     def __deepcopy__(self, memo):
@@ -119,7 +119,7 @@ class TimeSlot:
                self.__time_block == other.__time_block
 
     def __str__(self):
-        return f"{self.__week_day} : {self.__time_block}"
+        return f"{self.__week_day.value} : {self.__time_block}"
 
     def __repr__(self):
         return self.__str__()
