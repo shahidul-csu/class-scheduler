@@ -12,15 +12,28 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import axios from "axios";
-import {getUserModelConfig} from "../../network/RequestTemplates";
+import {getUserModelConfig, getLoginConfig, getSignUpConfig} from "../../network/RequestTemplates";
 
 const SettingsUsers = () =>  {
 
     const [firstName, setFirstName] = useState("")
     const [email, setEmail] = useState("")
+    const [token, setToken] = useState()
 
     const addUser = () => {
-        axios(getUserModelConfig("post", {}, {"username": firstName, "name": firstName, "email": email})).then(
+
+        // axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
+        //     res => {
+        //         setToken(res.data.token)
+        //     }
+        // ).catch(
+        //     err => {
+        //         alert("Incorrect Username or Password")
+        //         console.log(err)
+        //     }
+        // )
+
+        axios(getSignUpConfig( {"username": firstName, "password": firstName, "email": email})).then(
             res => {
                 console.log("created new user", res.data)
                 alert("User created")
@@ -32,6 +45,11 @@ const SettingsUsers = () =>  {
             }
         )
     }
+
+    const foo = () => {
+        console.log("*****************")
+    }
+
 
     return(
         <div className="SettingsUsers">
@@ -60,7 +78,7 @@ const SettingsUsers = () =>  {
                                         <Form.Control id="email" placeholder="User Email" onChange={(e) => setEmail(e.target.value)} />
                                     </Col>
                                     <Col xs="auto">
-                                        <Button type="submit" className="mb-2" onClick={addUser}>Submit</Button>
+                                        <Button type="submit" className="mb-2" >Submit</Button>
                                     </Col>
                                 </Row>
                             </Form>
@@ -102,7 +120,7 @@ const SettingsUsers = () =>  {
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
         </div>
     )
 }

@@ -21,6 +21,16 @@ const getGenericConfig = (url, method, data) => ({
     data: data,
 })
 
+const getLoginConfig = (cred) => (
+    getGenericConfig(ROUTER.login, "POST", cred)
+)
+
+const getSignUpConfig = (cred) => {
+    let conf = getLoginConfig(cred)
+    conf.url = ROUTER.sign_up
+    return conf
+}
+
 const getAuthConfig = (url, method, data = {}, token=null) => {
     let conf = getGenericConfig(url, method, data)
     conf.headers = {
@@ -44,6 +54,8 @@ const getCourseModelConfig = (method, query={}, data={}, token=null) => (
 
 export {
     getGenericConfig,
+    getLoginConfig,
+    getSignUpConfig,
     getAuthConfig,
     getUserModelConfig,
     getClassroomModelConfig,

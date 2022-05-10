@@ -22,6 +22,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', obtain_auth_token, name="login"),
+    path('sign_up/', signUpView, name="sign_up"),
     path('api/', include([
         path('user/', UserView.as_view(), name='user'),
         path('day_time/', DayTimeView.as_view(), name='day_time'),
