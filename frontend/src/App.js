@@ -11,6 +11,8 @@ import Data from './components/faculty-submitAvailability/Data';
 import Dropdown from './components/faculty-submitAvailability/Dropdown';
 import SettingsInfo from './components/settings/SettingsInfo';
 import SettingsUsers from './components/settings/SettingsUsers';
+import SettingsAddCourse from './components/settings/SettingsAddCourse';
+import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
               <Route path="/" element={<LandingPage></LandingPage>}></Route>
               <Route path="/settings" element={<SettingsInfo></SettingsInfo>}></Route>
               <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
+              <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>
+              <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
               <Route path="/display" element={<Display/>}></Route>
           </Routes>
         </BrowserRouter>

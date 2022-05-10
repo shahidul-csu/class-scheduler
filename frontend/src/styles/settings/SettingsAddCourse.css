@@ -1,0 +1,72 @@
+/* Setup of Page */
+.SettingsAddCourse{
+    background-color: #e9e9e9;
+}
+.SettingsAddCourse .Row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.SettingsAddCourse .Col1{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 0 20%;
+}
+.SettingsAddCourse .Col2{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 79vh;
+    border-left: solid thin black;
+}
+
+/* Left side of the page */
+.SettingsAddCourse .NavBar .Login{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddCourse .NavBar .UserManagement{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddCourse .NavBar .AddCourse{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddCourse .NavBar .AddClassroom{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddCourse .NavBar a{
+    text-decoration: none;
+    font-size: 25px;
+}
+
+/* Right side of the page */
+.SettingsAddCourse .Col2 .Right{
+    padding: 4%;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+.SettingsAddCourse .Col2 .Right #cardGroup{
+    justify-content: center;
+}
+.SettingsAddCourse .Col2 .Right .AddCourseForm {
+    background-color: #dadada;
+    max-width: 60%;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    border: solid thin black;
+}
+.SettingsAddCourse .Col2 .Right #semester{
+    /* Bring radio button and text closer together */
+    margin-left: 20%;
+    margin-right: 20%;
+}

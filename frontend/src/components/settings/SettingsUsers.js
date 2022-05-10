@@ -1,7 +1,7 @@
 /* This file is going to contain the contents for the settings page */
 
 import React from "react";
-import "../../styles/SettingsUsers.css";
+import "../../styles/settings/SettingsUsers.css";
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
@@ -18,11 +18,17 @@ const SettingsUsers = () =>  {
         <div className="Row">
             <div className="Col1">
             <div className="NavBar">
-            <div className="Login">
+                <div className="Login">
                     <a href="/settings">Login Information</a>
                 </div>
                 <div className="UserManagement">
                     <a href="/settingsUser">User Management</a>
+                </div>
+                <div className="AddCourse">
+                    <a href="/AddCourse">Add Course</a>
+                </div>
+                <div className="AddClassroom">
+                    <a href="/AddClassroom">Add Classroom</a>
                 </div>
             </div>
             </div>

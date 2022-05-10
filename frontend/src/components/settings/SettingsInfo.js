@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button"
-import "../../styles/SettingsInfo.css";
+import "../../styles/settings/SettingsInfo.css";
 
 const SettingsInfo = () =>  {
     return(
@@ -18,6 +18,12 @@ const SettingsInfo = () =>  {
                 </div>
                 <div className="UserManagement">
                     <a href="/settingsUser">User Management</a>
+                </div>
+                <div className="AddCourse">
+                    <a href="/AddCourse">Add Course</a>
+                </div>
+                <div className="AddClassroom">
+                    <a href="/AddClassroom">Add Classroom</a>
                 </div>
             </div>
             </div>
