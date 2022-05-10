@@ -6,6 +6,33 @@ from .serializers import *
 from .view_manager.view_utils import *
 from .view_manager.data_access_view import *
 
+from rest_framework.decorators import api_view
+from django.db.utils import IntegrityError
+from django.core.exceptions import FieldError
+from rest_framework.authtoken.models import Token
+
+
+@api_view(["POST"])
+def signUpView(request):
+    try:
+        body = get_body(request)
+        User.objects.create_user(**body)
+        status = 200
+    except IntegrityError as e:
+        body = {"error": str(e)}
+        status = 400
+    return get_response(body, status=status)
+
+
+@api_view(["GET"])
+def logout(request):
+    try:
+        Token.objects.get(**{k: v for k, v in request.GET.items()}).delete()
+        res = get_response({"status": "User logout successful"}, status=200)
+    except (TypeError, ValueError, Token.DoesNotExist, FieldError) as e:
+        res = get_response({"error": str(e)}, status=400)
+    return res
+
 
 class UserView(DataAccessView):
     serializer_class = UserSerializer
