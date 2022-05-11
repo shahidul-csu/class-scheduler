@@ -35,54 +35,66 @@ const SettingsUsers = () =>  {
             <div className="Col2">
                 <div className="Right">
                     <div className="addUser">
-                        <h1>Add User</h1>
                         <div className="submitUser">
                         <Form>
+                        <Form.Label id="label">Add a new user </Form.Label>
                         <Row>
                             <Col xs={5}>
-                            <Form.Control placeholder="User First Name" />
+                            <Form.Label>First Name: </Form.Label>
+                            <Form.Control placeholder="" />
+                            <Form.Label>Email:</Form.Label>
+                            <Form.Control placeholder="" />
                             </Col>
                             <Col>
-                            <Form.Control placeholder="User Email" />
+                            <Form.Label>Last Name: </Form.Label>
+                            <Form.Control placeholder="" />
+                            <Form.Label>Password:</Form.Label>
+                            <Form.Control placeholder="" />
                             </Col>
-                            <Col xs="auto">
-                            <Button type="submit" className="mb-2">
-                                Submit
-                            </Button>
+                            <Col>
+                            <Form.Label>Username: </Form.Label>
+                            <Form.Control placeholder="" /> <br/>
+                            <Button type="submit" className="mb-2">Submit</Button>
                             </Col>
-                        </Row>
+                        </Row> <br/>
                         </Form>
                         </div>
                     </div>
                     <div className="allUsers">
-                        <h1>All Users</h1>
                         <div className="displayUsers">
-
+                            <h5>All users</h5>
                             {/* Needs to show different data */}
-
                             <Table striped bordered hover>
                                 <thead>
                                     <tr>
                                         <th>First Name</th>
                                         <th>Last Name</th>
+                                        <th>Username</th>
                                         <th>Email</th>
+                                        <th>Password</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Milly</td>
                                         <td>Doe</td>
+                                        <td>MDoe</td>
                                         <td>millyDoe@gmail.com</td>
+                                        <td>Password 1</td>
                                     </tr>
                                     <tr>
                                         <td>Billy</td>
                                         <td>Joe</td>
+                                        <td>BJoe</td>
                                         <td>billyDoe@gmail.com</td>
+                                        <td>Password 2</td>
                                     </tr>
                                     <tr>
                                         <td>Lilly</td>
                                         <td>Doe2</td>
+                                        <td>LDoe2</td>
                                         <td>lillyDoe@gmail.com</td>
+                                        <td>Password 3</td>
                                     </tr>
                                 </tbody>
                             </Table>

@@ -108,7 +108,7 @@ const SettingsAddCourse = () =>  {
                             </Row>
                             </Form>
                         </Card.Body> <br/>
-                        <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}}> Add New Course </Button>
+                        <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin"}}> Add New Course </Button>
                     </Card>
                 </CardGroup>
                 </div>
