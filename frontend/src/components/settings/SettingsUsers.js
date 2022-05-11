@@ -1,6 +1,6 @@
 /* This file is going to contain the contents for the settings page */
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../../styles/SettingsUsers.css";
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
@@ -12,27 +12,22 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import axios from "axios";
-import {getUserModelConfig, getLoginConfig, getSignUpConfig} from "../../network/RequestTemplates";
+import {
+    getUserModelConfig,
+    getLoginConfig,
+    getSignUpConfig,
+    getClassroomModelConfig, getCourseModelConfig
+} from "../../network/RequestTemplates";
 
 const SettingsUsers = () =>  {
 
     const [firstName, setFirstName] = useState("")
     const [email, setEmail] = useState("")
     const [token, setToken] = useState()
+    const [users, setUsers] = useState()
+
 
     const addUser = () => {
-
-        // axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
-        //     res => {
-        //         setToken(res.data.token)
-        //     }
-        // ).catch(
-        //     err => {
-        //         alert("Incorrect Username or Password")
-        //         console.log(err)
-        //     }
-        // )
-
         axios(getSignUpConfig( {"username": firstName, "password": firstName, "email": email})).then(
             res => {
                 console.log("created new user", res.data)
@@ -46,9 +41,35 @@ const SettingsUsers = () =>  {
         )
     }
 
-    const foo = () => {
-        console.log("*****************")
+    const getUsers = () => {
+        axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
+            res => {
+                setToken(res.data.token)
+            }
+        ).catch(
+            err => {
+                alert("Incorrect Username or Password")
+                console.log(err)
+            }
+        )
+
+        console.log(token)
+
+        axios(getUserModelConfig("get",{},{})).then(
+            res => {
+                console.log(res.data)
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
     }
+
+    // useEffect(() => {
+    //     getUsers()
+    // })
 
 
     return(
@@ -89,7 +110,7 @@ const SettingsUsers = () =>  {
                         <div className="displayUsers">
 
                             {/* Needs to show different data */}
-
+                            <button onClick={getUsers}>click me now</button>
                             <Table striped bordered hover>
                                 <thead>
                                     <tr>
