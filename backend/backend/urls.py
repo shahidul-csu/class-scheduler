@@ -16,28 +16,30 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
-from ..ClassSchedulerBackend.views import *
+from ClassSchedulerBackend.views import *
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', obtain_auth_token, name="login"),
+    path('sign_up/', signUpView, name="sign_up"),
     path('api/', include([
         path('user/', UserView.as_view(), name='user'),
-        path('day_time', DayTimeView.as_view(), name='day_time'),
-        path('week_day', WeekDayView.as_view(), name='week_day'),
-        path('semester', SemesterView.as_view(), name='semester'),
-        path('classroom', ClassroomView.as_view(), name='classroom'),
-        path('parameter_data', ParameterDataView.as_view(), name='parameter_data'),
-        path('time_slot', TimeSlotView.as_view(), name='time_slot'),
-        path('user_group_class_parameter', UserGroupClassParameterView.as_view(), name='user_group_class_parameter'),
-        path('user_time_parameter', UserTimeParameterView.as_view(), name='user_time_parameter'),
-        path('course', CourseView.as_view(), name='course'),
-        path('teaches', TeachesView.as_view(), name='teaches'),
-        path('schedule', ScheduleView.as_view(), name='schedule'),
-        path('scheduled_course', ScheduledCourseView.as_view(), name='scheduled_course'),
-        path('course_time_parameter', CourseTimeParameterView.as_view(), name='course_time_parameter'),
-        path('classroom_parameter', ClassroomParameterView.as_view(), name='classroom_parameter'),
-        path('semester_parameter', SemesterParameterView.as_view(), name='semester_parameter'),
+        path('day_time/', DayTimeView.as_view(), name='day_time'),
+        path('week_day/', WeekDayView.as_view(), name='week_day'),
+        path('semester/', SemesterView.as_view(), name='semester'),
+        path('classroom/', ClassroomView.as_view(), name='classroom'),
+        path('parameter_data/', ParameterDataView.as_view(), name='parameter_data'),
+        path('time_slot/', TimeSlotView.as_view(), name='time_slot'),
+        path('user_group_class_parameter/', UserGroupClassParameterView.as_view(), name='user_group_class_parameter'),
+        path('user_time_parameter/', UserTimeParameterView.as_view(), name='user_time_parameter'),
+        path('course/', CourseView.as_view(), name='course'),
+        path('teaches/', TeachesView.as_view(), name='teaches'),
+        path('schedule/', ScheduleView.as_view(), name='schedule'),
+        path('scheduled_course/', ScheduledCourseView.as_view(), name='scheduled_course'),
+        path('course_time_parameter/', CourseTimeParameterView.as_view(), name='course_time_parameter'),
+        path('classroom_parameter/', ClassroomParameterView.as_view(), name='classroom_parameter'),
+        path('semester_parameter/', SemesterParameterView.as_view(), name='semester_parameter'),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
