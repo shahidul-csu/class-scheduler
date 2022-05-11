@@ -1,0 +1,77 @@
+/* Setup of Page */
+.SettingsAddClassroom{
+    background-color: #e9e9e9;
+}
+.SettingsAddClassroom .Row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.SettingsAddClassroom .Col1{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 0 20%;
+}
+.SettingsAddClassroom .Col2{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 79vh;
+    border-left: solid thin black;
+}
+
+/* Left side of the page */
+.SettingsAddClassroom .NavBar .Login{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddClassroom .NavBar .UserManagement{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddClassroom .NavBar .AddCourse{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddClassroom .NavBar .AddClassroom{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsAddClassroom .NavBar a{
+    text-decoration: none;
+    font-size: 25px;
+}
+
+/* Right side of the page */
+.SettingsAddClassroom .Col2 .Right{
+    padding: 4%;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+.SettingsAddClassroom .Col2 .Right .AddClassroomForm {
+    background-color: #dadada;
+    max-width: 30%;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    border: solid thin black;
+}
+.SettingsAddClassroom .Col2 .Right #weekday{
+    /* Bring checkbox button and text closer together */
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.SettingsAddClassroom .Col2 .Right #daytime{
+    /* Bring checkbox button and text closer together */
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.SettingsAddClassroom .Col2 .Right #cardGroup2{
+    justify-content: center;
+}

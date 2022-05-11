@@ -35,6 +35,14 @@
     border-bottom: solid thin black;
     text-align: center;
 }
+.SettingsUsers .NavBar .AddCourse{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsUsers .NavBar .AddClassroom{
+    border-bottom: solid thin black;
+    text-align: center;
+}
 .SettingsUsers .NavBar a{
     text-decoration: none;
     font-size: 25px;
@@ -52,12 +60,19 @@
     padding: 2%;
     padding: 1% 1% 0.5% 1%;
     max-width: 70%;
+    margin-left: 15%;
+    text-align: center;
 }
-
+.submitUser #label{
+    font-weight: 600;
+    font-size: large;
+    font-size: 1.25rem;
+}
 /* All Users */
 .allUsers{
     margin-top: 2%;
     max-width: 70%;
+    margin-left: 15%;
 }
 .allUsers table{
     border: solid thin black;
@@ -65,6 +80,15 @@
 }
 .allUsers table th{
     color: black;
-    font-size: large;
-    font-weight: bold;
+    font-size:medium;
+    font-weight: normal;
+}
+.allUsers h5{
+    text-align: center;
+}
+
+/* Button */
+.mb-2{
+    background-color: #112E51;
+    border: #112E51 solid thin;
 }

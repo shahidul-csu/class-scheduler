@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button"
-import "../../styles/SettingsInfo.css";
+import "../../styles/settings/SettingsInfo.css";
 
 const SettingsInfo = () =>  {
     return(
@@ -18,6 +18,12 @@ const SettingsInfo = () =>  {
                 </div>
                 <div className="UserManagement">
                     <a href="/settingsUser">User Management</a>
+                </div>
+                <div className="AddCourse">
+                    <a href="/AddCourse">Add Course</a>
+                </div>
+                <div className="AddClassroom">
+                    <a href="/AddClassroom">Add Classroom</a>
                 </div>
             </div>
             </div>
@@ -40,7 +46,7 @@ const SettingsInfo = () =>  {
                                     <Form.Label>Re-Enter Password:</Form.Label>
                                     <Form.Control type="password"/>
                                 </Form.Group>
-                                    <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}}> Update </Button>
+                                    <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin" }}> Update </Button>
                             </Form>
                             </Card.Body>
                         </Card>
@@ -58,7 +64,7 @@ const SettingsInfo = () =>  {
                                     <Form.Label>Last Name:</Form.Label>
                                     <Form.Control type="lname"/> 
                                 </Form.Group>
-                                    <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}}> Update </Button>
+                                    <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin" }}> Update </Button>
                                 </Form>
                             </Card.Body>
                         </Card>

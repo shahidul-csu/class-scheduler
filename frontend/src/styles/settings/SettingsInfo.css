@@ -34,6 +34,14 @@
     border-bottom: solid thin black;
     text-align: center;
 }
+.SettingsInfo .NavBar .AddCourse{
+    border-bottom: solid thin black;
+    text-align: center;
+}
+.SettingsInfo .NavBar .AddClassroom{
+    border-bottom: solid thin black;
+    text-align: center;
+}
 .SettingsInfo .NavBar a{
     text-decoration: none;
     font-size: 25px;
