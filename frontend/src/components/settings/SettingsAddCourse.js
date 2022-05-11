@@ -67,7 +67,8 @@ const SettingsAddCourse = () =>  {
                                 </Form.Group>
                                 </Col>
                                 <br/>
-                                <Col>
+                                {/* Other input examples */}
+                                {/* <Col>
                                 <Form.Group> <br/>
                                     <Form.Label>Semester offered in: </Form.Label>                                    
                                     <Form>
@@ -78,10 +79,13 @@ const SettingsAddCourse = () =>  {
                                         </div>
                                     </Form>
                                 </Form.Group>
-                                </Col>
+                                </Col> */}
                                 </Row>
                                 <Row>
-                                <Col>
+
+                                {/* The user is able to input Preferred and Required conditions */}
+                                
+                                {/* <Col>
                                 <Form.Group> <br/>
                                     <Form.Label>Required Classroom: </Form.Label>
                                     <Form.Control type="text" placeholder="BIT321" />
@@ -100,7 +104,7 @@ const SettingsAddCourse = () =>  {
                                     <Form.Label>Preferred Instructor: </Form.Label>
                                     <Form.Control type="text" placeholder="Dr. Doe" />
                                 </Form.Group>  
-                                </Col>                            
+                                </Col>                             */}
                             </Row>
                             </Form>
                         </Card.Body> <br/>

@@ -50,4 +50,28 @@
 /* Right side of the page */
 .SettingsAddClassroom .Col2 .Right{
     padding: 4%;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+.SettingsAddClassroom .Col2 .Right .AddClassroomForm {
+    background-color: #dadada;
+    max-width: 30%;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    border: solid thin black;
+}
+.SettingsAddClassroom .Col2 .Right #weekday{
+    /* Bring checkbox button and text closer together */
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.SettingsAddClassroom .Col2 .Right #daytime{
+    /* Bring checkbox button and text closer together */
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.SettingsAddClassroom .Col2 .Right #cardGroup2{
+    justify-content: center;
 }
