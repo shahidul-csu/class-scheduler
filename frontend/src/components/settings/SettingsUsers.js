@@ -1,7 +1,5 @@
 /* This file is going to contain the contents for the settings page */
-
-import React from "react";
-import "../../styles/settings/SettingsUsers.css";
+import React, {useState} from "react";
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
@@ -11,8 +9,47 @@ import { Link } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
+import axios from "axios";
+import {getUserModelConfig, getLoginConfig, getSignUpConfig} from "../../network/RequestTemplates";
+import "../../styles/settings/SettingsUsers.css";
 
 const SettingsUsers = () =>  {
+
+    const [firstName, setFirstName] = useState("")
+    const [email, setEmail] = useState("")
+    const [token, setToken] = useState()
+
+    const addUser = () => {
+
+        // axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
+        //     res => {
+        //         setToken(res.data.token)
+        //     }
+        // ).catch(
+        //     err => {
+        //         alert("Incorrect Username or Password")
+        //         console.log(err)
+        //     }
+        // )
+
+        axios(getSignUpConfig( {"username": firstName, "password": firstName, "email": email})).then(
+            res => {
+                console.log("created new user", res.data)
+                alert("User created")
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
+    }
+
+    const foo = () => {
+        console.log("*****************")
+    }
+
+
     return(
         <div className="SettingsUsers">
         <div className="Row">
@@ -36,7 +73,7 @@ const SettingsUsers = () =>  {
                 <div className="Right">
                     <div className="addUser">
                         <div className="submitUser">
-                        <Form>
+                        {/* <Form>
                         <Form.Label id="label">Add a new user </Form.Label>
                         <Row>
                             <Col xs={5}>
@@ -57,7 +94,20 @@ const SettingsUsers = () =>  {
                             <Button type="submit" className="mb-2">Submit</Button>
                             </Col>
                         </Row> <br/>
-                        </Form>
+                        </Form> */}
+                            <Form onSubmit={addUser}>
+                                <Row>
+                                    <Col xs={5}>
+                                        <Form.Control id="first_name" placeholder="User First Name" onChange={(e) => setFirstName(e.target.value)} />
+                                    </Col>
+                                    <Col>
+                                        <Form.Control id="email" placeholder="User Email" onChange={(e) => setEmail(e.target.value)} />
+                                    </Col>
+                                    <Col xs="auto">
+                                        <Button type="submit" className="mb-2" >Submit</Button>
+                                    </Col>
+                                </Row>
+                            </Form>
                         </div>
                     </div>
                     <div className="allUsers">
@@ -102,7 +152,7 @@ const SettingsUsers = () =>  {
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
         </div>
     )
 }
