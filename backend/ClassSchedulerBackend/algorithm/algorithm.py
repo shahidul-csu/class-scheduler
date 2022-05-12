@@ -311,8 +311,8 @@ class GeneticAlgorithm:
         # for pop in self.__population:
         #     print(pop.get_fitness())
         #
-        # for p in self.__population:
-        #     print(p)
+        for p in self.__population:
+            print(p)
 
         # s = self.__population[0]
         # print("Not mutated\n", s)
@@ -322,11 +322,20 @@ class GeneticAlgorithm:
         return self.__population
 
     def get_population_as_json_parsable(self) -> List:
-        return [{
-            str(ts): [
-                repr(sc) for sc in filter(lambda sc: sc.get_time_slot() == ts, s.get_scheduled_courses())
-            ] for ts in TIME_SLOTS
-        } for s in self.__population]
+        return [
+            {
+                day.value: {
+                    str(tb): list(set(
+                        repr(sc) for sc in filter(lambda sc: sc.get_time_slot().get_time_block() == tb, s.get_scheduled_courses())
+                    )) for tb in Schedule.TIME_BLOCKS.keys()
+                } for day in Schedule.WEEK_DAYS.keys()
+            } for s in self.__population
+        ]
+        # return [{
+        #     str(ts): [
+        #         repr(sc) for sc in filter(lambda sc: sc.get_time_slot() == ts, s.get_scheduled_courses())
+        #     ] for ts in TIME_SLOTS
+        # } for s in self.__population]
 
     # 1    generate initial population
     # 2          verify no conflicts ? continue : regenerate
