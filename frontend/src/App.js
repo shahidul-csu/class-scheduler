@@ -13,14 +13,18 @@ import SettingsInfo from './components/settings/SettingsInfo';
 import SettingsUsers from './components/settings/SettingsUsers';
 import SettingsAddCourse from './components/settings/SettingsAddCourse';
 import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
+import {useToken} from "./customHooks/auth";
 
 function App() {
+
+    // const [token, setToken] = useToken();
+
   return (
     <div>
       <Header />
         <BrowserRouter>
           <Routes>
-              <Route path="/" element={<LandingPage></LandingPage>}></Route>
+              <Route path="/" element={<LandingPage ></LandingPage>}></Route>
               <Route path="/settings" element={<SettingsInfo></SettingsInfo>}></Route>
               <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
               <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>

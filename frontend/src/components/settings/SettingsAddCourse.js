@@ -1,6 +1,6 @@
 /* This file is going to contain the form for admin to add a course */
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../../styles/settings/SettingsAddCourse.css";
 import { Form, FormGroup, FieldGroup, CardGroup } from "react-bootstrap"; 
 import Card from 'react-bootstrap/Card';
@@ -19,32 +19,47 @@ const SettingsAddCourse = () =>  {
     const [meetingNumber, setMeetingNumber] = useState()
     const [token, setToken] = useState()
 
-    const addCourse = () => {
+    const addCourse = async () => {
+        axios(getCourseModelConfig( "post", {}, {"name": course, 'units': units, 'number_per_week': meetingNumber, 'capacity': capacity}, token)).then(
+            res => {
+                console.log("created new course", res.data)
+                alert("Course created")
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
+    }
 
-        (axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
+    const getToken = async () => {
+        axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
             res => {
                 setToken(res.data.token)
-                alert(res.data.token)
+                console.log(token)
             }
         ).catch(
             err => {
                 alert("Incorrect Username or Password")
                 console.log(err)
             }
-        )).then(
-            axios(getCourseModelConfig( "post", {}, {"course": course, 'capacity': capacity, 'units': units, 'meetingNumber': meetingNumber}, token)).then(
-                res => {
-                    console.log("created new course", res.data)
-                    alert("Course created")
-                }
-            ).catch(
-                err => {
-                    alert(err)
-                    console.log(err)
-                }
-            )
         )
     }
+
+    const foo = async () => {
+        // (await getToken()).then(
+        //     console.log("token is ", token),
+        //     addCourse()
+        // )
+        // console.log('outside fuction ')
+        await getToken()
+        await addCourse()
+    }
+
+    useEffect(() => {
+
+    })
 
     return(
         <div className="SettingsAddCourse">
@@ -104,7 +119,7 @@ const SettingsAddCourse = () =>  {
                                     </Form.Group>
                                     </Col>
                                     <br/>
-                                    <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin", marginTop: '10px'}} onClick={addCourse}> Add New Course </Button>
+                                    <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin", marginTop: '10px'}} onClick={foo}> Add New Course </Button>
                                 </Row>
                             {/*</Form>*/}
                         </Card.Body> <br/>
