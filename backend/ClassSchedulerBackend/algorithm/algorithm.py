@@ -326,7 +326,7 @@ class GeneticAlgorithm:
             {
                 day.value: {
                     str(tb): list(set(
-                        repr(sc) for sc in filter(lambda sc: sc.get_time_slot().get_time_block() == tb, s.get_scheduled_courses())
+                        repr(sc) for sc in filter(lambda sc: sc.get_time_slot().get_time_block() == tb and sc.get_time_slot().get_week_day() == day, s.get_scheduled_courses())
                     )) for tb in Schedule.TIME_BLOCKS.keys()
                 } for day in Schedule.WEEK_DAYS.keys()
             } for s in self.__population
