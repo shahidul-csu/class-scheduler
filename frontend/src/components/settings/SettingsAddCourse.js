@@ -1,15 +1,66 @@
 /* This file is going to contain the form for admin to add a course */
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "../../styles/settings/SettingsAddCourse.css";
 import { Form, FormGroup, FieldGroup, CardGroup } from "react-bootstrap"; 
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from "axios";
+import {getClassroomModelConfig, getCourseModelConfig, getLoginConfig} from "../../network/RequestTemplates";
 
 
 const SettingsAddCourse = () =>  {
+
+    const [course, setCourse] = useState('')
+    const [capacity, setCapacity] = useState(0)
+    const [units, setUnits] = useState()
+    const [meetingNumber, setMeetingNumber] = useState()
+    const [token, setToken] = useState()
+
+    const addCourse = async () => {
+        axios(getCourseModelConfig( "post", {}, {"name": course, 'units': units, 'number_per_week': meetingNumber, 'capacity': capacity}, token)).then(
+            res => {
+                console.log("created new course", res.data)
+                alert("Course created")
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
+    }
+
+    const getToken = async () => {
+        axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
+            res => {
+                setToken(res.data.token)
+                console.log(token)
+            }
+        ).catch(
+            err => {
+                alert("Incorrect Username or Password")
+                console.log(err)
+            }
+        )
+    }
+
+    const foo = async () => {
+        // (await getToken()).then(
+        //     console.log("token is ", token),
+        //     addCourse()
+        // )
+        // console.log('outside fuction ')
+        await getToken()
+        await addCourse()
+    }
+
+    useEffect(() => {
+
+    })
+
     return(
         <div className="SettingsAddCourse">
         <div className="Row">
@@ -34,81 +85,45 @@ const SettingsAddCourse = () =>  {
                 <CardGroup id="cardGroup">
                     <Card className="AddCourseForm">
                         <Card.Body>
-                            <Form>
-                            <Row>
-                                <Col>
-                                <Form.Group>
-                                    <Form.Label>Course Title: </Form.Label>
-                                    <Form.Control type="text" placeholder="CST321" />
-                                </Form.Group>
-                                <Form.Group> <br/>
-                                    <Form.Label>Student capacity: </Form.Label>
-                                    <Form.Control type="text" placeholder="1 - 120" />
-                                </Form.Group>
-                                </Col>
-                                <Col>
-                                <Form.Group>
-                                    <Form.Label>Units: </Form.Label>
-                                    <Form.Select aria-label="Default select example">
-                                        <option>0</option>
-                                        <option value="3.0">3.0</option>
-                                        <option value="4.0">4.0</option>
-                                        <option value="5.0">5.0</option>
-                                    </Form.Select>
-                                </Form.Group>
-                                <Form.Group> <br/>
-                                    <Form.Label>Meets how many times a week: </Form.Label>
-                                    <Form.Select aria-label="Default select example">
-                                        <option>0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </Form.Select>
-                                </Form.Group>
-                                </Col>
-                                <br/>
-                                {/* Other input examples */}
-                                {/* <Col>
-                                <Form.Group> <br/>
-                                    <Form.Label>Semester offered in: </Form.Label>                                    
-                                    <Form>
-                                        <div id="semester" className="mb-3">
-                                        <Form.Check  label="FALL ONLY" name="group1" type={'radio'} id={`inline-radio-1`}/>
-                                        <Form.Check  label="SPRING ONLY" name="group1" type={'radio'} id={`inline-radio-2`}/>
-                                        <Form.Check  label="FALL AND SPRING" name="group1" type={'radio'} id={`inline-radio-2`}/>
-                                        </div>
-                                    </Form>
-                                </Form.Group>
-                                </Col> */}
-                                </Row>
+                            {/*<Form onSubmit={addCourse}>*/}
                                 <Row>
-
-                                {/* The user is able to input Preferred and Required conditions */}
-                                
-                                {/* <Col>
-                                <Form.Group> <br/>
-                                    <Form.Label>Required Classroom: </Form.Label>
-                                    <Form.Control type="text" placeholder="BIT321" />
-                                </Form.Group>
-                                <Form.Group> <br/>
-                                    <Form.Label>Required Instructor: </Form.Label>
-                                    <Form.Control type="text" placeholder="Dr. Doe" />
-                                </Form.Group>
-                                </Col>
-                                <Col>
-                                <Form.Group> <br/>
-                                    <Form.Label>Preferred Classroom: </Form.Label>
-                                    <Form.Control type="text" placeholder="BIT321" />
-                                </Form.Group>
-                                <Form.Group> <br/>
-                                    <Form.Label>Preferred Instructor: </Form.Label>
-                                    <Form.Control type="text" placeholder="Dr. Doe" />
-                                </Form.Group>  
-                                </Col>                             */}
-                            </Row>
-                            </Form>
+                                    <Col>
+                                    <Form.Group>
+                                        <Form.Label>Course Title: </Form.Label>
+                                        <Form.Control type="text" placeholder="CST321" onChange={(e) => setCourse(e.target.value)}/>
+                                    </Form.Group>
+                                    <Form.Group> <br/>
+                                        <Form.Label>Student capacity: </Form.Label>
+                                        <Form.Control type="text" placeholder="1 - 120" onChange={(e) => setCapacity(parseInt(e.target.value))}/>
+                                    </Form.Group>
+                                    </Col>
+                                    <Col>
+                                    <Form.Group>
+                                        <Form.Label>Units: </Form.Label>
+                                        <Form.Select aria-label="Default select example" onChange={(e) => setUnits(parseInt(e.target.value))}>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                    <Form.Group> <br/>
+                                        <Form.Label>Meets how many times a week: </Form.Label>
+                                        <Form.Select aria-label="Default select example" onChange={(e) => setMeetingNumber(parseInt(e.target.value))}>
+                                            <option>0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                    </Col>
+                                    <br/>
+                                    <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin", marginTop: '10px'}} onClick={foo}> Add New Course </Button>
+                                </Row>
+                            {/*</Form>*/}
                         </Card.Body> <br/>
-                        <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin"}}> Add New Course </Button>
+
                     </Card>
                 </CardGroup>
                 </div>

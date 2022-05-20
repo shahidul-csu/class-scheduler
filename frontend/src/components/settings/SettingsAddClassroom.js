@@ -1,14 +1,48 @@
 /* This file is going to contain the form for admin to add a classroom */
 
-import React from "react";
+import React, {useState} from "react";
 import "../../styles/settings/SettingsAddClassroom.css";
 import { Form, FormGroup, FieldGroup, CardGroup } from "react-bootstrap"; 
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from "axios";
+import {getClassroomModelConfig, getLoginConfig} from "../../network/RequestTemplates";
 
 const SettingsAddClassroom = () =>  {
+
+    const [classroom, setClassroom] = useState("")
+    const [capacity, setCapacity] = useState(0)
+    const [token, setToken] = useState()
+
+    const addClassroom = () => {
+        axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
+            res => {
+                setToken(res.data.token)
+            }
+        ).catch(
+            err => {
+                alert("Incorrect Username or Password")
+                console.log(err)
+            }
+        )
+
+        axios(getClassroomModelConfig( "post", {}, {"capacity": capacity}, token)).then(
+            res => {
+                console.log("created new classroom", res.data)
+                // alert("Classroom created")
+                // setCapacity(null)
+                // setClassroom('')
+            }
+        ).catch(
+            err => {
+                // alert(err)
+                console.log(err)
+            }
+        )
+    }
+
     return(
         <div className="SettingsAddClassroom">
         <div className="Row">
@@ -33,56 +67,22 @@ const SettingsAddClassroom = () =>  {
                 <CardGroup id="cardGroup2">
                     <Card className="AddClassroomForm">
                         <Card.Body>
-                            <Form>
-                            <Row>
-                                <Col>
-                                <Form.Group>
-                                    <Form.Label>Classroom: </Form.Label>
-                                    <Form.Control type="text" placeholder="BIT321" />
-                                </Form.Group>
-                                <Form.Group> <br/>
-                                    <Form.Label>Room Capacity: </Form.Label>
-                                    <Form.Control type="text" placeholder="Example: 80" />
-                                </Form.Group>
-                                {/* <Form.Group> <br/>
-                                    <Form.Label>Semester: </Form.Label>
-                                    <Form.Control type="text" placeholder="Example: SP22" />
-                                </Form.Group> */}
-                                </Col>
-                                {/* Other input examples */}
-                                {/* <Col>
-                                <Form.Group> 
-                                    <Form.Label>WeekDay: </Form.Label>                                    
-                                    <Form>
-                                        <div id="weekday" className="mb-3">
-                                        <Form.Check  label="Monday" name="group1" type={'checkbox'} id={`inline-checkbox-1`}/>
-                                        <Form.Check  label="Tuesday" name="group1" type={'checkbox'} id={`inline-checkbox-2`}/>
-                                        <Form.Check  label="Wednesday" name="group1" type={'checkbox'} id={`inline-checkbox-3`}/>
-                                        <Form.Check  label="Thursday" name="group1" type={'checkbox'} id={`inline-checkbox-3`}/>
-                                        <Form.Check  label="Friday" name="group1" type={'checkbox'} id={`inline-checkbox-3`}/>
-                                        </div>
-                                    </Form>
-                                </Form.Group>
-                                </Col>
-                                <Col>
-                                <Form.Group> 
-                                    <Form.Label>Daytime: </Form.Label>                                    
-                                    <Form>
-                                        <div id="daytime" className="mb-3">
-                                        <Form.Check  label="8AM-10AM" name="group1" type={'checkbox'} id={`inline-checkbox-1`}/>
-                                        <Form.Check  label="10AM-12PM" name="group1" type={'checkbox'} id={`inline-checkbox-2`}/>
-                                        <Form.Check  label="12PM-2PM" name="group1" type={'checkbox'} id={`inline-checkbox-3`}/>
-                                        <Form.Check  label="2PM-4PM" name="group1" type={'checkbox'} id={`inline-checkbox-4`}/>
-                                        <Form.Check  label="4PM-6PM" name="group1" type={'checkbox'} id={`inline-checkbox-5`}/>
-                                        <Form.Check  label="6PM-8PM" name="group1" type={'checkbox'} id={`inline-checkbox-6`}/>
-                                        </div>
-                                    </Form>
-                                </Form.Group>
-                                </Col> */}
-                            </Row>
-                            </Form>
+                            {/*<Form onSubmit={foo}>*/}
+                                <Row>
+                                    <Col>
+                                        <Form.Group>
+                                            <Form.Label>Classroom: </Form.Label>
+                                            <Form.Control type="text" placeholder="BIT321" onChange={(e) => setClassroom(e.target.value)}/>
+                                        </Form.Group>
+                                        <Form.Group> <br/>
+                                            <Form.Label>Room Capacity: </Form.Label>
+                                            <Form.Control type="text" placeholder="Example: 80" onChange={(e) => setCapacity(parseInt(e.target.value))}/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin", marginTop: "10px"}} onClick={addClassroom}> Add New Classroom </Button>
+                            {/*</Form>*/}
                         </Card.Body> <br/>
-                        <Button varient="primary" type="submit" style={{backgroundColor:"#112E51", border: "#112E51 solid thin"}}> Add New Classroom </Button>
                     </Card>
                 </CardGroup>
                 </div>

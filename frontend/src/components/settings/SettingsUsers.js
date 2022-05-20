@@ -16,6 +16,9 @@ import "../../styles/settings/SettingsUsers.css";
 const SettingsUsers = () =>  {
 
     const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
     const [token, setToken] = useState()
 
@@ -32,7 +35,7 @@ const SettingsUsers = () =>  {
         //     }
         // )
 
-        axios(getSignUpConfig( {"username": firstName, "password": firstName, "email": email})).then(
+        axios(getSignUpConfig( {"username": username, "password": password, "first_name": firstName, "last_name": lastName, "email": email})).then(
             res => {
                 console.log("created new user", res.data)
                 alert("User created")
@@ -43,10 +46,6 @@ const SettingsUsers = () =>  {
                 console.log(err)
             }
         )
-    }
-
-    const foo = () => {
-        console.log("*****************")
     }
 
 
@@ -73,40 +72,29 @@ const SettingsUsers = () =>  {
                 <div className="Right">
                     <div className="addUser">
                         <div className="submitUser">
-                        {/* <Form>
-                        <Form.Label id="label">Add a new user </Form.Label>
-                        <Row>
-                            <Col xs={5}>
-                            <Form.Label>First Name: </Form.Label>
-                            <Form.Control placeholder="" />
-                            <Form.Label>Email:</Form.Label>
-                            <Form.Control placeholder="" />
-                            </Col>
-                            <Col>
-                            <Form.Label>Last Name: </Form.Label>
-                            <Form.Control placeholder="" />
-                            <Form.Label>Password:</Form.Label>
-                            <Form.Control placeholder="" />
-                            </Col>
-                            <Col>
-                            <Form.Label>Username: </Form.Label>
-                            <Form.Control placeholder="" /> <br/>
-                            <Button type="submit" className="mb-2">Submit</Button>
-                            </Col>
-                        </Row> <br/>
-                        </Form> */}
                             <Form onSubmit={addUser}>
+                                <Form.Label id="label">Add a new user </Form.Label>
                                 <Row>
                                     <Col xs={5}>
-                                        <Form.Control id="first_name" placeholder="User First Name" onChange={(e) => setFirstName(e.target.value)} />
+                                        <Form.Label>First Name: </Form.Label>
+                                            <Form.Control placeholder="" onChange={(e) => setFirstName(e.target.value)}/>
+                                        <Form.Label>Email:</Form.Label>
+                                            <Form.Control placeholder="" onChange={(e) => setEmail(e.target.value)}/>
                                     </Col>
                                     <Col>
-                                        <Form.Control id="email" placeholder="User Email" onChange={(e) => setEmail(e.target.value)} />
+                                        <Form.Label>Last Name: </Form.Label>
+                                            <Form.Control placeholder="" onChange={(e) => setLastName(e.target.value)}/>
+                                        <Form.Label>Password:</Form.Label>
+                                            <Form.Control placeholder="" onChange={(e) => setPassword(e.target.value)}/>
                                     </Col>
-                                    <Col xs="auto">
-                                        <Button type="submit" className="mb-2" >Submit</Button>
+                                    <Col>
+                                        <Form.Label>Username: </Form.Label>
+                                        <Form.Control placeholder="" onChange={(e) => setUsername(e.target.value)}/> <br/>
+                                        <Button type="submit" className="mb-2">Submit</Button>
                                     </Col>
-                                </Row>
+
+
+                                </Row> <br/>
                             </Form>
                         </div>
                     </div>
@@ -121,30 +109,26 @@ const SettingsUsers = () =>  {
                                         <th>Last Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Milly</td>
+                                        <td>James</td>
                                         <td>Doe</td>
-                                        <td>MDoe</td>
-                                        <td>millyDoe@gmail.com</td>
-                                        <td>Password 1</td>
+                                        <td>Jdoe8473</td>
+                                        <td>jdoe@gmail.com</td>
                                     </tr>
                                     <tr>
-                                        <td>Billy</td>
-                                        <td>Joe</td>
-                                        <td>BJoe</td>
-                                        <td>billyDoe@gmail.com</td>
-                                        <td>Password 2</td>
+                                        <td>Arnold</td>
+                                        <td>Reynolds</td>
+                                        <td>rey857</td>
+                                        <td>areynolds@gmail.com</td>
                                     </tr>
                                     <tr>
-                                        <td>Lilly</td>
-                                        <td>Doe2</td>
-                                        <td>LDoe2</td>
-                                        <td>lillyDoe@gmail.com</td>
-                                        <td>Password 3</td>
+                                        <td>Brodie</td>
+                                        <td>Yucann</td>
+                                        <td>broodie123</td>
+                                        <td>byucann@gmail.com</td>
                                     </tr>
                                 </tbody>
                             </Table>
