@@ -20,7 +20,6 @@ const SettingsAddClassroom = () =>  {
         axios(getLoginConfig({"username": "alex", "password": "alex"})).then(
             res => {
                 setToken(res.data.token)
-                alert(res.data.token)
             }
         ).catch(
             err => {
@@ -32,13 +31,13 @@ const SettingsAddClassroom = () =>  {
         axios(getClassroomModelConfig( "post", {}, {"capacity": capacity}, token)).then(
             res => {
                 console.log("created new classroom", res.data)
-                alert("Classroom created")
+                // alert("Classroom created")
                 // setCapacity(null)
                 // setClassroom('')
             }
         ).catch(
             err => {
-                alert(err)
+                // alert(err)
                 console.log(err)
             }
         )

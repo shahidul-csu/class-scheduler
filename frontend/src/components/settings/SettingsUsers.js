@@ -109,30 +109,26 @@ const SettingsUsers = () =>  {
                                         <th>Last Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Milly</td>
+                                        <td>James</td>
                                         <td>Doe</td>
-                                        <td>MDoe</td>
-                                        <td>millyDoe@gmail.com</td>
-                                        <td>Password 1</td>
+                                        <td>Jdoe8473</td>
+                                        <td>jdoe@gmail.com</td>
                                     </tr>
                                     <tr>
-                                        <td>Billy</td>
-                                        <td>Joe</td>
-                                        <td>BJoe</td>
-                                        <td>billyDoe@gmail.com</td>
-                                        <td>Password 2</td>
+                                        <td>Arnold</td>
+                                        <td>Reynolds</td>
+                                        <td>rey857</td>
+                                        <td>areynolds@gmail.com</td>
                                     </tr>
                                     <tr>
-                                        <td>Lilly</td>
-                                        <td>Doe2</td>
-                                        <td>LDoe2</td>
-                                        <td>lillyDoe@gmail.com</td>
-                                        <td>Password 3</td>
+                                        <td>Brodie</td>
+                                        <td>Yucann</td>
+                                        <td>broodie123</td>
+                                        <td>byucann@gmail.com</td>
                                     </tr>
                                 </tbody>
                             </Table>
