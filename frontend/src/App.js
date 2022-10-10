@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer.js'
 import LandingPage from './components/LandingPage';
+import Welcome from './components/Welcome';
 import Display from './components/faculty-submitAvailability/Display';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PreferenceTimes from './components/faculty-submitAvailability/PreferenceTimes';
@@ -26,6 +27,8 @@ function App() {
               <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>
               <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
               <Route path="/display" element={<Display/>}></Route>
+              <Route path="/welcome" element={<Welcome/>}></Route>
+              {/* <Route path="/data" element={<Data></Data>}></Route> */}
           </Routes>
         </BrowserRouter>
       <Footer/>

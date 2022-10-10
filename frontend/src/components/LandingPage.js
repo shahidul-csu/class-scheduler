@@ -34,11 +34,15 @@ const LandingPage = () => {
                             <Form>
                                 <Form.Group className="mb-3" controlId="formGroupEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email"/>
+                                    <Form.Control type="email" placeholder="user@email.com" required/>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formGroupPassword">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password"/> 
+                                    <Form.Control type="password" placeholder="password" required/> 
+                                </Form.Group>
+                                <Form.Group action = "/welcome" className="mb-3" controlId="formGroupSubmit">
+                                    <Form.Label>Submit</Form.Label>
+                                    <Form.Control type="submit" value="Login"></Form.Control>
                                 </Form.Group>
                                 {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
                                     Login
