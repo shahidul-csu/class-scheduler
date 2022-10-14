@@ -49,6 +49,8 @@ const LandingPage = () => {
                                 </Button> */}
 
                                 <Link to="/display">submit</Link>
+                                <Link to="/welcome">Welcome Page</Link>
+                                <Link to="/adminpage">Admin Page</Link>
                             </Form>
                         </div>
                         {/* <div className="SignUp">

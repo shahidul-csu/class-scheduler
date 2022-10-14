@@ -28,6 +28,7 @@ function App() {
               <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
               <Route path="/display" element={<Display/>}></Route>
               <Route path="/welcome" element={<Welcome/>}></Route>
+              <Route path="/adminpage" element={<AdminPage/>}></Route>
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
           </Routes>
         </BrowserRouter>
