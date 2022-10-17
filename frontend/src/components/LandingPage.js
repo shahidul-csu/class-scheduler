@@ -43,7 +43,6 @@ const LandingPage = () => {
                                 {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
                                     Login
                                 </Button> */}
-
                                 <Link to="/display">submit</Link>
                             </Form>
                         </div>
