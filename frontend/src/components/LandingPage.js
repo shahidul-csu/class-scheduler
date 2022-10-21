@@ -1,6 +1,7 @@
 /* This page will display the landing page, from which users can read the website description and login */
 
 import React, {useEffect} from "react";
+import LandingHeader from "./LandingHeader";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
@@ -31,19 +32,25 @@ const LandingPage = () => {
                     <div className="RightCol">
                         <div className="SignIn">
                             <h3>Sign In</h3> <hr/> 
-                            <Form>
+                            <Form action = "/welcome">
                                 <Form.Group className="mb-3" controlId="formGroupEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email"/>
+                                    <Form.Control type="email" placeholder="user@email.com" required/>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formGroupPassword">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password"/> 
+                                    <Form.Control type="password" placeholder="password" required/> 
+                                </Form.Group>
+                                <Form.Group  className="mb-3" controlId="formGroupSubmit">
+                                    <Form.Label>Submit</Form.Label>
+                                    <Form.Control type="submit" value="Login"></Form.Control>
                                 </Form.Group>
                                 {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
                                     Login
                                 </Button> */}
                                 <Link to="/display">submit</Link>
+                                <Link to="/welcome">Welcome Page</Link>
+                                <Link to="/adminpage">Admin Page</Link>
                             </Form>
                         </div>
                         {/* <div className="SignUp">

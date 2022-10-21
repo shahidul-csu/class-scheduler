@@ -26,13 +26,13 @@ const Display = () => {
     <div className="Parent">
       <div className="Row">
           <div className="Col1">
-            <div className="Left">
+            <div className="LeftCol">
                   <Dropdown name="Semester" group={semesters}/>
                   <Dropdown name="Course" group={courses} />
             </div>
           </div>
           <div className="Col2">
-            <div className="Right">
+            <div className="RightCol">
                       <PreferenceDropdown />
 
                       {/* Error: Can not have routes inside routes. We need to pass info if not the dropsown doens't work correctly */}
