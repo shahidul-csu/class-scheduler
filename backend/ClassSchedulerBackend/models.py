@@ -23,6 +23,7 @@ class Classroom(models.Model):
         db_table = 'classroom'
 
     classroom_id = models.AutoField(primary_key=True)
+    classroom_name = models.CharField(default=None, max_length=100)
     capacity = models.IntegerField(default=None)
 
 
@@ -40,7 +41,8 @@ class ParameterData(models.Model):
     class Meta:
         db_table = 'parameter_data'
         constraints = [
-            models.UniqueConstraint(fields=['parameter_id', 'approved', 'requirement'], name='unique_parameter_data')
+            models.UniqueConstraint(
+                fields=['parameter_id', 'approved', 'requirement'], name='unique_parameter_data')
         ]
 
     parameter_id = models.AutoField(primary_key=True)
@@ -54,19 +56,23 @@ class TimeSlot(models.Model):
         db_table = 'time_slot'
 
     time_slot_id = models.AutoField(primary_key=True)
-    week_day_id = models.ForeignKey(WeekDay, null=True, default=None, on_delete=models.CASCADE)
-    day_time_id = models.ForeignKey(DayTime, null=True, default=None, on_delete=models.CASCADE)
+    week_day_id = models.ForeignKey(
+        WeekDay, null=True, default=None, on_delete=models.CASCADE)
+    day_time_id = models.ForeignKey(
+        DayTime, null=True, default=None, on_delete=models.CASCADE)
 
 
 class UserGroupClassParameter(models.Model):
     class Meta:
         db_table = 'user_group_class_parameter'
         constraints = [
-            models.UniqueConstraint(fields=['user_id', 'parameter_id'], name='unique_user_group_class_parameter')
+            models.UniqueConstraint(
+                fields=['user_id', 'parameter_id'], name='unique_user_group_class_parameter')
         ]
 
     user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(
+        ParameterData, default=None, on_delete=models.CASCADE)
 
 
 class UserTimeParameter(models.Model):
@@ -78,8 +84,10 @@ class UserTimeParameter(models.Model):
         ]
 
     user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    time_slot_id = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(
+        ParameterData, default=None, on_delete=models.CASCADE)
+    time_slot_id = models.ForeignKey(
+        TimeSlot, default=None, on_delete=models.CASCADE)
 
 
 class Course(models.Model):
@@ -103,8 +111,10 @@ class Teaches(models.Model):
         ]
 
     user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    semester_id = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(
+        Course, default=None, on_delete=models.CASCADE)
+    semester_id = models.ForeignKey(
+        Semester, default=None, on_delete=models.CASCADE)
 
 
 class Schedule(models.Model):
@@ -124,12 +134,17 @@ class ScheduledCourse(models.Model):
                                     name='unique_scheduled_course')
         ]
 
-    schedule_id = models.ForeignKey(Schedule, default=None, on_delete=models.CASCADE)
+    schedule_id = models.ForeignKey(
+        Schedule, default=None, on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    time_slot_id = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
-    semester_id = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
-    classroom_id = models.ForeignKey(Classroom, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(
+        Course, default=None, on_delete=models.CASCADE)
+    time_slot_id = models.ForeignKey(
+        TimeSlot, default=None, on_delete=models.CASCADE)
+    semester_id = models.ForeignKey(
+        Semester, default=None, on_delete=models.CASCADE)
+    classroom_id = models.ForeignKey(
+        Classroom, default=None, on_delete=models.CASCADE)
 
 
 class CourseTimeParameter(models.Model):
@@ -140,9 +155,12 @@ class CourseTimeParameter(models.Model):
                                     name='unique_course_time_parameter')
         ]
 
-    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    time_slot_id = models.ForeignKey(TimeSlot, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(
+        ParameterData, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(
+        Course, default=None, on_delete=models.CASCADE)
+    time_slot_id = models.ForeignKey(
+        TimeSlot, default=None, on_delete=models.CASCADE)
 
 
 class ClassroomParameter(models.Model):
@@ -153,9 +171,12 @@ class ClassroomParameter(models.Model):
                                     name='unique_classroom_parameter')
         ]
 
-    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    classroom_id = models.ForeignKey(Classroom, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(
+        ParameterData, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(
+        Course, default=None, on_delete=models.CASCADE)
+    classroom_id = models.ForeignKey(
+        Classroom, default=None, on_delete=models.CASCADE)
 
 
 class SemesterParameter(models.Model):
@@ -166,6 +187,9 @@ class SemesterParameter(models.Model):
                                     name='unique_semester_parameter')
         ]
 
-    parameter_id = models.ForeignKey(ParameterData, default=None, on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Course, default=None, on_delete=models.CASCADE)
-    semester_id = models.ForeignKey(Semester, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(
+        ParameterData, default=None, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(
+        Course, default=None, on_delete=models.CASCADE)
+    semester_id = models.ForeignKey(
+        Semester, default=None, on_delete=models.CASCADE)
