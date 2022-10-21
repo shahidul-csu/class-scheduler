@@ -23,6 +23,7 @@ class Classroom(models.Model):
         db_table = 'classroom'
 
     classroom_id = models.AutoField(primary_key=True)
+    classroom_name = models.CharField(default=None, max_length=100)
     capacity = models.IntegerField(default=None)
 
 
