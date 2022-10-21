@@ -7,8 +7,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password',
-                  'group', 'user_permissions', 'is_staff', 'is_active',
-                  'is_superuser', 'last_login', 'data_joined']
+                  'groups', 'user_permissions', 'is_staff', 'is_active',
+                  'is_superuser', 'last_login', 'date_joined']
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -67,7 +67,8 @@ class UserTimeParameterSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ['course_id', 'name', 'units', 'number_per_week', 'sync_time', 'capacity']
+        fields = ['course_id', 'name', 'units',
+                  'number_per_week', 'sync_time', 'capacity']
 
 
 class TeachesSerializer(serializers.ModelSerializer):
