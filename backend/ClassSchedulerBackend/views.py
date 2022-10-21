@@ -5,11 +5,17 @@ from .models import *
 from .serializers import *
 from .view_manager.view_utils import *
 from .view_manager.data_access_view import *
+from django.http import HttpResponse
+from rest_framework.response import Response
+
 
 from rest_framework.decorators import api_view
 from django.db.utils import IntegrityError
 from django.core.exceptions import FieldError
+from django.contrib.auth import authenticate, login  # used for the login view
 from rest_framework.authtoken.models import Token
+import json
+import datetime
 
 
 @api_view(["POST"])
@@ -27,11 +33,45 @@ def signUpView(request):
 @api_view(["GET"])
 def logout(request):
     try:
-        Token.objects.get(**{k: v for k, v in request.GET.items()}).delete()
+
+        # # Token.objects.get(**{k: v for k, v in request.GET.items()}).delete()
+        # # #this had errors when we had multiple tokens in the db
+
+        # deletes the token given to the user on login
+        Token.objects.get(user_id=request.session['userId']).delete()
+        deleteAllsessionVariables(request)
+
         res = get_response({"status": "User logout successful"}, status=200)
     except (TypeError, ValueError, Token.DoesNotExist, FieldError) as e:
         res = get_response({"error": str(e)}, status=400)
     return res
+
+
+@api_view(["POST"])
+def login(request):
+
+    uname = request.POST.get('username')
+    pwd = request.POST.get('password')
+
+    user = authenticate(request, username=uname, password=pwd)
+
+    if user is not None:
+        token = Token.objects.get_or_create(user=user)
+        token = token[0].key  # gets the token
+        request.session['userId'] = user.id  # sets session varaiable
+        # returns logged in usr obj is jason
+        usrObj = UserSerializer(instance=user).data
+        user.last_login = datetime.datetime.now()  # update last_login field
+        user.save()  # update user in db
+        # return login token
+        return Response({'Login_token': token, 'usrOb': usrObj, 'status': 'SUCCESS'})
+    else:
+        return Response({'status': 'FAILED', 'msg': 'Please enter valid Username or Password.'})
+
+
+def deleteAllsessionVariables(request):
+    if 'userId' in request.session:  # safety check
+        del request.session['userId']  # delete session var
 
 
 class UserView(DataAccessView):
