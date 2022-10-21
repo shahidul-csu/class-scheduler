@@ -121,7 +121,6 @@ const SettingsUsers = () =>  {
                                         <th>Last Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,21 +129,18 @@ const SettingsUsers = () =>  {
                                         <td>Doe</td>
                                         <td>MDoe</td>
                                         <td>millyDoe@gmail.com</td>
-                                        <td>Password 1</td>
                                     </tr>
                                     <tr>
                                         <td>Billy</td>
                                         <td>Joe</td>
                                         <td>BJoe</td>
                                         <td>billyDoe@gmail.com</td>
-                                        <td>Password 2</td>
                                     </tr>
                                     <tr>
                                         <td>Lilly</td>
                                         <td>Doe2</td>
                                         <td>LDoe2</td>
                                         <td>lillyDoe@gmail.com</td>
-                                        <td>Password 3</td>
                                     </tr>
                                 </tbody>
                             </Table>

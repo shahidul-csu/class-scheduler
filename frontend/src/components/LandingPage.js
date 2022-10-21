@@ -1,6 +1,7 @@
 /* This page will display the landing page, from which users can read the website description and login */
 
 import React, {useEffect} from "react";
+import LandingHeader from "./LandingHeader";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
@@ -31,7 +32,7 @@ const LandingPage = () => {
                     <div className="RightCol">
                         <div className="SignIn">
                             <h3>Sign In</h3> <hr/> 
-                            <Form>
+                            <Form action = "/welcome">
                                 <Form.Group className="mb-3" controlId="formGroupEmail">
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control type="email" placeholder="user@email.com" required/>
@@ -40,7 +41,7 @@ const LandingPage = () => {
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control type="password" placeholder="password" required/> 
                                 </Form.Group>
-                                <Form.Group action = "/welcome" className="mb-3" controlId="formGroupSubmit">
+                                <Form.Group  className="mb-3" controlId="formGroupSubmit">
                                     <Form.Label>Submit</Form.Label>
                                     <Form.Control type="submit" value="Login"></Form.Control>
                                 </Form.Group>

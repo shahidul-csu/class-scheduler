@@ -1,6 +1,6 @@
 /* Hide the nav buttons on LandingPage */
 .nav_links{
-    visibility: hidden;
+    visibility: visible;
 }
 
 
