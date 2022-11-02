@@ -3,7 +3,19 @@
     display: none;
 }
 
-
+.inline-div {
+    display: table;
+    text-align:center; 
+    width:100%;
+  }
+  
+  h2
+  {
+    display:table-cell;
+    width:82%;
+    padding-left:50px;
+    padding-right:50px;
+  }
 /* Flex box structure */
 .Container{
     background-color: #e9e9e9;

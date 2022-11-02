@@ -58,7 +58,7 @@ const LandingPage = () => {
                                 <Link to="/welcome">Welcome Page</Link>
                                 <Link to="/adminpage">Admin Page</Link>
                             </Form>
-                            <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={()=>navigate('/facultylanding')
+                            <Button variant="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={()=>navigate('/facultylanding')
 }>
                                     Login
                                 </Button>
