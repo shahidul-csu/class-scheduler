@@ -5,6 +5,7 @@ import LandingHeader from "./LandingHeader";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
+import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingStyle from "../styles/LandingPage.module.css";
@@ -12,12 +13,16 @@ import "../styles/Header.css";
 
 const LandingPage = () => {
 
+    let navigate = useNavigate();
+
     /* Set page tab name */
     useEffect(() => {
         document.title = "Class Scheduler"
       }, [])
 
     return (
+        <React.Fragment>
+        <LandingHeader index = {[]}/>
         <div className={LandingStyle.Container}>
             <div className={LandingStyle.Row}>
                 <div className={LandingStyle.Col1}>
@@ -44,6 +49,7 @@ const LandingPage = () => {
                                 <Form.Group  className="mb-3" controlId="formGroupSubmit">
                                     <Form.Label>Submit</Form.Label>
                                     <Form.Control type="submit" value="Login"></Form.Control>
+
                                 </Form.Group>
                                 {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
                                     Login
@@ -52,6 +58,10 @@ const LandingPage = () => {
                                 <Link to="/welcome">Welcome Page</Link>
                                 <Link to="/adminpage">Admin Page</Link>
                             </Form>
+                            <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={()=>navigate('/facultylanding')
+}>
+                                    Login
+                                </Button>
                         </div>
                         {/* <div className="SignUp">
                             <h3>Sign Up</h3> <hr/>
@@ -97,6 +107,7 @@ const LandingPage = () => {
                 </div>
             </div>
         </div>
+        </React.Fragment>
     )
 }
 export default LandingPage

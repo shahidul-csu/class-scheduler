@@ -9,6 +9,8 @@ import Card from 'react-bootstrap/Card';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {Link} from "react-router-dom";
+import LandingHeader from "../LandingHeader";
+
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -21,6 +23,8 @@ const AdminPage = () => {
       }, [])
 
     return (
+        <React.Fragment>
+        <LandingHeader index = {[1,2,3]}/>
         <div className="SettingsInfo">
         <div className="Row">
             <div className="Col1">
@@ -47,7 +51,8 @@ const AdminPage = () => {
         </div> 
             </div>
             
-    </div>        
+    </div>
+    </React.Fragment>      
     )
 }
 export default AdminPage

@@ -5,6 +5,7 @@ import Footer from './components/Footer.js'
 import LandingPage from './components/LandingPage';
 import Welcome from './components/Welcome';
 import AdminPage from './components/admin/AdminPage';
+import FacultyLanding from './components/pages/FacultyLanding';
 import Display from './components/faculty-submitAvailability/Display';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PreferenceTimes from './components/faculty-submitAvailability/PreferenceTimes';
@@ -19,7 +20,7 @@ import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
 function App() {
   return (
     <div>
-      <Header/>
+
         <BrowserRouter>
           <Routes>
               <Route path="/" element={<LandingPage></LandingPage>}></Route>
@@ -30,6 +31,7 @@ function App() {
               <Route path="/display" element={<Display/>}></Route>
               <Route path="/welcome" element={<Welcome/>}></Route>
               <Route path="/adminpage" element={<AdminPage/>}></Route>
+              <Route path="/facultylanding" element={<FacultyLanding/>}></Route>
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
           </Routes>
         </BrowserRouter>
