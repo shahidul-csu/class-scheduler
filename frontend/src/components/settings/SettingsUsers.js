@@ -1,5 +1,5 @@
 /* This file is going to contain the contents for the settings page */
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
@@ -18,6 +18,10 @@ const SettingsUsers = () =>  {
     const [firstName, setFirstName] = useState("")
     const [email, setEmail] = useState("")
     const [token, setToken] = useState()
+    const [users, setUsers] = useState([])
+    useEffect(() => {
+        fetchUsers();
+      }, []);
 
     const addUser = () => {
 
@@ -32,10 +36,24 @@ const SettingsUsers = () =>  {
         //     }
         // )
 
-        axios(getSignUpConfig( {"username": firstName, "password": firstName, "email": email})).then(
+        axios(getSignUpConfig("POST", "", {username: firstName, password: firstName, email: email})).then(
             res => {
                 console.log("created new user", res.data)
                 alert("User created")
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
+    }
+    
+    const fetchUsers = () => {
+        axios(getUserModelConfig("GET", "", "", "f13bc6cc988aabad505a8f603b73a7163c6be0da")).then(
+            res => {
+                console.log("fetched data", res.data)
+                setUsers(res.data)
             }
         ).catch(
             err => {
@@ -95,7 +113,7 @@ const SettingsUsers = () =>  {
                             </Col>
                         </Row> <br/>
                         </Form> */}
-                            <Form onSubmit={addUser}>
+                            <Form>
                                 <Row>
                                     <Col xs={5}>
                                         <Form.Control id="first_name" placeholder="User First Name" onChange={(e) => setFirstName(e.target.value)} />
@@ -104,7 +122,7 @@ const SettingsUsers = () =>  {
                                         <Form.Control id="email" placeholder="User Email" onChange={(e) => setEmail(e.target.value)} />
                                     </Col>
                                     <Col xs="auto">
-                                        <Button type="submit" className="mb-2" >Submit</Button>
+                                        <Button type="submit" className="mb-2" onClick={addUser}>Submit</Button>
                                     </Col>
                                 </Row>
                             </Form>
@@ -121,31 +139,38 @@ const SettingsUsers = () =>  {
                                         <th>Last Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    {users.map((user, index) => {
+                                        return <tr key={index}>
+                                            <td>{user.firstName}</td>
+                                            <td>{user.lastName}</td>
+                                            <td>{user.username}</td>
+                                            <td>{user.email}</td>
+                                            <td>{"password "+index}</td>
+                                        </tr>
+                                    })}
+                                    {/* <tr>
                                         <td>Milly</td>
                                         <td>Doe</td>
                                         <td>MDoe</td>
                                         <td>millyDoe@gmail.com</td>
-                                        <td>Password 1</td>
                                     </tr>
                                     <tr>
                                         <td>Billy</td>
                                         <td>Joe</td>
                                         <td>BJoe</td>
                                         <td>billyDoe@gmail.com</td>
-                                        <td>Password 2</td>
                                     </tr>
                                     <tr>
                                         <td>Lilly</td>
                                         <td>Doe2</td>
                                         <td>LDoe2</td>
                                         <td>lillyDoe@gmail.com</td>
+
                                         <td>Password 3</td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </Table>
                         </div>

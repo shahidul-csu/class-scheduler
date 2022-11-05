@@ -3,6 +3,8 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer.js'
 import LandingPage from './components/LandingPage';
+import Welcome from './components/Welcome';
+import AdminPage from './components/admin/AdminPage';
 import Display from './components/faculty-submitAvailability/Display';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SettingsInfo from './components/settings/SettingsInfo';
@@ -35,6 +37,7 @@ function App() {
 
   return (
     <div>
+
       <LoggedInUserContext.Provider value={loggedInUserData}>
       <Header logoutFunc={ClearStateVarAndLocalStorage}/>
         <BrowserRouter>
@@ -45,6 +48,9 @@ function App() {
               <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>
               <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
               <Route path="/display" element={<Display/>}></Route>
+              <Route path="/welcome" element={<Welcome/>}></Route>
+              <Route path="/adminpage" element={<AdminPage/>}></Route>
+              {/* <Route path="/data" element={<Data></Data>}></Route> */}
           </Routes>
         </BrowserRouter>
         </LoggedInUserContext.Provider>

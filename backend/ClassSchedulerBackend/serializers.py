@@ -31,7 +31,7 @@ class WeekDaySerializer(serializers.ModelSerializer):
 class ClassroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Classroom
-        fields = ['classroom_id', 'capacity']
+        fields = ['classroom_id', 'capacity', 'classroom_name']
 
 
 class SemesterSerializer(serializers.ModelSerializer):

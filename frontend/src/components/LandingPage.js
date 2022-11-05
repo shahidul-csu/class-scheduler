@@ -1,5 +1,6 @@
 /* This page will display the landing page, from which users can read the website description and login */
 import React, {useState, useEffect, useContext} from "react";
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
@@ -79,11 +80,16 @@ const handelNavigation = () => {
                                 <Form.Group className="mb-3" controlId="formGroupPassword">
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} /> 
+
                                 </Form.Group>
                                 {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
                                     Login
                                 </Button> */}
-                                
+
+                                <Link to="/display">submit</Link>
+                                <Link to="/welcome">Welcome Page</Link>
+                                <Link to="/adminpage">Admin Page</Link>
+
                             </Form>
                             <Button variant="primary" style={{backgroundColor:"#112E51"}} onClick={async()=> await ValidateLoginInfo()}>
                                     Login
