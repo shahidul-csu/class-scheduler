@@ -1,0 +1,116 @@
+#headerText{
+
+  font-style: normal;
+  font-weight: 100;
+  font-size: 25px;
+  line-height: 48px;
+  text-align: center;
+  
+  color: #000000;
+  
+  }
+  #PGIcon{
+    margin-bottom: 10px;
+  }
+  
+    #headerWrapper{
+      width: 100%;
+      padding-bottom: 15px;
+    }
+  
+    #heading{
+      display: inline-block;
+      padding-left: 5%;
+      padding-top: 15px;
+    }
+    
+    #myButton{
+      float: right;
+      /* display: inline-block; */
+
+      padding-right: 5%;
+      padding-top: 25px;
+    }
+  
+    #ULButton{
+      background-color: #112E51;
+      width: 90px;
+    }
+    #pgInstructions{
+      font-family: Inter;
+      font-size: 31px;
+      font-weight: 400;
+      line-height: 25px;
+      letter-spacing: 0em;
+      text-align: center;
+      font-size:13px;
+      padding:3px;
+      padding-top: 10px;
+      padding-bottom: 20px;
+    }
+    #pageBody{
+      background-color: #F5F5F5 ;
+      min-height: 550px;
+    }
+    #divSubmit{
+      width: 121px;
+      margin: 0 auto;
+      padding-bottom: 160px;
+      padding-top: 30px;
+    }
+  
+    #submitBTN{
+      background-color: #112E51;
+      width: 120px
+    }
+    .customInput{
+      background-color: #E8F0FE;
+      border-radius: 17px;
+      
+    }
+    .customLabel{
+      font-style: normal;
+      font-weight: 100;
+      font-size: 20px;
+      line-height: 20px;
+      text-align: center;
+      
+      color: #000000;
+    }
+    .formGroup{
+      padding-left: 2%;
+      padding-right: 2%;
+      padding-bottom: 10px;
+      }
+
+    /* For screen with width of 768 or more */
+    @media only screen and (min-width: 768px){
+      .formGroup{
+      display: inline-block;
+      padding: 2%;
+  
+      }
+      #MyForm{
+        width: 720px;
+        margin: 0 auto;
+      }
+    }
+  
+    /* For screens with width of 1000px or more */
+    @media only screen and (min-width: 1000px){
+      #pgInstructions{
+        font-size: 16px;
+      }
+    }  
+
+    /* Other pages css */
+    .radio{
+      margin-left: 7px;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .radioText{
+      padding-left: 5px;
+      font-size: 17px;
+    }
