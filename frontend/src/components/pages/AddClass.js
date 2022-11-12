@@ -4,8 +4,7 @@ import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../styles/LandingPage.module.css";
-import "../styles/Header.css";
+
 
 const AddClass = () => {
 
@@ -46,4 +45,4 @@ const AddClass = () => {
         </div>
     )
 }
-export default Welcome
+export default AddClass

@@ -17,6 +17,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AdminPage = () => {
 
+    
+    let navigate = useNavigate();
+
     /* Set page tab name */
     useEffect(() => {
         document.title = "Class Scheduler"
@@ -25,7 +28,37 @@ const AdminPage = () => {
     return (
         <React.Fragment>
         <LandingHeader index = {[1,2,3]}/>
-        <div className="SettingsInfo">
+
+        <div className="inline-div">
+        <h2>Menu</h2>
+        <h2>Welcome Admin!</h2>
+        </div>
+        <div className ="menu">
+            <div className="pop">Button</div>
+            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+                User Management
+            </Button>
+            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+                All Courses
+            </Button>
+            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+                All Classrooms
+            </Button>
+            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+                Profile
+            </Button>
+            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+                Accept/Decline
+            </Button>
+            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+                Schedule
+            </Button>
+            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+                Logout
+            </Button>
+        </div> 
+
+        {/* <div className="SettingsInfo">
         <div className="Row">
             <div className="Col1">
             <div className="NavBar">
@@ -51,7 +84,8 @@ const AdminPage = () => {
         </div> 
             </div>
             
-    </div>
+    </div> */}
+
     </React.Fragment>      
     )
 }

@@ -21,7 +21,7 @@ const LandingPage = () => {
     return (
         <React.Fragment>
         <LandingHeader index = {[]}/>
-        <div class="inline-div">
+        <div className="inline-div">
         <h2>Menu</h2>
         <h2>Welcome Faculty</h2>
         </div>
