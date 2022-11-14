@@ -11,7 +11,8 @@ import "../styles/Header.css";
 import { getLoginConfig } from "../network/RequestTemplates";
 import axios from "axios";
 import {LoggedInUserContext} from '../App'
-
+import LoadingButton from "./LoadingButton";
+import loadingImg from "../images/loading.png"
 const LandingPage = (props) => {
     let userContext = useContext(LoggedInUserContext); // gets the loggend in User
     let navigate = useNavigate();
@@ -91,9 +92,11 @@ const handelNavigation = () => {
                                 <Link to="/adminpage">Admin Page</Link>
 
                             </Form>
-                            <Button variant="primary" style={{backgroundColor:"#112E51"}} onClick={async()=> await ValidateLoginInfo()}>
-                                    Login
-                                </Button>
+                            <LoadingButton btnName="Login" onclick={()=>  ValidateLoginInfo()}
+                             ></LoadingButton>
+                            {/* <Button variant="primary" style={{backgroundColor:"#112E51"}} onClick={async()=> await ValidateLoginInfo()}>
+                            Login {<img style={{height: "10px", width:"10px"}} src={loadingImg} alt="Loading ..." />}
+                                </Button> */}
                         </div>
                         {/* <div className="SignUp">
                             <h3>Sign Up</h3> <hr/>

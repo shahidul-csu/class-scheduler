@@ -11,6 +11,8 @@ import SettingsInfo from './components/settings/SettingsInfo';
 import SettingsUsers from './components/settings/SettingsUsers';
 import SettingsAddCourse from './components/settings/SettingsAddCourse';
 import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
+import AddUserPg from "./components/pagesOO/adminPg/AddUserPg";
+import AddCoursePg from "./components/pagesOO/adminPg/AddCoursePg";
 
 export const LoggedInUserContext = createContext(); //passes the user details to all the pages
 
@@ -51,6 +53,8 @@ function App() {
               <Route path="/welcome" element={<Welcome/>}></Route>
               <Route path="/adminpage" element={<AdminPage/>}></Route>
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
+              <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
+              <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
           </Routes>
         </BrowserRouter>
         </LoggedInUserContext.Provider>
