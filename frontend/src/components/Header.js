@@ -3,7 +3,7 @@
 import React from 'react'
 import '../styles/Header.css'
 
-const Header = () => {
+const Header = (props) => {
   return (
     <div>
       <div className='heading'>
@@ -14,6 +14,7 @@ const Header = () => {
                     <li className='lists'><a className='as' href='/data'>Schedule</a></li>
                     <li className='lists'><a className='as' href='#'>Preferences</a></li>
                     <li className='lists'><a className='as' href='/settings'>Settings</a></li>
+                    <li className='lists' onClick={()=>props.logoutFunc()}><a className='as' href='/' >Logout</a></li>
                 </ul>
           </div>
       </div>
