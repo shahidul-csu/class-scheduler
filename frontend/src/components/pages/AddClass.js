@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LandingHeader from "../LandingHeader";
+import AddFuncPg from "../../styles/AddFuncPg.module.css";
+
 
 
 const AddClass = () => {
@@ -13,36 +16,35 @@ const AddClass = () => {
         document.title = "Class Scheduler"
       }, [])
 
-    return (
-        <div className="Container">
-            <div className="Row">
-                <div className="Col1">
-                    <div className="LeftCol">
-                        <h1>Add New Classroom</h1>
-                        <p> Please a classroom below with the classroom name and the capacity of the classroom.
-                        </p>
-                    </div>
+    return (<React.Fragment >         <LandingHeader index = {[1,2,3]}/>
+        <div id={AddFuncPg.pageBody}>
+
+            <div id={AddFuncPg.headerWrapper}>
+
+                <div id={AddFuncPg.heading}>
+                        <span id={AddFuncPg.headerText}> Add New Classroom </span>
+                        
                 </div>
-                <div className="Left">
-                    <p>
-                        Class Name
-                    </p>
-                    <Form.Group className="mb-3" controlId="AddClass">
-                                    <Form.Label>Class Name</Form.Label>
-                                    <Form.Control type="classname" placeholder="BIT 100" required/>
-                    </Form.Group>
-                </div>
-                <div className="Right">
-                    <p>
-                        Capacity
-                    </p>
-                    <Form.Group className="mb-3" controlId="Capacity">
-                                    <Form.Label>Class Name</Form.Label>
-                                    <Form.Control type="capacity" placeholder="50" required/>
-                    </Form.Group>
-                </div>
+
+                <p id={AddFuncPg.pgInstructions} ><b>Please add a classroom below with the classroom name and the capacity of the classroom.</b></p>
+
             </div>
+
+                <Form id={AddFuncPg.MyForm} >
+                <Form.Group className={`${AddFuncPg.formGroup}`} >
+                    <Form.Label className={`${AddFuncPg.customLabel}`}>Classroom</Form.Label>
+                    <Form.Control className={AddFuncPg.customInput} type="email"  />
+                </Form.Group>
+
+                <Form.Group className={AddFuncPg.formGroup} style={{float:"right"}}>
+                    <Form.Label className={AddFuncPg.customLabel}>Class Capacity</Form.Label>
+                    <Form.Control className={AddFuncPg.customInput}type="email"  />
+                </Form.Group>
+            </Form>
+
+            <div id={AddFuncPg.divSubmit}><Button id={AddFuncPg.submitBTN}>Add Classroom</Button></div>
+        
         </div>
-    )
+        </React.Fragment>);
 }
 export default AddClass

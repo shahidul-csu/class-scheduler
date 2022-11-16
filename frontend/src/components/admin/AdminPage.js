@@ -34,6 +34,7 @@ const AdminPage = () => {
         <h2>Welcome Admin!</h2>
         </div>
         <div className ="menu">
+
             <div className="pop">Button</div>
             <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
                 User Management
@@ -44,7 +45,7 @@ const AdminPage = () => {
             <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
                 All Classrooms
             </Button>
-            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
+            <Button variant="light xxl" onClick={()=>navigate('/adminpage')}>
                 Profile
             </Button>
             <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
@@ -56,6 +57,7 @@ const AdminPage = () => {
             <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
                 Logout
             </Button>
+
         </div> 
 
         {/* <div className="SettingsInfo">
