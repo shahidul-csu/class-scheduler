@@ -10,15 +10,65 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {Link} from "react-router-dom";
 import LandingHeader from "../LandingHeader";
+import MenuButton from "../../styles/MenuButton.module.css";
 
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const AdminPage = () => {
+const AdminPage = (props) => {
 
-    
+    // {showDropDown: false} for each drop down button
+    let [buttonDropDownStatusList, setButtonDropDownList] = useState([
+        {showDropDown: false}, {showDropDown: false} // there are two drop down buttons
+    ]);
+
+    //holds the index of the buttonDropDownStatusList with showDropDown state of true
+    let [currnetlyOpenedDropDownIndex, setCurrentlyOpenDropDownIndex] = useState(null);
+
     let navigate = useNavigate();
+    let userData = useContext(LoggedInUserContext); // grab the user data from the useContext
+
+    const handelBtnClick =(btnIndex) =>{ //for drop down Bottons only
+        const newButtonDropDownStatusList = [...buttonDropDownStatusList];
+        let newOpenedButtonIndex = null; 
+        // holds the buttonDropDownStatusList index thats 
+        //going to have a state of {showDropDown: true} next
+
+        if(currnetlyOpenedDropDownIndex !==null){ // if a dropdown is open
+
+            if(currnetlyOpenedDropDownIndex !== btnIndex){
+                //if you clicked on another button with a dropDown functionality
+                // but there is another dropDown already open from a different button
+
+                newOpenedButtonIndex = btnIndex;
+                newButtonDropDownStatusList[newOpenedButtonIndex] = {showDropDown: true};
+                //open the dropDown of the newlyClickedButton
+            }
+
+            newButtonDropDownStatusList[currnetlyOpenedDropDownIndex] ={showDropDown: false}; // close the opened dropDown previously clicked Button  
+        }
+        else{ // if no dropDown is open
+            newOpenedButtonIndex = btnIndex;
+
+            newButtonDropDownStatusList[newOpenedButtonIndex]= {showDropDown: true};
+
+        }
+
+        setCurrentlyOpenDropDownIndex(newOpenedButtonIndex);
+        setButtonDropDownList(newButtonDropDownStatusList);
+    }
+
+
+    const closeCurentlyOpenedDroupDown = () => {
+        if(currnetlyOpenedDropDownIndex !==null){
+                const newButtonDropDownStatusList = [...buttonDropDownStatusList];
+
+                newButtonDropDownStatusList[currnetlyOpenedDropDownIndex] = {showDropDown: false};
+                setCurrentlyOpenDropDownIndex(null);
+                setButtonDropDownList(newButtonDropDownStatusList);
+        }
+    }
 
     /* Set page tab name */
     useEffect(() => {
@@ -33,32 +83,58 @@ const AdminPage = () => {
         <h2>Menu</h2>
         <h2>Welcome Admin!</h2>
         </div>
-        <div className ="menu">
+        <div id={facultyLandingPgCSS.myPageBody} onClick={()=>closeCurentlyOpenedDroupDown()}>
+                    <div id={facultyLandingPgCSS.myHeader}>
 
-            <div className="pop">Button</div>
-            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
-                User Management
-            </Button>
-            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
-                All Courses
-            </Button>
-            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
-                All Classrooms
-            </Button>
-            <Button variant="light xxl" onClick={()=>navigate('/adminpage')}>
-                Profile
-            </Button>
-            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
-                Accept/Decline
-            </Button>
-            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
-                Schedule
-            </Button>
-            <Button variant="light btn-lg" onClick={()=>navigate('/adminpage')}>
-                Logout
-            </Button>
+                <span id={facultyLandingPgCSS.header1} 
+                className={`${facultyLandingPgCSS.disableSelect}`} >Menu</span>
 
-        </div> 
+                <span id={facultyLandingPgCSS.header2} 
+                className={`${facultyLandingPgCSS.disableSelect}`}>Welcome {userData.first_name}</span>
+                </div>
+
+
+
+                <div id={facultyLandingPgCSS.menuBtnGroup}>
+{/* ************************************ MENU BUTTONS HERE ***************************************** */}
+                    <div className={facultyLandingPgCSS.ButtonShell} >
+                    <MenuButton 
+
+                     btnName="Avaliability" btn_Pic_Src={avalaibilityIcon}
+                     onclick={() => navigate("/avaliability_Faculty")}>
+
+                    </MenuButton>
+                    </div>
+
+
+                    <div className={facultyLandingPgCSS.ButtonShell} >
+                    <MenuButton  
+
+                    btnName="Preferences" btn_Pic_Src={preferenceIcon} 
+                    onclick={() => navigate("/avaliability_Faculty")}>
+
+                    </MenuButton>
+                    </div>
+
+                    <div className={facultyLandingPgCSS.ButtonShell} >
+                    <MenuButton  
+
+                    btnName="Schedule" btn_Pic_Src={scheduleIcon} 
+                    onclick={() => navigate("/avaliability_Faculty")}>
+
+                    </MenuButton>
+                    </div>
+
+                    <div className={facultyLandingPgCSS.ButtonShell} >
+                    <MenuButton  
+
+                    btnName="Profile" btn_Pic_Src={profileIcon} 
+                    onclick={() => navigate("/avaliability_Faculty")}>
+
+                    </MenuButton>
+                    </div> 
+                </div>
+            </div>
 
         {/* <div className="SettingsInfo">
         <div className="Row">
