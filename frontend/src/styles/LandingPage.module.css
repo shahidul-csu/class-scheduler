@@ -93,7 +93,89 @@
 .Container input {
     text-align: center;
 }
+#myPageBody{
+    background: #DADADA;
+    ;
+    width: 100%;
+    min-height: 550px;
+}
+.disableSelect{
+/* Disables User select  */
+user-select: none; /* For Chrome and Opera */
+-ms-user-select: none; /* For Internet Edge and Explorer*/
+-webkit-user-select: none; /* For Safari */
+-moz-user-select: none; /* For Firefox */
+-khtml-user-select: none; /* Konqueror HTML */
+}
+#header1{
+float: "left";
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+line-height: 65px;
+padding-left: 2%;
+}
+#header2{
+    float: right;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 200;
+    font-size: 25px;
+    line-height: 68px;
+    padding-right: 2%;
 
+    color: #000000;
+    }
+
+
+
+#myHeader{
+    width: 100%;
+    padding: 2%;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+#menuBtnGroup{
+width: min-content;
+margin: 0 auto;
+max-width: 910px;
+}
+
+.ButtonShell{
+
+    padding-bottom: 45px;
+    padding-left: 4%;
+    display: inline-block;
+}
+
+
+  @media only screen and (min-width: 500px){
+    #menuBtnGroup{
+        width:fit-content;
+        }
+
+        .ButtonShell{
+
+            padding-bottom: 20px;
+        }
+
+
+  } 
+  @media only screen and (min-width: 768px){
+    #menuBtnGroup{
+        width: fit-content;
+        }
+
+        .ButtonShell{
+            padding-left: 80px;
+            padding-bottom: 60px;
+        }
+        #header2{
+            font-weight: 100;
+            font-size: 31px;
+            }
+  }
 /* .Container .SignUp{
     background-color: #dadada;
     text-align: center;
