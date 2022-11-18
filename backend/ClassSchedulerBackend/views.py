@@ -8,7 +8,7 @@ from .view_manager.data_access_view import *
 from django.http import HttpResponse
 from rest_framework.response import Response
 
-
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from django.db.utils import IntegrityError
 from django.core.exceptions import FieldError
@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate, login  # used for the login view
 from rest_framework.authtoken.models import Token
 import json
 import datetime
+from django.contrib.auth.hashers import make_password, check_password
 
 
 @api_view(["POST"])
@@ -49,13 +50,23 @@ def logout(request):
 
 @api_view(["POST"])
 def login(request):
+    user = ""
 
-    uname = request.POST.get('username')
-    pwd = request.POST.get('password')
+    Email = request.data.get('email')  # requset. data is a dictionary
+    password = request.data.get('password')  # works for both react and postman
 
-    user = authenticate(request, username=uname, password=pwd)
+    #     Email = request.POST.get('email') # works for only postman but not for react
+    #     password = request.POST.get('password')
 
-    if user is not None:
+    try:
+        user = User.objects.get(email=Email)
+    except:
+        return Response({'status': 'FAILED', 'msg': 'User is not valid'})
+
+    passwordMatch = check_password(password, user.password)
+
+    if passwordMatch:
+
         token = Token.objects.get_or_create(user=user)
         token = token[0].key  # gets the token
         request.session['userId'] = user.id  # sets session varaiable

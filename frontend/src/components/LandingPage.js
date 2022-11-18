@@ -1,7 +1,6 @@
 /* This page will display the landing page, from which users can read the website description and login */
+import React, {useState, useEffect, useContext} from "react";
 
-import React, {useEffect} from "react";
-import LandingHeader from "./LandingHeader";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
@@ -10,15 +9,55 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingStyle from "../styles/LandingPage.module.css";
 import "../styles/Header.css";
-
-const LandingPage = () => {
-
+import { getLoginConfig } from "../network/RequestTemplates";
+import axios from "axios";
+import {LoggedInUserContext} from '../App'
+import LoadingButton from "./LoadingButton";
+import loadingImg from "../images/loading.png"
+const LandingPage = (props) => {
+    let userContext = useContext(LoggedInUserContext); // gets the loggend in User
     let navigate = useNavigate();
-
+    const [Email, setEmail] = useState('')
+    const [Password, setPassword] = useState('')
     /* Set page tab name */
     useEffect(() => {
         document.title = "Class Scheduler"
       }, [])
+
+
+      useEffect(() => {
+        if( userContext){
+            handelNavigation();
+        }
+      }, [userContext]) //Means this is called only when that userContext changes
+
+const handelNavigation = () => {
+    if( userContext.is_superuser){
+        navigate('/settings')
+    }
+        else{
+            navigate('/FacultyLandingPg')
+        }
+} 
+
+
+    const ValidateLoginInfo = () => {
+       let data = axios(getLoginConfig({email:Email, password: Password})).then(
+            res => {
+
+                if(res.data.status == "SUCCESS")
+                {
+                props.updateLoggedInUserData({userData: res.data.usrOb, token: res.data.Login_token}) 
+
+                }
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
+        }
 
     return (
         <React.Fragment>
@@ -37,31 +76,31 @@ const LandingPage = () => {
                     <div className={LandingStyle.RightCol}>
                         <div className={LandingStyle.SignIn}>
                             <h3>Sign In</h3> <hr/> 
-                            <Form action = "/welcome">
+                            <Form >
                                 <Form.Group className="mb-3" controlId="formGroupEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="user@email.com" required/>
+                                    <Form.Control type="email" onChange={(e) => setEmail(e.target.value)} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formGroupPassword">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" placeholder="password" required/> 
-                                </Form.Group>
-                                <Form.Group  className="mb-3" controlId="formGroupSubmit">
-                                    <Form.Label>Submit</Form.Label>
-                                    <Form.Control type="submit" value="Login"></Form.Control>
+                                    <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} /> 
 
                                 </Form.Group>
                                 {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
                                     Login
                                 </Button> */}
+
                                 <Link to="/display">submit</Link>
                                 <Link to="/welcome">Welcome Page</Link>
                                 <Link to="/adminpage">Admin Page</Link>
+
                             </Form>
-                            <Button variant="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={()=>navigate('/facultylanding')
-}>
-                                    Login
-                                </Button>
+
+                            <LoadingButton btnName="Login" onclick={()=>  ValidateLoginInfo()}
+                             ></LoadingButton>
+                            {/* <Button variant="primary" style={{backgroundColor:"#112E51"}} onClick={async()=> await ValidateLoginInfo()}>
+                            Login {<img style={{height: "10px", width:"10px"}} src={loadingImg} alt="Loading ..." />}
+                                </Button> */}
                         </div>
                         {/* <div className="SignUp">
                             <h3>Sign Up</h3> <hr/>
