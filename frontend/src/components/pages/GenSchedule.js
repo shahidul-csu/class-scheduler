@@ -1,5 +1,3 @@
-/* This page will be the first page to greet admin or faculty logging and functions as a gate to prevent users to enter other pages without signing in.*/
-
 import React, {useEffect} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -9,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles/LandingPage.module.css";
 import "../styles/Header.css";
 
-const Welcome = () => {
+const GenSchedule = () => {
 
     /* Set page tab name */
     useEffect(() => {
@@ -21,7 +19,7 @@ const Welcome = () => {
             <div className="Row">
                 <div className="Col1">
                     <div className="LeftCol">
-                        <h1>Welcome back!</h1>
+                        <h1>Schedule Page</h1>
                         <p> This page is still in maintenance.
                         </p>
                     </div>

@@ -5,7 +5,10 @@ import Footer from './components/Footer.js'
 import LandingPage from './components/LandingPage';
 import Welcome from './components/Welcome';
 import AdminPage from './components/admin/AdminPage';
+import FacultyLanding from './components/pages/FacultyLanding';
 import Display from './components/faculty-submitAvailability/Display';
+import AddClass from './components/pages/AddClass';
+import UserManagement from './components/admin/UserManagement'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SettingsInfo from './components/settings/SettingsInfo';
 import SettingsUsers from './components/settings/SettingsUsers';
@@ -41,6 +44,7 @@ function App() {
   return (
     <div>
 
+
       <LoggedInUserContext.Provider value={loggedInUserData}>
       <Header logoutFunc={ClearStateVarAndLocalStorage}/>
         <BrowserRouter>
@@ -53,6 +57,9 @@ function App() {
               <Route path="/display"  element={<Display />} ></Route>
               <Route path="/welcome" element={<Welcome/>}></Route>
               <Route path="/adminpage" element={<AdminPage/>}></Route>
+              <Route path="/facultylanding" element={<FacultyLanding/>}></Route>
+              <Route path="/addclass" element={<AddClass/>}></Route>
+              <Route path="/usermanagement" element={<UserManagement/>}></Route>
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
               <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>

@@ -4,9 +4,10 @@ import React, {useState, useEffect, useContext} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
+import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../styles/LandingPage.css";
+import LandingStyle from "../styles/LandingPage.module.css";
 import "../styles/Header.css";
 import { getLoginConfig } from "../network/RequestTemplates";
 import axios from "axios";
@@ -59,19 +60,21 @@ const handelNavigation = () => {
         }
 
     return (
-        <div className="Container">
-            <div className="Row">
-                <div className="Col1">
-                    <div className="LeftCol">
+        <React.Fragment>
+        <LandingHeader index = {[]}/>
+        <div className={LandingStyle.Container}>
+            <div className={LandingStyle.Row}>
+                <div className={LandingStyle.Col1}>
+                    <div className={LandingStyle.LeftCol}>
                         <h1>Finding the optimal class schedule</h1>
                         <p> Class Scheduler is designed to take a list of resources and constraints and recommend a class
                             schedule that meets all of the strict requirements while maximizing the preference requirements.
                         </p>
                     </div>
                 </div>
-                <div className="Col2">
-                    <div className="RightCol">
-                        <div className="SignIn">
+                <div className={LandingStyle.Col2}>
+                    <div className={LandingStyle.RightCol}>
+                        <div className={LandingStyle.SignIn}>
                             <h3>Sign In</h3> <hr/> 
                             <Form >
                                 <Form.Group className="mb-3" controlId="formGroupEmail">
@@ -92,6 +95,7 @@ const handelNavigation = () => {
                                 <Link to="/adminpage">Admin Page</Link>
 
                             </Form>
+
                             <LoadingButton btnName="Login" onclick={()=>  ValidateLoginInfo()}
                              ></LoadingButton>
                             {/* <Button variant="primary" style={{backgroundColor:"#112E51"}} onClick={async()=> await ValidateLoginInfo()}>
@@ -142,6 +146,7 @@ const handelNavigation = () => {
                 </div>
             </div>
         </div>
+        </React.Fragment>
     )
 }
 export default LandingPage

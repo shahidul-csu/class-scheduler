@@ -17,7 +17,7 @@ const DropDownMenuButton =(props)=> {
         }
     }
 
-  
+
 
 
     const displayDropDown = () =>{
@@ -36,7 +36,7 @@ const DropDownMenuButton =(props)=> {
             })}
 
         </div>
-            
+
             </div> 
         }
     }
@@ -54,7 +54,7 @@ const DropDownMenuButton =(props)=> {
             </div>
             {displayDropDown()}
             </div>
-                    
+
 
             </React.Fragment>
         )
@@ -73,5 +73,5 @@ const MenuButtonMemo = memo(DropDownMenuButton,
         }
         return false;
 })
- 
+
 export default MenuButtonMemo;

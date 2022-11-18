@@ -148,7 +148,6 @@ const SettingsUsers = () =>  {
                                             <td>{user.lastName}</td>
                                             <td>{user.username}</td>
                                             <td>{user.email}</td>
-                                            <td>{"password "+index}</td>
                                         </tr>
                                     })}
                                     {/* <tr>
