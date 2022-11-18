@@ -28,14 +28,14 @@ const LandingPage = (props) => {
         if( userContext){
             handelNavigation();
         }
-      }, [userContext])
+      }, [userContext]) //Means this is called only when that userContext changes
 
 const handelNavigation = () => {
     if( userContext.is_superuser){
         navigate('/settings')
     }
         else{
-            navigate('/display')
+            navigate('/FacultyLandingPg')
         }
 } 
 

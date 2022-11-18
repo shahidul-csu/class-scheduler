@@ -13,6 +13,7 @@ import SettingsAddCourse from './components/settings/SettingsAddCourse';
 import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
 import AddUserPg from "./components/pagesOO/adminPg/AddUserPg";
 import AddCoursePg from "./components/pagesOO/adminPg/AddCoursePg";
+import FacultyLandingPg from "./components/pagesOO/facultyPg/FacultyLandingPg";
 
 export const LoggedInUserContext = createContext(); //passes the user details to all the pages
 
@@ -49,12 +50,13 @@ function App() {
               <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
               <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>
               <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
-              <Route path="/display" element={<Display/>}></Route>
+              <Route path="/display"  element={<Display />} ></Route>
               <Route path="/welcome" element={<Welcome/>}></Route>
               <Route path="/adminpage" element={<AdminPage/>}></Route>
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
               <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
+              <Route path="/FacultyLandingPg" element={<FacultyLandingPg clearLoginData={ClearStateVarAndLocalStorage}></FacultyLandingPg>}></Route>
           </Routes>
         </BrowserRouter>
         </LoggedInUserContext.Provider>
