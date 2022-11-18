@@ -1,6 +1,6 @@
 /* This page will be the first page to greet admin or faculty logging and functions as a gate to prevent users to enter other pages without signing in.*/
 
-import React, {useEffect} from "react";
+import React, { Component,useContext, useState, useEffect } from 'react';
 import "../../styles/settings/SettingsAddCourse.css";
 import Button from 'react-bootstrap/Button';
 import {FormGroup, FieldGroup, CardGroup} from "react-bootstrap";
@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 import LandingHeader from "../LandingHeader";
 import LandingPage from "../../styles/LandingPage.module.css";
 import MenuButton from "../../styles/MenuButton.module.css";
-import {LoggedInUserContext} from "../../../App.js"
+import {LoggedInUserContext} from "../../App.js"
 
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -79,7 +79,7 @@ const AdminPage = (props) => {
 
     return (
         <React.Fragment>
-        <LandingHeader index = {[1,2,3]}/>
+        {/* <LandingHeader index = {[1,2,3]}/>
 
         <div className="inline-div">
         <h2>Menu</h2>
@@ -97,9 +97,9 @@ const AdminPage = (props) => {
 
 
 
-                <div id={LandingPage.menuBtnGroup}>
+                <div id={LandingPage.menuBtnGroup}> */}
 {/* ************************************ MENU BUTTONS HERE ***************************************** */}
-                    <div className={LandingPage.ButtonShell} >
+                    {/* <div className={LandingPage.ButtonShell} >
                     <MenuButton 
 
                      btnName="Avaliability" btn_Pic_Src={avalaibilityIcon}
@@ -136,10 +136,10 @@ const AdminPage = (props) => {
                     </MenuButton>
                     </div> 
                 </div>
-            </div>
+            </div> */}
 
         {/* <div className="SettingsInfo">
-        <div className="Row">
+     {*   <div className="Row">
             <div className="Col1">
             <div className="NavBar">
                 <div className="Login">
