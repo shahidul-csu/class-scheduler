@@ -18,7 +18,7 @@ const AddClass = () => {
       }, [])
 
     return (<React.Fragment >         <LandingHeader index = {[1,2,3]}/>
-        <div>
+        {/* <div>
 
                 <span>Manage users here by editing or deleting their information.</span>
 
@@ -82,7 +82,7 @@ const AddClass = () => {
                 </table>
 
         
-        </div>
+        </div> */}
         </React.Fragment>);
 }
 export default AddClass

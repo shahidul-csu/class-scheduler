@@ -8,7 +8,7 @@ import AdminPage from './components/admin/AdminPage';
 import FacultyLanding from './components/pages/FacultyLanding';
 import Display from './components/faculty-submitAvailability/Display';
 import AddClass from './components/pages/AddClass';
-import UserManagement from './components/admin/UserManagement'
+import UserManagement from './components/admin/usermanagement'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SettingsInfo from './components/settings/SettingsInfo';
 import SettingsUsers from './components/settings/SettingsUsers';

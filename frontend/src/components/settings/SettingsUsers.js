@@ -36,7 +36,7 @@ const SettingsUsers = () =>  {
         //     }
         // )
 
-        axios(getSignUpConfig("POST", "", {username: firstName, password: firstName, email: email})).then(
+        axios(getSignUpConfig({username: firstName, password: firstName, email: email})).then(
             res => {
                 console.log("created new user", res.data)
                 alert("User created")
