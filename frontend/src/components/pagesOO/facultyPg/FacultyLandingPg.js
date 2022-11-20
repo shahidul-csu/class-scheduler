@@ -1,4 +1,4 @@
-import React, { Component,useContext, useState } from 'react';
+import React, {useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import facultyLandingPgCSS from '../../../styles/facultyLanding.module.css'
 import MenuButton from '../../MenuButton';
@@ -27,7 +27,10 @@ const FacultyLandingPg = (props)=> {
     let userData = useContext(LoggedInUserContext); // grab the user data from the useContext
 
 
-    const handelBtnClick =(btnIndex) =>{ //for drop down Bottons only
+
+    // makes sure that other dropdown are closed when you click on a new
+    //dropDown button
+    const handelDropdownScync =(btnIndex) =>{ //for drop down Bottons only
         const newButtonDropDownStatusList = [...buttonDropDownStatusList];
         let newOpenedButtonIndex = null; 
         // holds the buttonDropDownStatusList index thats 
@@ -44,7 +47,7 @@ const FacultyLandingPg = (props)=> {
                 //open the dropDown of the newlyClickedButton
             }
 
-            newButtonDropDownStatusList[currnetlyOpenedDropDownIndex] ={showDropDown: false}; // close the opened dropDown previously clicked Button  
+            newButtonDropDownStatusList[currnetlyOpenedDropDownIndex] ={showDropDown: false}; // close the previously dropDown clicked Button  
         }
         else{ // if no dropDown is open
             newOpenedButtonIndex = btnIndex;
@@ -88,7 +91,7 @@ const FacultyLandingPg = (props)=> {
                     <MenuButton 
 
                      btnName="Avaliability" btn_Pic_Src={avalaibilityIcon}
-                     onclick={() => navigate("/avaliability_Faculty")}>
+                     onclick={() => navigate("/FacultyAvaliability")}>
 
                     </MenuButton>
                     </div>
@@ -127,7 +130,7 @@ const FacultyLandingPg = (props)=> {
                     <div className={facultyLandingPgCSS.ButtonShell}>
                         <DropDownMenuButton btnName="textDropDown" btn_Pic_Src={testIcon}
                         showDropDown={buttonDropDownStatusList[0].showDropDown}
-                        BtnClickHandler={()=>handelBtnClick(0)}>
+                        BtnClickHandler={()=>handelDropdownScync(0)}>
                             
                             {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
@@ -141,7 +144,7 @@ const FacultyLandingPg = (props)=> {
                     <div className={facultyLandingPgCSS.ButtonShell}>
                         <DropDownMenuButton btnName="textDropDown2" btn_Pic_Src={testIcon}
                         showDropDown={buttonDropDownStatusList[1].showDropDown}
-                        BtnClickHandler={()=> handelBtnClick(1)}>
+                        BtnClickHandler={()=> handelDropdownScync(1)}>
 
                                {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}

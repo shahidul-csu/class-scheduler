@@ -1,3 +1,7 @@
+.rotate{
+  margin-bottom: 2px;   
+ }
+ 
 @media (prefers-reduced-motion: no-preference) {
     .rotate {
       animation: rotate infinite 1s  linear;

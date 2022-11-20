@@ -95,11 +95,29 @@
         margin: 0 auto;
       }
     }
-  
+    /* Other page css Here */
+    .scyncTimPadding{
+      padding-top: 22px;
+    }
+
+    #divSubmit2{
+      width: 121px;
+      margin: 0 auto;
+      padding-bottom: 160px;
+      padding-top: 15px;
+    }
+    /* Other page css end Here */
+
     /* For screens with width of 1000px or more */
     @media only screen and (min-width: 1000px){
       #pgInstructions{
         font-size: 16px;
+      }
+      .scyncTimPadding{
+        padding-top: 0px;
+      }
+      #divSubmit2{
+        padding-top: 10px;
       }
     }  
 
@@ -114,3 +132,13 @@
       padding-left: 5px;
       font-size: 17px;
     }
+    .mySelect{
+      width:200px; 
+      border-radius: 5px;
+      text-align: center;
+
+    }
+    
+    
+
+
