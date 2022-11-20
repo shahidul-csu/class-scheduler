@@ -5,7 +5,6 @@ import Footer from './components/Footer.js'
 import LandingPage from './components/LandingPage';
 import Welcome from './components/Welcome';
 import AdminPage from './components/admin/AdminPage';
-import FacultyLanding from './components/pages/FacultyLanding';
 import Display from './components/faculty-submitAvailability/Display';
 import AddClass from './components/pages/AddClass';
 import UserManagement from './components/admin/UserManagement'
@@ -57,7 +56,6 @@ function App() {
               <Route path="/display"  element={<Display />} ></Route>
               <Route path="/welcome" element={<Welcome/>}></Route>
               <Route path="/adminpage" element={<AdminPage/>}></Route>
-              <Route path="/facultylanding" element={<FacultyLanding/>}></Route>
               <Route path="/addclass" element={<AddClass/>}></Route>
               <Route path="/usermanagement" element={<UserManagement/>}></Route>
               {/* <Route path="/data" element={<Data></Data>}></Route> */}

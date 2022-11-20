@@ -1,0 +1,18 @@
+#tables{
+    margin: auto;
+    text-align: center;
+    padding:2px;
+    border: 1px solid black;
+}
+#cells{
+    padding:2px;
+    border:1px solid black;
+}
+th, td{
+    border:1px solid black;
+}
+
+.BtnImg{
+    height: 70px;
+    width: 70px;
+}

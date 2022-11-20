@@ -1,10 +1,8 @@
 /* This page will display the landing page, from which users can read the website description and login */
 import React, {useState, useEffect, useContext} from "react";
 
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
-import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingStyle from "../styles/LandingPage.module.css";
@@ -13,7 +11,6 @@ import { getLoginConfig } from "../network/RequestTemplates";
 import axios from "axios";
 import {LoggedInUserContext} from '../App'
 import LoadingButton from "./LoadingButton";
-import loadingImg from "../images/loading.png"
 const LandingPage = (props) => {
     let userContext = useContext(LoggedInUserContext); // gets the loggend in User
     let navigate = useNavigate();
@@ -33,7 +30,7 @@ const LandingPage = (props) => {
 
 const handelNavigation = () => {
     if( userContext.is_superuser){
-        navigate('/settings')
+        navigate('/AdminPage')
     }
         else{
             navigate('/FacultyLandingPg')
@@ -61,7 +58,7 @@ const handelNavigation = () => {
 
     return (
         <React.Fragment>
-        <LandingHeader index = {[]}/>
+
         <div className={LandingStyle.Container}>
             <div className={LandingStyle.Row}>
                 <div className={LandingStyle.Col1}>
