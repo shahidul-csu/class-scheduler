@@ -3,49 +3,35 @@ import React, {useState, useEffect, useContext} from "react";
 
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingStyle from "../styles/LandingPage.module.css";
 import "../styles/Header.css";
 import { getLoginConfig } from "../network/RequestTemplates";
 import axios from "axios";
-import {LoggedInUserContext} from '../App'
 import LoadingButton from "./LoadingButton";
 const LandingPage = (props) => {
-    let userContext = useContext(LoggedInUserContext); // gets the loggend in User
-    let navigate = useNavigate();
-    const [Email, setEmail] = useState('')
-    const [Password, setPassword] = useState('')
+
+    const [Email, setEmail] = useState('');
+    const [Password, setPassword] = useState('');
+    const [showLogInError, setShowLoginErrorState] = useState(false);
     /* Set page tab name */
     useEffect(() => {
         document.title = "Class Scheduler"
       }, [])
 
 
-      useEffect(() => {
-        if( userContext){
-            handelNavigation();
-        }
-      }, [userContext]) //Means this is called only when that userContext changes
-
-const handelNavigation = () => {
-    if( userContext.is_superuser){
-        navigate('/settings')
-    }
-        else{
-            navigate('/FacultyLandingPg')
-        }
-} 
-
-
     const ValidateLoginInfo = () => {
-       let data = axios(getLoginConfig({email:Email, password: Password})).then(
+        setShowLoginErrorState(false);
+    axios(getLoginConfig({email:Email, password: Password})).then(
             res => {
 
-                if(res.data.status == "SUCCESS")
+                if(res.data.status === "SUCCESS")
                 {
                 props.updateLoggedInUserData({userData: res.data.usrOb, token: res.data.Login_token}) 
 
+                }
+                else{
+                    setShowLoginErrorState(true);
                 }
             }
         ).catch(
@@ -55,6 +41,15 @@ const handelNavigation = () => {
             }
         )
         }
+
+    const displayError = ()=>{
+        //displays invalid Username or password
+
+        if(showLogInError){
+            return <span style={{color:"red"}}>Invalid username or password</span>;
+        }
+
+    }
 
     return (
         <React.Fragment>
@@ -71,34 +66,41 @@ const handelNavigation = () => {
                 </div>
                 <div className={LandingStyle.Col2}>
                     <div className={LandingStyle.RightCol}>
-                        <div className={LandingStyle.SignIn}>
+                        <div style={{position:'relative'}} className={LandingStyle.SignIn}>
                             <h3>Sign In</h3> <hr/> 
                             <Form >
                                 <Form.Group className="mb-3" controlId="formGroupEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" onChange={(e) => setEmail(e.target.value)} />
+                                    <Form.Control type="email" onChange={(e) => {setEmail(e.target.value); 
+                                    setShowLoginErrorState(false)}} />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="formGroupPassword">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} /> 
+                                    <Form.Control type="password" onChange={(e) => {setPassword(e.target.value);
+                                    setShowLoginErrorState(false)}} /> 
 
                                 </Form.Group>
-                                {/* <Button varient="primary" type="submit" style={{backgroundColor:"#112E51"}} onClick={routeChange}>
-                                    Login
-                                </Button> */}
+                                
 
-                                <Link to="/display">submit</Link>
-                                <Link to="/welcome">Welcome Page</Link>
-                                <Link to="/adminpage">Admin Page</Link>
+                                
 
                             </Form>
-
-                            <LoadingButton btnName="Login" onclick={()=>  ValidateLoginInfo()}
+                            <div style={{marginBottom:'9px'}}>
+                            <LoadingButton  btnName="Login" stopLoadingAnimation={showLogInError} 
+                            onclick={()=>  ValidateLoginInfo()}
                              ></LoadingButton>
+                             </div>
+                             <div style={{position:"absolute",width:'100%', right:"1%"}}>
+                             {displayError()}
+                             </div>
+
                             {/* <Button variant="primary" style={{backgroundColor:"#112E51"}} onClick={async()=> await ValidateLoginInfo()}>
                             Login {<img style={{height: "10px", width:"10px"}} src={loadingImg} alt="Loading ..." />}
                                 </Button> */}
                         </div>
+                        <Link to="/display">submit</Link>
+                                <Link to="/welcome">Welcome Page</Link>
+                                <Link to="/adminpage">Admin Page</Link>
                         {/* <div className="SignUp">
                             <h3>Sign Up</h3> <hr/>
                             <Form>

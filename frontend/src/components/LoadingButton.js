@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import loadingImg from "../images/loading.png"
@@ -7,15 +7,21 @@ import LoadBtnCSS from "../styles/LoadingButton.module.css"
 const LoadingButton = (props) => {
         const [loadingVisibility, setLoadingVisibility] = useState(false);
 
-
         const OnClickHandler = () => {
                 props.onclick()
                 setLoadingVisibility(true);
         }
 
+        useEffect(()=>{
+                if(props.stopLoadingAnimation){
+                        setLoadingVisibility(false);  
+                }
+
+        },[props.stopLoadingAnimation]);
+
         const isLoading = (boolValue) => {
                 if(boolValue){
-                        return <img className={LoadBtnCSS.rotate} style={{height: "12px", width:"12px"}} src={loadingImg} alt="Loading ..." />
+                        return <img className={LoadBtnCSS.rotate} style={{height: "16px", width:"16px"}} src={loadingImg} alt="Loading ..." />
                 }
         }
 
