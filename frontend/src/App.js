@@ -15,6 +15,7 @@ import SettingsAddCourse from './components/settings/SettingsAddCourse';
 import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
 import AddUserPg from "./components/pagesOO/adminPg/AddUserPg";
 import AddCoursePg from "./components/pagesOO/adminPg/AddCoursePg";
+import CourseClassroom from "./components/pagesOO/adminPg/CourseClassroom";
 import FacultyLandingPg from "./components/pagesOO/facultyPg/FacultyLandingPg";
 import FacultyAvaliabiltyPg from "./components/pagesOO/facultyPg/FacultyAvaliabilityPg";
 import FacultyProtectedRoutes from "./components/FacultyProtectedRoutes";
@@ -75,13 +76,13 @@ function App() {
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
 
               </Route>
-              
+              <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
               <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
                 {/* Must be logged in as a faculty to view this pages. */}
                 <Route path="/display"  element={<Display />} ></Route>
               <Route path="/FacultyLandingPg" element={<FacultyLandingPg clearLoginData={ClearStateVarAndLocalStorage}></FacultyLandingPg>}></Route>
               <Route path="/FacultyAvaliability" element={<FacultyAvaliabiltyPg></FacultyAvaliabiltyPg>}></Route>
-              <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
+
               </Route>
           </Routes>
         </BrowserRouter>

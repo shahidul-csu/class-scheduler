@@ -48,4 +48,4 @@ const CourseClassroom = () => {
         </React.Fragment>);
 }
  
-export default AddUserPg ;
+export default CourseClassroom ;
