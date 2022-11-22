@@ -74,9 +74,9 @@ function App() {
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
               <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
-
-              </Route>
               <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
+              </Route>
+
               <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
                 {/* Must be logged in as a faculty to view this pages. */}
                 <Route path="/display"  element={<Display />} ></Route>
