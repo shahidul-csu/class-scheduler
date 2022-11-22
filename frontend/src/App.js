@@ -81,7 +81,7 @@ function App() {
                 <Route path="/display"  element={<Display />} ></Route>
               <Route path="/FacultyLandingPg" element={<FacultyLandingPg clearLoginData={ClearStateVarAndLocalStorage}></FacultyLandingPg>}></Route>
               <Route path="/FacultyAvaliability" element={<FacultyAvaliabiltyPg></FacultyAvaliabiltyPg>}></Route>
-
+              <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
               </Route>
           </Routes>
         </BrowserRouter>
