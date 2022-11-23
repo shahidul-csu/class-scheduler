@@ -85,8 +85,7 @@ const CourseTime = () => {
                     <Form.Label className={pageCss.customLabel}>Semester</Form.Label>
                     <Form.Control className={pageCss.customInput}type="email"  />
                 </Form.Group>
-            </Form>
-            <Form>
+            <div className={`${pageCss.radiodiv}`}>
             <Form.Group className={`${pageCss.formGroup} ${pageCss.scyncTimPadding}`} >
                 <Form.Label  className={pageCss.customLabel}>Preference or Requirement?</Form.Label>
                 <br></br>
@@ -104,7 +103,9 @@ const CourseTime = () => {
                     </label>
 
                 </Form.Group>
+                </div>
             </Form>
+
             <div id={pageCss.divSubmit}><Button id={pageCss.submitBTN}>Submit</Button></div>
             
             </div>

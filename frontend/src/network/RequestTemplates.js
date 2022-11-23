@@ -53,7 +53,7 @@ const getCourseModelConfig = (method, query={}, data={}, token=null) => (
 )
 
 const getSemesterModelConfig = (method, query={}, data={}, token=null) => (
-    getAuthConfig(ROUTER.api.courses + parseQuery(query), method, data, token)
+    getAuthConfig(ROUTER.api.semester + parseQuery(query), method, data, token)
 )
 
 export {
@@ -63,5 +63,6 @@ export {
     getAuthConfig,
     getUserModelConfig,
     getClassroomModelConfig,
-    getCourseModelConfig
+    getCourseModelConfig,
+    getSemesterModelConfig,
 }

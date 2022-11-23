@@ -128,8 +128,12 @@
         height: 20px;
       }
       
+      .radiodiv{
+        width: 250px;
+        margin: 0 auto;
+      }
+
       .radioText{
-        padding-left: 5px;
         font-size: 17px;
       }
       .mySelect{
