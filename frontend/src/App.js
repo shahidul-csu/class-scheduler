@@ -17,6 +17,7 @@ import AddUserPg from "./components/pagesOO/adminPg/AddUserPg";
 import AddCoursePg from "./components/pagesOO/adminPg/AddCoursePg";
 import CourseClassroom from "./components/pagesOO/adminPg/CourseClassroom";
 import InstructorCourse from "./components/pagesOO/adminPg/InstructorCourse";
+import CourseTime from "./components/pagesOO/adminPg/CourseTime";
 import FacultyLandingPg from "./components/pagesOO/facultyPg/FacultyLandingPg";
 import FacultyAvaliabiltyPg from "./components/pagesOO/facultyPg/FacultyAvaliabilityPg";
 import FacultyProtectedRoutes from "./components/FacultyProtectedRoutes";
@@ -77,6 +78,7 @@ function App() {
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
               <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
               <Route path="/InstructorCourse" element={<InstructorCourse></InstructorCourse>}></Route>
+              <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
               </Route>
 
               <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>

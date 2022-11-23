@@ -9,7 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {LoggedInUserContext} from "../../../App.js" //import the use context variable
 
-const InstructorCourse = () => {
+const CourseTime = () => {
     let navigate = useNavigate();
     const [syncTime, setSyncTime] = useState(true);
 
@@ -111,4 +111,4 @@ const InstructorCourse = () => {
         </React.Fragment>);
 }
  
-export default InstructorCourse ;
+export default CourseTime ;
