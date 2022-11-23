@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import pageCss from "../../../styles/CourseTime.module.css"
+import pageCss from "../../../styles/AddSemester.module.css"
 import pageheaderIcon from "../../../images/UserManagement.png"
 import Form from 'react-bootstrap/Form';
 import { getCourseModelConfig , getSemesterModelConfig , getClassroomModelConfig } from '../../../network/RequestTemplates';
@@ -9,9 +9,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {LoggedInUserContext} from "../../../App.js" //import the use context variable
 
-const CourseTime = () => {
+const AddSemester = () => {
     let navigate = useNavigate();
-    const [rule, setRule] = useState(true);
+
 
     const GetAllCourses = () => {
         
@@ -34,15 +34,15 @@ const CourseTime = () => {
             GetAllCourses();
         })
     ]
-    useEffect(()=>{
-        GetAllCourses();
-    })
+    // useEffect(()=>{
+    //     GetAllCourses();
+    // })
         
         return (<React.Fragment >
             <div id={pageCss.pageBody}>
             <div id={pageCss.headerWrapper}>
                 <div id={pageCss.heading}>
-                    <span id={pageCss.headerText} >Assign Course to Time</span>
+                    <span id={pageCss.headerText} >Create New Semester</span>
                     <img id={pageCss.PGIcon} src={pageheaderIcon} alt="UserManagementIcon" 
                     style={{height: "25px", width:"25px"}}/>
 
@@ -54,13 +54,13 @@ const CourseTime = () => {
                 </div> */}
                 
             </div>
-            <p id={pageCss.pgInstructions} ><b>Assign a Course to a Time.</b></p>
+            <p id={pageCss.pgInstructions} ><b>Create a new Semester below.</b></p>
 
             <Form id={pageCss.MyForm} >
                 {/* use `${pageCss.formGroup} ${pageCss.formGroup} 
                 testcss`  for using multiple css */}
                 <Form.Group className={`${pageCss.formGroup}`} >
-                    <Form.Label className={`${pageCss.customLabel}`}>Course</Form.Label>
+                    <Form.Label className={`${pageCss.customLabel}`}>Time of Year</Form.Label>
                     <Form.Control className={pageCss.customInput} type="email"  />
                     {/* <div  className={pageCss.formGroup}>
                     <select className={` ${pageCss.mySelect}`}>
@@ -77,32 +77,13 @@ const CourseTime = () => {
                 </Form.Group>
 
                 <Form.Group className={pageCss.formGroup}>
-                    <Form.Label className={pageCss.customLabel}>Time</Form.Label>
+                    <Form.Label className={pageCss.customLabel}>Year</Form.Label>
                     <Form.Control className={pageCss.customInput}type="email"  />
                 </Form.Group>
 
                 <Form.Group className={pageCss.formGroup} >
-                    <Form.Label className={pageCss.customLabel}>Semester</Form.Label>
+                    <Form.Label className={pageCss.customLabel}>Duration (Weeks)</Form.Label>
                     <Form.Control className={pageCss.customInput}type="email"  />
-                </Form.Group>
-            </Form>
-            <Form>
-            <Form.Group className={`${pageCss.formGroup} ${pageCss.scyncTimPadding}`} >
-                <Form.Label  className={pageCss.customLabel}>Preference or Requirement?</Form.Label>
-                <br></br>
-                    <input className={`${pageCss.radio} form-check-input`} type="radio" name="Radio" id="yes2" defaultChecked onChange={()=>setRule(true)}/>
-                    
-                    <label className="form-check-label" htmlFor="yes2">
-                    <span className={pageCss.radioText}><b>Hard Rule</b></span> 
-                    </label>
-
-                    <input  className={`${pageCss.radio} form-check-input`} type="radio" name="Radio" id="no2" onChange={()=>setRule(false)}/>
-                    
-                    <label  className="form-check-label" htmlFor="no2">
-                           <span className={pageCss.radioText}>
-                            <b>Soft Rule</b></span> 
-                    </label>
-
                 </Form.Group>
             </Form>
             <div id={pageCss.divSubmit}><Button id={pageCss.submitBTN}>Submit</Button></div>
@@ -111,4 +92,4 @@ const CourseTime = () => {
         </React.Fragment>);
 }
  
-export default CourseTime ;
+export default AddSemester ;
