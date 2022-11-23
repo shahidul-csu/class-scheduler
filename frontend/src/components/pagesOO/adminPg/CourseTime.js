@@ -11,7 +11,7 @@ import {LoggedInUserContext} from "../../../App.js" //import the use context var
 
 const InstructorCourse = () => {
     let navigate = useNavigate();
-
+    const [syncTime, setSyncTime] = useState(true);
 
     const GetAllCourses = () => {
         
@@ -34,15 +34,15 @@ const InstructorCourse = () => {
             GetAllCourses();
         })
     ]
-    // useEffect(()=>{
-    //     GetAllCourses();
-    // })
+    useEffect(()=>{
+        GetAllCourses();
+    })
         
         return (<React.Fragment >
             <div id={pageCss.pageBody}>
             <div id={pageCss.headerWrapper}>
                 <div id={pageCss.heading}>
-                    <span id={pageCss.headerText} >Assign Instructor to Course </span>
+                    <span id={pageCss.headerText} >Assign Course to Time</span>
                     <img id={pageCss.PGIcon} src={pageheaderIcon} alt="UserManagementIcon" 
                     style={{height: "25px", width:"25px"}}/>
 
@@ -54,13 +54,13 @@ const InstructorCourse = () => {
                 </div> */}
                 
             </div>
-            <p id={pageCss.pgInstructions} ><b>Assign a specific instructor to a course.</b></p>
+            <p id={pageCss.pgInstructions} ><b>Assign a Course to a Time.</b></p>
 
             <Form id={pageCss.MyForm} >
                 {/* use `${pageCss.formGroup} ${pageCss.formGroup} 
                 testcss`  for using multiple css */}
                 <Form.Group className={`${pageCss.formGroup}`} >
-                    <Form.Label className={`${pageCss.customLabel}`}>Instructor</Form.Label>
+                    <Form.Label className={`${pageCss.customLabel}`}>Course</Form.Label>
                     <Form.Control className={pageCss.customInput} type="email"  />
                     {/* <div  className={pageCss.formGroup}>
                     <select className={` ${pageCss.mySelect}`}>
@@ -77,13 +77,32 @@ const InstructorCourse = () => {
                 </Form.Group>
 
                 <Form.Group className={pageCss.formGroup}>
-                    <Form.Label className={pageCss.customLabel}>Course</Form.Label>
+                    <Form.Label className={pageCss.customLabel}>Time</Form.Label>
                     <Form.Control className={pageCss.customInput}type="email"  />
                 </Form.Group>
 
                 <Form.Group className={pageCss.formGroup} >
                     <Form.Label className={pageCss.customLabel}>Semester</Form.Label>
                     <Form.Control className={pageCss.customInput}type="email"  />
+                </Form.Group>
+            </Form>
+            <Form>
+            <Form.Group className={`${AddUserPageCss.formGroup} ${AddUserPageCss.scyncTimPadding}`} >
+                <Form.Label  className={AddUserPageCss.customLabel}>Preference or Requirement?</Form.Label>
+                <br></br>
+                    <input className={`${AddUserPageCss.radio} form-check-input`} type="radio" name="Radio" id="yes2" defaultChecked />
+                    
+                    <label className="form-check-label" htmlFor="yes2">
+                    <span className={AddUserPageCss.radioText}><b>Hard Rule</b></span> 
+                    </label>
+
+                    <input  className={`${AddUserPageCss.radio} form-check-input`} type="radio" name="Radio" id="no2"/>
+                    
+                    <label  className="form-check-label" htmlFor="no2">
+                           <span className={AddUserPageCss.radioText}>
+                            <b>Soft Rule</b></span> 
+                    </label>
+
                 </Form.Group>
             </Form>
             <div id={pageCss.divSubmit}><Button id={pageCss.submitBTN}>Submit</Button></div>
