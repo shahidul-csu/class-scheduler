@@ -12,7 +12,7 @@ const Header = (props) => {
     if(userData){
       if(userData.is_superuser){
          
-        return <a href='/settings'><img style={{width: 35, height:35}} src={HomeIcon} alt="HomeIcon"></img></a>
+        return <a href='/AdminPage'><img style={{width: 35, height:35}} src={HomeIcon} alt="HomeIcon"></img></a>
       }
       else{
         return <a href='/FacultyLandingPg'><img style={{width: 35, height:35}} src={HomeIcon} alt="HomeIcon"></img></a>

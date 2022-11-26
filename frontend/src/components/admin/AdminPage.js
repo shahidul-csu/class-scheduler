@@ -10,7 +10,7 @@ import scheduleIcon from "../../images/Schedule Menu Icon.png"
 import profileIcon from "../../images/Profile Menu Icon.png"
 import logOutIcon from "../../images/logout Menu Icon.png"
 import testIcon from "../../images/testIcon.png"
-import bookIcon from "../../images/pencil.png"
+import bookIcon from "../../images/BooksIcon.png"
 import {LoggedInUserContext} from "../../App.js"
 
 
@@ -18,7 +18,7 @@ const AdminPage = (props) => {
 
     // {showDropDown: false} for each drop down button
     let [buttonDropDownStatusList, setButtonDropDownList] = useState([
-        {showDropDown: false}, {showDropDown: false} // there are two drop down buttons
+        {showDropDown: false}, {showDropDown: false}, {showDropDown: false} // there are two drop down buttons
     ]);
 
     //holds the index of the buttonDropDownStatusList with showDropDown state of true
@@ -104,35 +104,43 @@ const AdminPage = (props) => {
 
 
                     <div className={LandingPage.ButtonShell}>
-                        <DropDownMenuButton btnName="AllCourses" btn_Pic_Src={bookIcon}
+                        <DropDownMenuButton btnName="All Courses" btn_Pic_Src={bookIcon}
                         showDropDown={buttonDropDownStatusList[0].showDropDown}
                         BtnClickHandler={()=>handelBtnClick(0)}>
                             
                             {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
                             {["Add Course","/AddCourse"]}
-                            {["Add Class","/AddClass"]}
+                            {["View Courses","/AddClass"]}
 
                         </DropDownMenuButton>
 
                     </div>
 
-                    <div className={LandingPage.ButtonShell} >
-                    <MenuButton  
+                    <div className={LandingPage.ButtonShell}>
+                        <DropDownMenuButton btnName="All Classrooms" btn_Pic_Src={testIcon}
+                        showDropDown={buttonDropDownStatusList[1].showDropDown}
+                        BtnClickHandler={()=> handelBtnClick(1)}>
 
-                    btnName="AllClassrooms" btn_Pic_Src={scheduleIcon} 
-                    onclick={() => navigate("/avaliability_Faculty")}>
+                               {/* Drop down options */}
+                        {/* {[option name, routeLink]}       */}
+                            {["Add Classroom","/AddClass"]}
+                            {["View Classes","/display"]}
+                        </DropDownMenuButton>
 
-                    </MenuButton>
                     </div>
 
-                    <div className={LandingPage.ButtonShell} >
-                    <MenuButton 
+                    <div className={LandingPage.ButtonShell}>
+                        <DropDownMenuButton btnName="Manage Users" btn_Pic_Src={testIcon}
+                        showDropDown={buttonDropDownStatusList[2].showDropDown}
+                        BtnClickHandler={()=> handelBtnClick(2)}>
 
-                     btnName="UserManagement" btn_Pic_Src={avalaibilityIcon}
-                     onclick={() => navigate("/usermanagement")}>
+                               {/* Drop down options */}
+                        {/* {[option name, routeLink]}       */}
+                            {["Add Classroom","/addUser"]}
+                            {["View Classes","/usermanagement"]}
+                        </DropDownMenuButton>
 
-                    </MenuButton>
                     </div>
 
                     <div className={LandingPage.ButtonShell} >
@@ -154,32 +162,7 @@ const AdminPage = (props) => {
                     </div> 
  {/* ********************2 TESTED BUTTON here ******************************/}
 
- <div className={LandingPage.ButtonShell}>
-                        <DropDownMenuButton btnName="textDropDown" btn_Pic_Src={testIcon}
-                        showDropDown={buttonDropDownStatusList[0].showDropDown}
-                        BtnClickHandler={()=>handelBtnClick(0)}>
-                            
-                            {/* Drop down options */}
-                        {/* {[option name, routeLink]}       */}
-                            {["hello","/display"]}
-                            {["world","/display"]}
 
-                        </DropDownMenuButton>
-
-                    </div>
-
-                    <div className={LandingPage.ButtonShell}>
-                        <DropDownMenuButton btnName="textDropDown2" btn_Pic_Src={testIcon}
-                        showDropDown={buttonDropDownStatusList[1].showDropDown}
-                        BtnClickHandler={()=> handelBtnClick(1)}>
-
-                               {/* Drop down options */}
-                        {/* {[option name, routeLink]}       */}
-                            {["hello","/display"]}
-                            {["world","/display"]}
-                        </DropDownMenuButton>
-
-                    </div>
 
             {/* ********************2 TESTSED BUTTON END HERE******************************/}
         
