@@ -14,9 +14,10 @@ from django.db.utils import IntegrityError
 from django.core.exceptions import FieldError
 from django.contrib.auth import authenticate, login  # used for the login view
 from rest_framework.authtoken.models import Token
-import json
 import datetime
 from django.contrib.auth.hashers import make_password, check_password
+from django.http import JsonResponse
+from django.core import serializers as djangoSerializers
 
 
 @api_view(["POST"])
@@ -75,7 +76,7 @@ def login(request):
         user.last_login = datetime.datetime.now()  # update last_login field
         user.save()  # update user in db
         # return login token
-        return Response({'Login_token': token, 'usrOb': usrObj, 'status': 'SUCCESS'})
+        return Response({'Login_token': token, 'usrOb': usrObj, 'status': 'SUCCESS', 'LoginId': user.id})
     else:
         return Response({'status': 'FAILED', 'msg': 'Please enter valid Username or Password.'})
 
@@ -83,6 +84,27 @@ def login(request):
 def deleteAllsessionVariables(request):
     if 'userId' in request.session:  # safety check
         del request.session['userId']  # delete session var
+
+
+@api_view(["GET"])
+def checkForExistingAvaliabilityEntry(request, semesterId, userId):
+    res = {"status": True, "data": ""}
+    returnData = {}
+    # semester_id is just the name of the field that holds
+    # a relation to the semester table
+    # semester_id_id is specifying the id of the relational table
+
+    userTimeAvalibilityForSemester = UserTimeParameter.objects.select_related('parameter_id').select_related('time_slot_id').filter(
+        parameter_id__semester_id_id=semesterId).filter(user_id_id=userId)
+    # .select_related(
+    #     'parameter_id').filter(user_id=userId)
+
+    obj_list = list(userTimeAvalibilityForSemester)
+    res = djangoSerializers.serialize("json", obj_list)
+
+    # print(userTimeAvalibilityForSemester[0].time_slot_id)
+
+    return Response({'data': res})
 
 
 class UserView(DataAccessView):

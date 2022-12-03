@@ -127,14 +127,14 @@ const FacultyLandingPg = (props)=> {
 
             {/* ********************2 TESTED BUTTON here ******************************/}
 
-                    <div className={facultyLandingPgCSS.ButtonShell}>
+                    {/* <div className={facultyLandingPgCSS.ButtonShell}>
                         <DropDownMenuButton btnName="textDropDown" btn_Pic_Src={testIcon}
                         showDropDown={buttonDropDownStatusList[0].showDropDown}
-                        BtnClickHandler={()=>handelDropdownScync(0)}>
+                        BtnClickHandler={()=>handelDropdownScync(0)}> */}
                             
                             {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
-                            {["hello","/display"]}
+                            {/* {["hello","/display"]}
                             {["world","/display"]}
 
                         </DropDownMenuButton>
@@ -144,15 +144,15 @@ const FacultyLandingPg = (props)=> {
                     <div className={facultyLandingPgCSS.ButtonShell}>
                         <DropDownMenuButton btnName="textDropDown2" btn_Pic_Src={testIcon}
                         showDropDown={buttonDropDownStatusList[1].showDropDown}
-                        BtnClickHandler={()=> handelDropdownScync(1)}>
+                        BtnClickHandler={()=> handelDropdownScync(1)}> */}
 
                                {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
-                            {["hello","/display"]}
+                            {/* {["hello","/display"]}
                             {["world","/display"]}
                         </DropDownMenuButton>
 
-                    </div>
+                    </div> */}
 
             {/* ********************2 TESTSED BUTTON END HERE******************************/}
         

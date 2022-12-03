@@ -34,6 +34,7 @@ function App() {
     // used to update loggedInUserData and the local storage
     localStorage.setItem("LoggedInUsrData",  JSON.stringify(data.userData))
     localStorage.setItem('token', data.token)
+    localStorage.setItem('userId', data.userId)
     
     setLoggedInUserData(data.userData)
   }
@@ -42,6 +43,7 @@ function App() {
     // function called during logout
     localStorage.clear('LoggedInUsrData')
     localStorage.clear('token')
+    localStorage.clear('userId')
     setLoggedInUserData(null)
   }
 

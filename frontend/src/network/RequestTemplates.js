@@ -51,6 +51,19 @@ const getClassroomModelConfig = (method, query={}, data={}, token=null) => (
 const getCourseModelConfig = (method, query={}, data={}, token=null) => (
     getAuthConfig(ROUTER.api.courses + parseQuery(query), method, data, token)
 )
+const getSemesterModelConfig = (method, query={}, data={}, token=null) => (
+    getAuthConfig(ROUTER.api.semesters + parseQuery(query), method, data, token)
+)
+const getParameterDataModelConfig = (method, query={}, data={}, token=null) => (
+    getAuthConfig(ROUTER.api.parameterData + parseQuery(query), method, data, token)
+)
+const getTimeSlotModelConfig = (method, query={}, data={}, token=null) => (
+    getAuthConfig(ROUTER.api.timeSlot + parseQuery(query), method, data, token)
+)
+const getGenericAuthModelConfig = (method, query={}, data={}, token=null,routerRoute) => (
+    getAuthConfig(routerRoute + parseQuery(query), method, data, token)
+)
+
 
 export {
     getGenericConfig,
@@ -59,5 +72,9 @@ export {
     getAuthConfig,
     getUserModelConfig,
     getClassroomModelConfig,
-    getCourseModelConfig
+    getCourseModelConfig,
+    getSemesterModelConfig,
+    getParameterDataModelConfig,
+    getTimeSlotModelConfig,
+    getGenericAuthModelConfig, //this can work for all api calls that need authentication
 }

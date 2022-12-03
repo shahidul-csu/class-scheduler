@@ -10,7 +10,11 @@ const ROUTER = {
     api: {
         users: `${SWITCH.BASE}/${SWITCH.API}/user/`,
         classrooms: `${SWITCH.BASE}/${SWITCH.API}/classroom/`,
-        courses: `${SWITCH.BASE}/${SWITCH.API}/course/`
+        courses: `${SWITCH.BASE}/${SWITCH.API}/course/`,
+        semesters:`${SWITCH.BASE}/${SWITCH.API}/semester/`,
+        parameterData: `${SWITCH.BASE}/${SWITCH.API}/parameter_data/`,
+        timeSlot: `${SWITCH.BASE}/${SWITCH.API}/time_slot/`,
+        userTimeParam: `${SWITCH.BASE}/${SWITCH.API}/user_time_parameter/`
     }
 }
 
