@@ -138,7 +138,7 @@ const CourseClassroom = () => {
                         
                         {semesterList.map((semester, index) => {
                                         return <option key={index} value={semester.semester_id}>
-                                            {semester.name}
+                                            {semester.name}{" "}{semester.year}
                                         </option>
                                     })}
 
