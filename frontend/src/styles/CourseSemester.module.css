@@ -45,12 +45,13 @@
       text-align: center;
       font-size:13px;
       padding:3px;
-      padding-top: 10px;
+      padding-top: 15px;
       padding-bottom: 20px;
     }
     #pageBody{
       background-color: #F5F5F5 ;
       min-height: 550px;
+      padding: 13%;
     }
     #divSubmit{
       width: 121px;
@@ -81,45 +82,18 @@
       padding-left: 2%;
       padding-right: 2%;
       padding-bottom: 10px;
-      float: left;
-      
-      }
-
-    .formGroup2{
-
-        padding-right: 2%;
-        padding-bottom: 10px;
-        float: right;
-
-      }
-
-      .mySelect{
-        width:120px; 
-        border-radius: 5px;
-        text-align: center;
-        
       }
 
     /* For screen with width of 768 or more */
     @media only screen and (min-width: 768px){
       .formGroup{
-      
-      padding: 2%; 
+      display: inline-block;
+      padding: 2%;
   
       }
-      .formGroup2{
-        padding: 2%;
-          
-    
-        }
       #MyForm{
         width: 720px;
         margin: 0 auto;
-      }
-      .mySelect{
-        width:200px; 
-
-        
       }
     }
     /* Other page css Here */
@@ -155,22 +129,13 @@
       height: 20px;
     }
     
-    .radiodiv{
-      width: 250px;
-      margin: 0 auto;
-      padding-top: 100px;
-      padding-left: 15px;
-    }
-
     .radioText{
+      padding-left: 5px;
       font-size: 17px;
     }
-
-    
-
-    /* .mySelect{
-      width:150px; 
+    .mySelect{
+      width:200px; 
       border-radius: 5px;
       text-align: center;
-      
-    } */
+
+    }
