@@ -11,6 +11,8 @@ import profileIcon from "../../images/Profile Menu Icon.png"
 import logOutIcon from "../../images/logout Menu Icon.png"
 import testIcon from "../../images/testIcon.png"
 import bookIcon from "../../images/BooksIcon.png"
+import userManagement from "../../images/UserManagement.png"
+import classIcon from "../../images/ClassIcon.png"
 import {LoggedInUserContext} from "../../App.js"
 
 
@@ -111,34 +113,34 @@ const AdminPage = (props) => {
                             {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
                             {["Add Course","/AddCourse"]}
-                            {["View Courses","/AddClass"]}
+                            {["View Courses","/allcourses"]}
 
                         </DropDownMenuButton>
 
                     </div>
 
                     <div className={LandingPage.ButtonShell}>
-                        <DropDownMenuButton btnName="All Classrooms" btn_Pic_Src={testIcon}
+                        <DropDownMenuButton btnName="All Classrooms" btn_Pic_Src={classIcon}
                         showDropDown={buttonDropDownStatusList[1].showDropDown}
                         BtnClickHandler={()=> handelBtnClick(1)}>
 
                                {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
                             {["Add Classroom","/AddClass"]}
-                            {["View Classes","/display"]}
+                            {["View Classes","/allclassrooms"]}
                         </DropDownMenuButton>
 
                     </div>
 
                     <div className={LandingPage.ButtonShell}>
-                        <DropDownMenuButton btnName="Manage Users" btn_Pic_Src={testIcon}
+                        <DropDownMenuButton btnName="Manage Users" btn_Pic_Src={userManagement}
                         showDropDown={buttonDropDownStatusList[2].showDropDown}
                         BtnClickHandler={()=> handelBtnClick(2)}>
 
                                {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
-                            {["Add Classroom","/addUser"]}
-                            {["View Classes","/usermanagement"]}
+                            {["Add User","/addUser"]}
+                            {["View Users","/usermanagement"]}
                         </DropDownMenuButton>
 
                     </div>

@@ -23,14 +23,18 @@ const AddClass = () => {
         {/* function productDelete(ctl) {
     $(ctl).parents("tr").remove();
 } */}
-        <div id={TableStyle.tables}>
+        <div id={TableStyle.TableContainer}>
 
                 <span className={TableStyle.HeadInfo}>Manage users here by editing or deleting their information.</span>
 
                 <table id={TableStyle.tables}>
-                    <thead >
+                    <thead>
                         <tr id={TableStyle.sandwichtop}>
-                            <th>Add User</th>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}><button type="button" style={{width:"190%",marginLeft:"5px"}} class="btn btn-outline-primary">Add User</button></th>
+                        <th className={TableStyle.TableNoBorder}></th>
                         </tr>
 
                         <tr> 
@@ -50,15 +54,15 @@ const AddClass = () => {
                             <td> 
                                 <button type='button'
                                 onclick='productDisplay(this);' 
-                                class='btn btn-default'>
-                                    <span class='glyphicon glyphicon-edit' />
+                                class='btn btn-primary'>
+                                     Edit 
                                     </button>     
                             </td>
                             <td>
                                 <button type='button' 
                                 onclick='productDelete(this);' 
-                                class='btn btn-default'>
-                                    <span class='glyphicon glyphicon-remove' />
+                                class='btn btn-danger'>
+                                     X 
                                     </button>
                             </td>
                         </tr>
@@ -66,45 +70,95 @@ const AddClass = () => {
                             <td>John</td>
                             <td>Doe</td>
                             <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
                             <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
                             <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
                             <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>_ </td>
                             <td>_ </td>
                             <td>_ </td>
                             <td>_ </td>
-                            <td>_ </td>
+                            <td>_ </td>                         
                         </tr>
                          {/* <span>Page 1 2 3 ... End ArrowHere</span> */}
                     </tbody>
-                    <tfoot>
-                        <tr id={TableStyle.sandwichbot}>
-                            <tf>Page 1 2 3 4... End "ArrowHere"</tf>
-                        </tr>
-                    </tfoot>
+
+                    
                 </table>
+                <div id={TableStyle.sandwichbot}>
+                        
+                            <div style={{width:"100%"}}>Page 1 2 3 4... End "ArrowHere"</div>
+
+                    </div>
 
         
         </div>

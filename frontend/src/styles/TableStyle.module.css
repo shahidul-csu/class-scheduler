@@ -1,8 +1,14 @@
 #tables{
-    margin: auto;
+    
     text-align: center;
-    padding:2px;
-    border: 1px solid black;
+    
+
+}
+#TableContainer{
+    margin:auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    width:fit-content;
 }
 #cells{
     padding:2px;
@@ -11,13 +17,33 @@
 #sandwichtop{
     color:white;
     background-color:#112E51;
+    
+}
+#sandwichtop2{
+    color:white;
+    background-color:#205493;
+    
 }
 #sandwichbot{
     color:white;
     background-color:#112E51;
+    width: 100%;
+    text-align: center;
+    
 }
 th, td{
     border:1px solid black;
+}
+.TableNoBorder{
+    border:0px;
+}
+.TableDay{
+    color:white;
+    background-color:#205493;
+    width: 20%;
+    text-align: center;
+    border:0px;
+
 }
 .HeadInfo{
     font-size:xx-large;

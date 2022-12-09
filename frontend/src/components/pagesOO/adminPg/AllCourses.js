@@ -4,14 +4,14 @@ import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LandingPage from "../../styles/LandingPage.module.css";
-import AddFuncPg from "../../styles/AddFuncPg.module.css";
-import TableStyle from "../../styles/TableStyle.module.css";
-import MenuButton from '../MenuButton';
-import pencilIcon from "../../images/pencil.png"
+import LandingPage from "../../../styles/LandingPage.module.css";
+import AddFuncPg from "../../../styles/AddFuncPg.module.css";
+import TableStyle from "../../../styles/TableStyle.module.css";
+import MenuButton from '../../MenuButton';
+import pencilIcon from "../../../images/pencil.png"
 
 
-const AddClass = () => {
+const AllCourses = () => {
 
     /* Set page tab name */
     useEffect(() => {
@@ -23,20 +23,27 @@ const AddClass = () => {
         {/* function productDelete(ctl) {
     $(ctl).parents("tr").remove();
 } */}
-        <div id={TableStyle.tables}>
+        <div id={TableStyle.TableContainer}>
 
-                <span className={TableStyle.HeadInfo}>Manage users here by editing or deleting their information.</span>
+                <span className={TableStyle.HeadInfo}>Manage courses here by editing or deleting their information.</span>
 
                 <table id={TableStyle.tables}>
                     <thead >
-                        <tr id={TableStyle.sandwichtop}>
-                            <th>Add User</th>
+                    <tr id={TableStyle.sandwichtop}>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}><button type="button" style={{width:"190%",marginLeft:"5px"}} class="btn btn-outline-primary">Add User</button></th>
+                        <th className={TableStyle.TableNoBorder}></th>
                         </tr>
 
                         <tr> 
-                            <th width="300">First Name</th>
-                            <th width="300">Last Name</th>
-                            <th width="300">Email</th>
+                            <th width="200">Course Name</th>
+                            <th width="80">Capacity</th>
+                            <th width="50">Units</th>
+                            <th width="100">Frequency</th>
+                            <th width="100">Sync Time</th>
+                            <th width="200">Course Group</th>
                             <th width="100">Edit</th>
                             <th width="100">Delete</th>
                         </tr>
@@ -46,68 +53,135 @@ const AddClass = () => {
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
-                            <td>john@email</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
                             <td> 
                                 <button type='button'
                                 onclick='productDisplay(this);' 
-                                class='btn btn-default'>
-                                    <span class='glyphicon glyphicon-edit' />
+                                class='btn btn-primary'>
+                                     Edit 
                                     </button>     
                             </td>
                             <td>
                                 <button type='button' 
                                 onclick='productDelete(this);' 
-                                class='btn btn-default'>
-                                    <span class='glyphicon glyphicon-remove' />
+                                class='btn btn-danger'>
+                                     X 
                                     </button>
                             </td>
                         </tr>
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
-                            <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
-                            <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
-                            <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>John</td>
                             <td>Doe</td>
-                            <td>john@email</td>
-                            <td>PencilIcon</td>
-                            <td>X</td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> 
+                                <button type='button'
+                                onclick='productDisplay(this);' 
+                                class='btn btn-primary'>
+                                     Edit 
+                                    </button>     
+                            </td>
+                            <td>
+                                <button type='button' 
+                                onclick='productDelete(this);' 
+                                class='btn btn-danger'>
+                                     X 
+                                    </button>
+                            </td>
                         </tr>
                         <tr> 
                             <td>_ </td>
                             <td>_ </td>
                             <td>_ </td>
                             <td>_ </td>
-                            <td>_ </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
                         </tr>
                          {/* <span>Page 1 2 3 ... End ArrowHere</span> */}
                     </tbody>
-                    <tfoot>
-                        <tr id={TableStyle.sandwichbot}>
-                            <tf>Page 1 2 3 4... End "ArrowHere"</tf>
-                        </tr>
-                    </tfoot>
+                    
                 </table>
+                <div id={TableStyle.sandwichbot}>
+                        
+                            <div style={{width:"100%"}}>Page 1 2 3 4... End "ArrowHere"</div>
+
+                    </div>
 
         
         </div>
         </React.Fragment>);
 }
-export default AddClass
+export default AllCourses

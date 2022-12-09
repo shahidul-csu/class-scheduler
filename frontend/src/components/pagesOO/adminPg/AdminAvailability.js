@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import PageCss from '../../../styles/AvaliabilityPg.module.css'
+import PageCss from '../../../styles/AvailabilityPg.module.css'
 
 
-const AdminAvaliabilty= ()=>{
+const AdminAvailability= ()=>{
         return (<React.Fragment>
             <div id={PageCss.PageBody}>
             <div id={PageCss.container1}>
@@ -31,4 +31,4 @@ const AdminAvaliabilty= ()=>{
         );
 }
  
-export default AdminAvaliabilty;
+export default AdminAvailability;
