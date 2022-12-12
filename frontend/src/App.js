@@ -15,6 +15,11 @@ import SettingsAddCourse from './components/settings/SettingsAddCourse';
 import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
 import AddUserPg from "./components/pagesOO/adminPg/AddUserPg";
 import AddCoursePg from "./components/pagesOO/adminPg/AddCoursePg";
+import CourseClassroom from "./components/pagesOO/adminPg/CourseClassroom";
+import InstructorCourse from "./components/pagesOO/adminPg/InstructorCourse";
+import CourseTime from "./components/pagesOO/adminPg/CourseTime";
+import AddSemester from "./components/pagesOO/adminPg/AddSemester";
+import CourseSemester from "./components/pagesOO/adminPg/CourseSemester";
 import FacultyLandingPg from "./components/pagesOO/facultyPg/FacultyLandingPg";
 import FacultyAvaliabiltyPg from "./components/pagesOO/facultyPg/FacultyAvaliabilityPg";
 import FacultyProtectedRoutes from "./components/FacultyProtectedRoutes";
@@ -73,9 +78,13 @@ function App() {
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
               <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
-
+              <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
+              <Route path="/InstructorCourse" element={<InstructorCourse></InstructorCourse>}></Route>
+              <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
+              <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
+              <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
               </Route>
-              
+
               <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
                 {/* Must be logged in as a faculty to view this pages. */}
                 <Route path="/display"  element={<Display />} ></Route>

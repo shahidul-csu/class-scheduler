@@ -110,7 +110,7 @@ const AddCoursePg = () => {
                 </div>
 
                 <Form.Group className={`${AddUserPageCss.formGroup} ${AddUserPageCss.scyncTimPadding}`} >
-                <Form.Label  className={AddUserPageCss.customLabel}>Scync Time ?</Form.Label>
+                <Form.Label  className={AddUserPageCss.customLabel}>Sync Time ?</Form.Label>
                 <br></br>
                     <input className={`${AddUserPageCss.radio} form-check-input`} type="radio" name="Radio" id="yes2" defaultChecked onChange={()=>
                     setSyncTime(true)}/>
