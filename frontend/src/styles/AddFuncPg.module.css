@@ -50,7 +50,7 @@
       }
       #pageBody{
         background-color: #F5F5F5 ;
-        min-height: 550px;
+        min-height: 80vh;
       }
       #divSubmit{
         width: 121px;

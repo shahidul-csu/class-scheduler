@@ -32,9 +32,9 @@ const AllClassrooms = () => {
                     <tr id={TableStyle.sandwichtop}>
                         <th className={TableStyle.TableNoBorder}></th>
                         <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}><button type="button" style={{width:"160%",marginLeft:"16px"}} class="btn btn-outline-primary">Add Classroom</button></th>
                         <th className={TableStyle.TableNoBorder}></th>
-                        <th className={TableStyle.TableNoBorder}><button type="button" style={{width:"190%",marginLeft:"5px"}} class="btn btn-outline-primary">Add Classroom</button></th>
-                        <th className={TableStyle.TableNoBorder}></th>
+                        
                         </tr>
 
                         <tr> 

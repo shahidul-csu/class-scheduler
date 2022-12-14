@@ -29,7 +29,10 @@ const AllCourses = () => {
 
                 <table id={TableStyle.tables}>
                     <thead >
-                    <tr id={TableStyle.sandwichtop}>
+                    <tr width="900" id={TableStyle.sandwichtop}>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}></th>
+                        <th className={TableStyle.TableNoBorder}></th>
                         <th className={TableStyle.TableNoBorder}></th>
                         <th className={TableStyle.TableNoBorder}></th>
                         <th className={TableStyle.TableNoBorder}></th>

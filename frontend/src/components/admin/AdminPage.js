@@ -112,7 +112,7 @@ const AdminPage = (props) => {
                             
                             {/* Drop down options */}
                         {/* {[option name, routeLink]}       */}
-                            {["Add Course","/AddCourse"]}
+                            {["Add Course","/AddCourse2"]}
                             {["View Courses","/allcourses"]}
 
                         </DropDownMenuButton>

@@ -7,8 +7,8 @@
 #TableContainer{
     margin:auto;
     margin-top: 20px;
-    margin-bottom: 40px;
     width:fit-content;
+    min-height: 80vh;
 }
 #cells{
     padding:2px;
@@ -29,7 +29,6 @@
     background-color:#112E51;
     width: 100%;
     text-align: center;
-    
 }
 th, td{
     border:1px solid black;
