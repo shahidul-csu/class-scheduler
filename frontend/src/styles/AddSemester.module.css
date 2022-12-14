@@ -45,12 +45,13 @@
       text-align: center;
       font-size:13px;
       padding:3px;
-      padding-top: 10px;
+      padding-top: 15px;
       padding-bottom: 20px;
     }
     #pageBody{
       background-color: #F5F5F5 ;
-      min-height: 80vh;
+      min-height: 550px;
+      padding: 13%;
     }
     #divSubmit{
       width: 121px;
@@ -138,7 +139,3 @@
       text-align: center;
 
     }
-    
-    
-
-

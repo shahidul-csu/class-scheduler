@@ -100,6 +100,8 @@ class Course(models.Model):
     number_per_week = models.IntegerField(default=None)
     sync_time = models.BooleanField(default=False)
     capacity = models.IntegerField(default=None)
+    courseGroup = models.CharField(default=None, max_length=100)
+    Section = models.CharField(default=None, max_length=100)
 
 
 class Teaches(models.Model):

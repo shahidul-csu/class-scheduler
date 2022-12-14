@@ -25,6 +25,7 @@ const AddClass = () => {
 } */}
         <div id={TableStyle.TableContainer}>
 
+
                 <span className={TableStyle.HeadInfo}>Manage users here by editing or deleting their information.</span>
 
                 <table id={TableStyle.tables}>
@@ -161,7 +162,7 @@ const AddClass = () => {
                     </div>
 
         
-        </div>
+        </div> */}
         </React.Fragment>);
 }
 export default AddClass

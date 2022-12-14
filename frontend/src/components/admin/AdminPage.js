@@ -1,5 +1,20 @@
 /* This page will be the first page to greet admin or faculty logging and functions as a gate to prevent users to enter other pages without signing in.*/
-import React, {Component, useEffect, useState, useContext} from "react";
+
+
+import React, { Component,useContext, useState, useEffect } from 'react';
+import "../../styles/settings/SettingsAddCourse.css";
+import Button from 'react-bootstrap/Button';
+import {FormGroup, FieldGroup, CardGroup} from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import {Link} from "react-router-dom";
+import LandingHeader from "../LandingHeader";
+import LandingPage from "../../styles/LandingPage.module.css";
+import MenuButton from "../../styles/MenuButton.module.css";
+import {LoggedInUserContext} from "../../App.js"
+
 import { useNavigate } from "react-router-dom";
 import LandingPage from "../../styles/LandingPage.module.css";
 import MenuButton from '../MenuButton';
@@ -78,6 +93,7 @@ const AdminPage = (props) => {
         {/* useEffect(() => {
         document.title = "Class Scheduler"
       }, [])<div className="inline-div">
+
         <h2>Menu</h2>
         <h2>Welcome Admin!</h2>
         </div> */}
@@ -93,9 +109,9 @@ const AdminPage = (props) => {
 
 
 
-                <div id={LandingPage.menuBtnGroup}>
+                <div id={LandingPage.menuBtnGroup}> */}
 {/* ************************************ MENU BUTTONS HERE ***************************************** */}
-                    <div className={LandingPage.ButtonShell} >
+                    {/* <div className={LandingPage.ButtonShell} >
                     <MenuButton 
 
                      btnName="Approval" btn_Pic_Src={preferenceIcon}
@@ -183,6 +199,7 @@ const AdminPage = (props) => {
                     </div>
 
 {/* ************************************ MENU BUTTONS END HERE ***************************** */} 
+
 
                 </div>
             </div>
