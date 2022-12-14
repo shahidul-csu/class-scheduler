@@ -1,0 +1,29 @@
+/* This Css is for the avaliability page */
+#container1{
+    text-align: center;
+    width:20%;
+    /* background-color: red; */
+    height: 100%;
+    display: inline-block;
+    border-right: 1px solid rgba(151, 147, 147, 0.5);
+
+}
+
+#container2{
+    width:80%;
+    height: 100%;
+    /* background-color: chartreuse; */
+    display: inline-block;
+}
+#semesterSelect{
+    width:60%;
+    margin-top: 50%;
+}
+
+
+#PageBody{
+    padding-top:1px;
+    height: 550px;
+    padding-bottom: 1px;
+    background-color: #F5F5F5;
+}

@@ -1,5 +1,6 @@
 /* This page will be the first page to greet admin or faculty logging and functions as a gate to prevent users to enter other pages without signing in.*/
 
+
 import React, { Component,useContext, useState, useEffect } from 'react';
 import "../../styles/settings/SettingsAddCourse.css";
 import Button from 'react-bootstrap/Button';
@@ -15,14 +16,26 @@ import MenuButton from "../../styles/MenuButton.module.css";
 import {LoggedInUserContext} from "../../App.js"
 
 import { useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import LandingPage from "../../styles/LandingPage.module.css";
+import MenuButton from '../MenuButton';
+import DropDownMenuButton from '../DropDownMenuButton';
+import avalaibilityIcon from "../../images/Avaliability Menu Icon.png"
+import preferenceIcon from "../../images/Preference Menu Icon.png"
+import scheduleIcon from "../../images/Schedule Menu Icon.png"
+import profileIcon from "../../images/Profile Menu Icon.png"
+import logOutIcon from "../../images/logout Menu Icon.png"
+import testIcon from "../../images/testIcon.png"
+import bookIcon from "../../images/BooksIcon.png"
+import userManagement from "../../images/UserManagement.png"
+import classIcon from "../../images/ClassIcon.png"
+import {LoggedInUserContext} from "../../App.js"
 
 
 const AdminPage = (props) => {
 
     // {showDropDown: false} for each drop down button
     let [buttonDropDownStatusList, setButtonDropDownList] = useState([
-        {showDropDown: false}, {showDropDown: false} // there are two drop down buttons
+        {showDropDown: false}, {showDropDown: false}, {showDropDown: false} // there are two drop down buttons
     ]);
 
     //holds the index of the buttonDropDownStatusList with showDropDown state of true
@@ -31,7 +44,7 @@ const AdminPage = (props) => {
     let navigate = useNavigate();
     let userData = useContext(LoggedInUserContext); // grab the user data from the useContext
 
-    const handleBtnClick =(btnIndex) =>{ //for drop down Bottons only
+    const handelBtnClick =(btnIndex) =>{ //for drop down Bottons only
         const newButtonDropDownStatusList = [...buttonDropDownStatusList];
         let newOpenedButtonIndex = null; 
         // holds the buttonDropDownStatusList index thats 
@@ -73,18 +86,17 @@ const AdminPage = (props) => {
     }
 
     /* Set page tab name */
-    useEffect(() => {
-        document.title = "Class Scheduler"
-      }, [])
+    
 
     return (
         <React.Fragment>
-        {/* <LandingHeader index = {[1,2,3]}/>
+        {/* useEffect(() => {
+        document.title = "Class Scheduler"
+      }, [])<div className="inline-div">
 
-        <div className="inline-div">
         <h2>Menu</h2>
         <h2>Welcome Admin!</h2>
-        </div>
+        </div> */}
         <div id={LandingPage.myPageBody} onClick={()=>closeCurentlyOpenedDroupDown()}>
                     <div id={LandingPage.myHeader}>
 
@@ -102,27 +114,58 @@ const AdminPage = (props) => {
                     {/* <div className={LandingPage.ButtonShell} >
                     <MenuButton 
 
-                     btnName="Avaliability" btn_Pic_Src={avalaibilityIcon}
+                     btnName="Approval" btn_Pic_Src={preferenceIcon}
                      onclick={() => navigate("/avaliability_Faculty")}>
 
                     </MenuButton>
                     </div>
 
 
-                    <div className={LandingPage.ButtonShell} >
-                    <MenuButton  
+                    <div className={LandingPage.ButtonShell}>
+                        <DropDownMenuButton btnName="All Courses" btn_Pic_Src={bookIcon}
+                        showDropDown={buttonDropDownStatusList[0].showDropDown}
+                        BtnClickHandler={()=>handelBtnClick(0)}>
+                            
+                            {/* Drop down options */}
+                        {/* {[option name, routeLink]}       */}
+                            {["Add Course","/AddCourse2"]}
+                            {["View Courses","/allcourses"]}
 
-                    btnName="Preferences" btn_Pic_Src={preferenceIcon} 
-                    onclick={() => navigate("/avaliability_Faculty")}>
+                        </DropDownMenuButton>
 
-                    </MenuButton>
+                    </div>
+
+                    <div className={LandingPage.ButtonShell}>
+                        <DropDownMenuButton btnName="All Classrooms" btn_Pic_Src={classIcon}
+                        showDropDown={buttonDropDownStatusList[1].showDropDown}
+                        BtnClickHandler={()=> handelBtnClick(1)}>
+
+                               {/* Drop down options */}
+                        {/* {[option name, routeLink]}       */}
+                            {["Add Classroom","/AddClass"]}
+                            {["View Classes","/allclassrooms"]}
+                        </DropDownMenuButton>
+
+                    </div>
+
+                    <div className={LandingPage.ButtonShell}>
+                        <DropDownMenuButton btnName="Manage Users" btn_Pic_Src={userManagement}
+                        showDropDown={buttonDropDownStatusList[2].showDropDown}
+                        BtnClickHandler={()=> handelBtnClick(2)}>
+
+                               {/* Drop down options */}
+                        {/* {[option name, routeLink]}       */}
+                            {["Add User","/addUser"]}
+                            {["View Users","/usermanagement"]}
+                        </DropDownMenuButton>
+
                     </div>
 
                     <div className={LandingPage.ButtonShell} >
-                    <MenuButton  
+                    <MenuButton 
 
-                    btnName="Schedule" btn_Pic_Src={scheduleIcon} 
-                    onclick={() => navigate("/avaliability_Faculty")}>
+                     btnName="Schedule" btn_Pic_Src={scheduleIcon}
+                     onclick={() => navigate("/genschedule")}>
 
                     </MenuButton>
                     </div>
@@ -135,36 +178,31 @@ const AdminPage = (props) => {
 
                     </MenuButton>
                     </div> 
-                </div>
-            </div> */}
+ {/* ********************2 TESTED BUTTON here ******************************/}
 
-        {/* <div className="SettingsInfo">
-     {*   <div className="Row">
-            <div className="Col1">
-            <div className="NavBar">
-                <div className="Login">
-                    <a href="/settings">Login Information</a>
-                </div>
-                <div className="UserManagement">
-                    <a href="/settingsUser">User Management</a>
-                </div>
-                <div className="AddCourse">
-                    <a href="/AddCourse">Add Course</a>
-                </div>
-                <div className="AddClassroom">
-                    <a href="/AddClassroom">Add Classroom</a>
+
+
+            {/* ********************2 TESTSED BUTTON END HERE******************************/}
+        
+
+
+
+                    <div className={LandingPage.ButtonShell} >
+                    <MenuButton  
+                    
+                    btnName="Logout" btn_Pic_Src={logOutIcon} 
+                    onclick={() =>{props.clearLoginData(); navigate("/");
+                        }
+                        }>
+
+                    </MenuButton>
+                    </div>
+
+{/* ************************************ MENU BUTTONS END HERE ***************************** */} 
+
+
                 </div>
             </div>
-            </div>
-        <div className="Col2">
-            <div className="Right align-self-center">
-                        <h1>Welcome back Administrator!</h1>
-                        <p> This page is still in maintenance.</p>
-            </div>
-        </div> 
-            </div>
-            
-    </div> */}
 
     </React.Fragment>      
     )
