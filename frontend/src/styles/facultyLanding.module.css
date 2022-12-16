@@ -2,7 +2,7 @@
     background: #DADADA;
     ;
     width: 100%;
-    min-height: 550px;
+    min-height: 100vh;
 }
 .disableSelect{
 /* Disables User select  */

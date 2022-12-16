@@ -112,7 +112,7 @@ DATABASES = {
         'HOST': env("DATABASE_HOST"),
         'PORT': env("DATABASE_PORT"),
         'TEST': {
-            'NAME': env("DATABASE_NAME"),
+            'NAME': 'postgres',
             'SERIALIZE': False,
         },
     }

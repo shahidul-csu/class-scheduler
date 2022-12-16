@@ -21,6 +21,9 @@
     float: left;
     position: relative;
 }
+
+
+
 #semesterSelect{
     width:70%;
     height: 50px;
@@ -111,12 +114,40 @@ bottom: 10px;
 .dropDownShell{
     margin: 0 auto;
     width: 98%;
+    position: relative;
 }
+
+#loadingData{
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    left: 45%;
+    top:15vh;
+    z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    #loadingData {
+      animation: rotate infinite 1s  linear;
+    }
+  }
+
+@keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  
 
 .OptionGroup{
     width: 100%;
     display: flex;
     overflow:auto;
+    
 }
 
 .OptionBox{
@@ -195,12 +226,96 @@ opacity: 0.8;
         transition: all 0.2s linear;
         opacity: 0.8;
         pointer-events: none;
+        filter: blur(2px);
     }
     .notDisabled{
         transition: all 0.2s linear;
         opacity: 1.0;
         pointer-events: all;
     }
+    #avaliabilityStats{
+        background-color: #DABBBB;
+        position: relative;
+        width: 270px;
+        height: 150px;
+        border-radius: 12px;
+        margin: 0 auto;
+        margin-bottom: 15px;
+    }
+
+    #statusHeading{
+        position: absolute;
+        width: 143px;
+        height: 29px;
+        left: 22%;
+        
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 29px;
+        text-align: center;
+        color: #112E51;
+    }
+
+    .statusTag{
+        position: absolute;
+        width: 117px;
+        height: 18px;
+        top:30%;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 10px;
+        line-height: 18px;
+        text-align: center;
+
+        color: #112E51;
+    }
+    .statusTagValue{
+        position: absolute;
+        width: 83px;
+        height: 19px;
+        top: 29%;
+        left: 37%;
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 19px;
+        text-align: center;
+
+        color: #000000;
+
+    }
+    
+    #editButton {
+        position: absolute;
+        width: 60px;
+        height: 35px;
+        left: 39%;
+        top: 60%;
+        cursor: pointer;
+        background-color: #112E51;
+        border: 0px;
+    }
+
+    #editButton:active {
+        transition: all 0.05s ease;
+        width: 59px;
+        height: 34px;
+    }
+
+    .disabledTimSlot{
+        transition: all 0.2s linear;
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+
+
+
     
 @media only screen and (min-width: 633px){
     .dropDownShell{
@@ -208,6 +323,14 @@ opacity: 0.8;
         overflow-x: hidden;
 
     }
+
+    #loadingData{
+        left: 47%;
+        top: 27%;
+        width: 63px;
+        height: 63px;
+    }
+    
 }
 
 @media only screen and (min-width: 1000px){
@@ -225,6 +348,10 @@ opacity: 0.8;
     }
     .HideOnMobile{
         display: none;
+    }
+    #editButton:hover {
+        /* transition: all 0.2s linear; */
+        opacity: 0.8;
     }
 
   }

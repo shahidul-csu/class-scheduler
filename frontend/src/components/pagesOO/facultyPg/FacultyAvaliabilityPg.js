@@ -32,15 +32,14 @@ const FacultyAvaliabiltyPg = ()=>{
                 )
     }
 
-    useEffect(()=>{
+    useEffect(async ()=>{
+        await populateSemesterDropDown();
         console.log("fetched all semester")
-        populateSemesterDropDown();
-    },[semesterList.length ===[]])
 
-    const isSemesterSelected= ()=>{
+    },[])
 
-        return (selectedSemeterId ==="0" )? false : true;
-    }
+
+    
 
     const submitAvaliabilityRequest= async (availabilityData)=>{
        let parameterDataId= await makeNewParameterData();
@@ -61,10 +60,12 @@ const FacultyAvaliabiltyPg = ()=>{
         console.error(errors);
         });
     }
+    
 
     const makeNewParameterData= async()=>{
         let Data = null
-       await axios(getParameterDataModelConfig( "POST", "",{approved:false, requirement:true, score:0,parameter_id:null,
+       await axios(getParameterDataModelConfig(
+         "POST", "",{approved:false, requirement:true, score:0,parameter_id:null,
         'semester_id':+selectedSemeterId}, 
         localStorage.getItem('token') )).then(
             res => {
@@ -119,6 +120,8 @@ const FacultyAvaliabiltyPg = ()=>{
     //goona be a change or addition to the time_slot table.
     return (6*(weekDayId-1)) + dayTimeId;
     }
+
+
         
         return (
             <React.Fragment>
@@ -137,9 +140,8 @@ const FacultyAvaliabiltyPg = ()=>{
 
             <div className={PageCss.HeaderContainer}>
             <span id={PageCss.Pgheading}>Please select your availability.</span>
-
-            </div>
             
+            </div>
 
             <select id={PageCss.semesterSelectMobile} className={PageCss.HideOnMobile} 
             onChange={(e)=>{setSelectedSemesterId(e.target.value)}} value={selectedSemeterId}>
@@ -149,7 +151,10 @@ const FacultyAvaliabiltyPg = ()=>{
                     
                 </select>
 
-            <DropDownSquareGroup disabled={!isSemesterSelected()} SubmitAvaliability={submitAvaliabilityRequest}/>
+            <DropDownSquareGroup disabled={false} SubmitAvaliability={submitAvaliabilityRequest}
+            selectedSemesterById={selectedSemeterId}/>
+
+            
 
             </div>
             </div>

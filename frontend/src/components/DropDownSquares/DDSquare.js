@@ -13,15 +13,24 @@ const DDSquare = (props)=> {
     }
 
     const handleTimeSlotClick = ()=>{
-        //report selected timeslote to the DropDownSquareGroup 
-        contextData.reportTimeBlockSelected(props.weekdayIndex,
-             props.timeSlotIndex,!props.isSelected);
-         //setIsSelected(!isSelected); //change state
+        if(contextData.editMode){
+            contextData.reportTimeBlockSelected(props.weekdayIndex,
+                props.timeSlotIndex,!props.isSelected);
+        }
+        
+    }
+
+    const DisableHandler = ()=>{
+
+        if(!contextData.editMode){
+        return AvalibilityPgCss.disabledTimSlot
+        }
     }
 
         return (
         <React.Fragment>
-            <div className={`${AvalibilityPgCss.OptionBox} ${squareBackgroundColor()}`}
+            <div className={`${AvalibilityPgCss.OptionBox} ${squareBackgroundColor()} 
+            ${DisableHandler()}`}
                 onClick={handleTimeSlotClick}>
 
                     <span  className={`${AvalibilityPgCss.OptionName} 

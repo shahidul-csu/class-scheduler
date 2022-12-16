@@ -14,7 +14,8 @@ const ROUTER = {
         semesters:`${SWITCH.BASE}/${SWITCH.API}/semester/`,
         parameterData: `${SWITCH.BASE}/${SWITCH.API}/parameter_data/`,
         timeSlot: `${SWITCH.BASE}/${SWITCH.API}/time_slot/`,
-        userTimeParam: `${SWITCH.BASE}/${SWITCH.API}/user_time_parameter/`
+        userTimeParam: `${SWITCH.BASE}/${SWITCH.API}/user_time_parameter/`,
+        getAvaliabilityData: `${SWITCH.BASE}/${SWITCH.API}/get_avaliability_for_semester`
     }
 }
 

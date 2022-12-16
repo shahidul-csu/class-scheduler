@@ -1,12 +1,23 @@
 import ROUTER from "./Router";
 import _ from 'underscore';
 
+// const parseQuery = (query) => { // not working
+//     let parsedQuery = ""
+//     if (!_.isEmpty(query)) {
+//         parsedQuery += "?"
+//         for (const [ queryKey, queryElement ] of Object.entries(query)) {
+//             parsedQuery += queryKey + "=" + queryElement + "&"
+//         }
+//     }
+//     return parsedQuery
+// }
+
 const parseQuery = (query) => {
     let parsedQuery = ""
     if (!_.isEmpty(query)) {
-        parsedQuery += "?"
+        parsedQuery += "/"
         for (const [ queryKey, queryElement ] of Object.entries(query)) {
-            parsedQuery += queryKey + "=" + queryElement + "&"
+            parsedQuery += queryElement + "/"
         }
     }
     return parsedQuery

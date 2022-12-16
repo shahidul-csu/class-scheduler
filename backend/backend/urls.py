@@ -49,7 +49,7 @@ urlpatterns = [
              name='classroom_parameter'),
         path('semester_parameter/', SemesterParameterView.as_view(),
              name='semester_parameter'),
-        path('get_avaliability_for_semester/<int:semesterId>/<int:userId>/', checkForExistingAvaliabilityEntry,
+        path('get_avaliability_for_semester/<int:semesterId>/<int:userId>/', getAvaliabilityEntryPerSemester,
              name='get_avaliability_for_semester'),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
