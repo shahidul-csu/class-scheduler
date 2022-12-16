@@ -93,8 +93,7 @@ const DropDownSquareGroup = (props)=>{
             }
             else{
                 if(doesEntryExist.current){
-                    console.log(doesEntryExist)
-                    console.log('Update Function not implemented!')
+                    alert('Update Function not implemented!')
                 }
             }
         }
