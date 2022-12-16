@@ -78,7 +78,7 @@ function App() {
               <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>
               <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
               <Route path="/welcome" element={<Welcome/>}></Route>
-              <Route path="/adminpage" element={<AdminPage/>}></Route>
+              <Route path="/adminpage" element={<AdminPage clearLoginData={ClearStateVarAndLocalStorage}/>}></Route>
 
               <Route path="/addclass" element={<AddClass/>}></Route>
               <Route path="/usermanagement" element={<UserManagement/>}></Route>
