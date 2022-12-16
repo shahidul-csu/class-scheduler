@@ -8,7 +8,7 @@ import AdminPage from './components/admin/AdminPage';
 import Display from './components/faculty-submitAvailability/Display';
 import AddClass from './components/pages/AddClass';
 import GenSchedule from "./components/pages/GenSchedule";
-import UserManagement from './components/admin/UserManagement'
+import UserManagement from './components/admin/UserManagementPg'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SettingsInfo from './components/settings/SettingsInfo';
