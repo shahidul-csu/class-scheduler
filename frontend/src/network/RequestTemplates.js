@@ -76,6 +76,10 @@ const getGenericAuthModelConfig = (method, query={}, data={}, token=null,routerR
 )
 
 
+const getSemesterModelConfig = (method, query={}, data={}, token=null) => (
+    getAuthConfig(ROUTER.api.semester + parseQuery(query), method, data, token)
+)
+
 export {
     getGenericConfig,
     getLoginConfig,
@@ -88,4 +92,3 @@ export {
     getParameterDataModelConfig,
     getTimeSlotModelConfig,
     getGenericAuthModelConfig, //this can work for all api calls that need authentication
-}

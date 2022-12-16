@@ -3,6 +3,9 @@ import React, {useState, useEffect, useContext} from "react";
 
 import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingStyle from "../styles/LandingPage.module.css";
 import "../styles/Header.css";
@@ -18,6 +21,7 @@ const LandingPage = (props) => {
     useEffect(() => {
         document.title = "Class Scheduler"
       }, [])
+
 
 
     const ValidateLoginInfo = () => {
@@ -54,7 +58,7 @@ const LandingPage = (props) => {
 
     return (
         <React.Fragment>
-        
+
         <div className={LandingStyle.Container}>
             <div className={LandingStyle.Row}>
                 <div className={LandingStyle.Col1}>

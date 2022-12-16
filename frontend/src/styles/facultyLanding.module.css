@@ -64,7 +64,9 @@ max-width: 910px;
 
             padding-bottom: 20px;
         }
-        
+        #myPageBody{
+            height: 85vh;
+        }
         
   } 
   @media only screen and (min-width: 768px){

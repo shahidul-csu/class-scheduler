@@ -12,7 +12,7 @@ const Header = (props) => {
     if(userData){
       if(userData.is_superuser){
          
-        return <a href='/settings'><img style={{width: 35, height:35}} src={HomeIcon} alt="HomeIcon"></img></a>
+        return <a href='/AdminPage'><img style={{width: 35, height:35}} src={HomeIcon} alt="HomeIcon"></img></a>
       }
       else{
         return <a href='/FacultyLandingPg'><img style={{width: 35, height:35}} src={HomeIcon} alt="HomeIcon"></img></a>
@@ -22,17 +22,17 @@ const Header = (props) => {
 
   }
 
-  const tempLogoutLink = () => { //for testing purposes only(Admin)(Bad code)
-    if(userData){
-      if(userData.is_superuser){
-        return <ul className='nav_links' id='link_display_option'>
+  // const tempLogoutLink = () => { //for testing purposes only(Admin)(Bad code)
+  //   if(userData){
+  //     if(userData.is_superuser){
+  //       return <ul className='nav_links' id='link_display_option'>
 
-        <li className='lists' onClick={()=>props.logoutFunc()}><a className='as' href='/' >Logout</a></li>
-    </ul> 
-      }
+  //       <li className='lists' onClick={()=>props.logoutFunc()}><a className='as' href='/' >Logout</a></li>
+  //   </ul> 
+  //     }
 
-    }
-  }
+  //   }
+  // }
 
   return (
     <div>
@@ -41,7 +41,7 @@ const Header = (props) => {
               <a className='as' href="/"><h1>Class Scheduler</h1></a>
               {homeButtonCreator()}
 
-              {tempLogoutLink()}
+              {/* {tempLogoutLink()} */}
 
                 {/* <ul className='nav_links' id='link_display_option'>
                     <li className='lists'><a className='as' href='#'>Update Options</a></li>

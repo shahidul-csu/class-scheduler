@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import LandingHeader from "../LandingHeader";
 import AddFuncPg from "../../styles/AddFuncPg.module.css";
 
 
@@ -16,7 +15,7 @@ const AddClass = () => {
         document.title = "Class Scheduler"
       }, [])
 
-    return (<React.Fragment >         <LandingHeader index = {[1,2,3]}/>
+    return (<React.Fragment >
         <div id={AddFuncPg.pageBody}>
 
             <div id={AddFuncPg.headerWrapper}>
