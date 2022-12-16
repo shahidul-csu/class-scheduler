@@ -3,32 +3,22 @@
 
 import React, { Component,useContext, useState, useEffect } from 'react';
 import "../../styles/settings/SettingsAddCourse.css";
-import Button from 'react-bootstrap/Button';
-import {FormGroup, FieldGroup, CardGroup} from "react-bootstrap";
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import {Link} from "react-router-dom";
-import LandingHeader from "../LandingHeader";
+
 import LandingPage from "../../styles/LandingPage.module.css";
-import MenuButton from "../../styles/MenuButton.module.css";
 import {LoggedInUserContext} from "../../App.js"
 
 import { useNavigate } from "react-router-dom";
-import LandingPage from "../../styles/LandingPage.module.css";
-import MenuButton from '../MenuButton';
+import MenuButtonMemo from '../MenuButton';
 import DropDownMenuButton from '../DropDownMenuButton';
-import avalaibilityIcon from "../../images/Avaliability Menu Icon.png"
+
 import preferenceIcon from "../../images/Preference Menu Icon.png"
 import scheduleIcon from "../../images/Schedule Menu Icon.png"
 import profileIcon from "../../images/Profile Menu Icon.png"
 import logOutIcon from "../../images/logout Menu Icon.png"
-import testIcon from "../../images/testIcon.png"
+
 import bookIcon from "../../images/BooksIcon.png"
 import userManagement from "../../images/UserManagement.png"
 import classIcon from "../../images/ClassIcon.png"
-import {LoggedInUserContext} from "../../App.js"
 
 
 const AdminPage = (props) => {
@@ -109,15 +99,15 @@ const AdminPage = (props) => {
 
 
 
-                <div id={LandingPage.menuBtnGroup}> */}
+                <div id={LandingPage.menuBtnGroup}> 
 {/* ************************************ MENU BUTTONS HERE ***************************************** */}
-                    {/* <div className={LandingPage.ButtonShell} >
-                    <MenuButton 
+                    <div className={LandingPage.ButtonShell} >
+                    <MenuButtonMemo 
 
                      btnName="Approval" btn_Pic_Src={preferenceIcon}
                      onclick={() => navigate("/avaliability_Faculty")}>
 
-                    </MenuButton>
+                    </MenuButtonMemo>
                     </div>
 
 
@@ -162,21 +152,21 @@ const AdminPage = (props) => {
                     </div>
 
                     <div className={LandingPage.ButtonShell} >
-                    <MenuButton 
+                    <MenuButtonMemo 
 
                      btnName="Schedule" btn_Pic_Src={scheduleIcon}
                      onclick={() => navigate("/genschedule")}>
 
-                    </MenuButton>
+                    </MenuButtonMemo>
                     </div>
 
                     <div className={LandingPage.ButtonShell} >
-                    <MenuButton  
+                    <MenuButtonMemo  
 
                     btnName="Profile" btn_Pic_Src={profileIcon} 
                     onclick={() => navigate("/avaliability_Faculty")}>
 
-                    </MenuButton>
+                    </MenuButtonMemo>
                     </div> 
  {/* ********************2 TESTED BUTTON here ******************************/}
 
@@ -188,14 +178,14 @@ const AdminPage = (props) => {
 
 
                     <div className={LandingPage.ButtonShell} >
-                    <MenuButton  
+                    <MenuButtonMemo  
                     
                     btnName="Logout" btn_Pic_Src={logOutIcon} 
                     onclick={() =>{props.clearLoginData(); navigate("/");
                         }
                         }>
 
-                    </MenuButton>
+                    </MenuButtonMemo>
                     </div>
 
 {/* ************************************ MENU BUTTONS END HERE ***************************** */} 

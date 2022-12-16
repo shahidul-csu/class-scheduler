@@ -9,7 +9,7 @@ const LoginHandler = () => {
 
     if(LoginUserData){
         if(LoginUserData.is_superuser){
-            return <Navigate to="/settings" ></Navigate> //go to admin page
+            return <Navigate to="/adminpage" ></Navigate> //go to admin page
         }
         else{
             return <Navigate to="/FacultyLandingPg" ></Navigate> //user is not logged in.

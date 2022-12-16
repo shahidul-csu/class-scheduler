@@ -11,7 +11,7 @@ import MenuButton from '../MenuButton';
 import pencilIcon from "../../images/pencil.png"
 
 
-const AddClass = () => {
+const UserManagement = () => {
 
     /* Set page tab name */
     useEffect(() => {
@@ -162,7 +162,7 @@ const AddClass = () => {
                     </div>
 
         
-        </div> */}
+        </div> 
         </React.Fragment>);
 }
-export default AddClass
+export default UserManagement
