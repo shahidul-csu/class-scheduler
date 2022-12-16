@@ -2,21 +2,23 @@ from django.shortcuts import render
 
 # Create your views here.
 from .models import *
+from django.db.models import Count, F, Value
 from .serializers import *
 from .view_manager.view_utils import *
 from .view_manager.data_access_view import *
 from django.http import HttpResponse
 from rest_framework.response import Response
-
+from django.db.models.query import Prefetch, prefetch_related_objects
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from django.db.utils import IntegrityError
 from django.core.exceptions import FieldError
 from django.contrib.auth import authenticate, login  # used for the login view
 from rest_framework.authtoken.models import Token
-import json
 import datetime
 from django.contrib.auth.hashers import make_password, check_password
+from django.http import JsonResponse
+from django.core import serializers as djangoSerializers
 
 
 @api_view(["POST"])
@@ -75,7 +77,7 @@ def login(request):
         user.last_login = datetime.datetime.now()  # update last_login field
         user.save()  # update user in db
         # return login token
-        return Response({'Login_token': token, 'usrOb': usrObj, 'status': 'SUCCESS'})
+        return Response({'Login_token': token, 'usrOb': usrObj, 'status': 'SUCCESS', 'LoginId': user.id})
     else:
         return Response({'status': 'FAILED', 'msg': 'Please enter valid Username or Password.'})
 
@@ -83,6 +85,35 @@ def login(request):
 def deleteAllsessionVariables(request):
     if 'userId' in request.session:  # safety check
         del request.session['userId']  # delete session var
+
+
+@api_view(["GET"])
+def getAvaliabilityEntryPerSemester(request, semesterId, userId):
+    res = {"status": True, "data": ""}
+
+    # semester_id is just the name of the field that holds
+    # a relation to the semester table
+    # semester_id_id is specifying the id of the relational table
+    # F is used to rename a field
+    if userId:
+        userTimeAvalibilityForSemester = UserTimeParameter.objects.select_related(
+            'parameter_id').select_related('time_slot_id').filter(
+            parameter_id__semester_id_id=semesterId).filter(user_id_id=userId).filter(
+
+            parameter_id__requirement=True).values('parameter_id', 'time_slot_id',
+                                                   approved=F(
+                                                       'parameter_id__approved'),
+                                                   requirement=F(
+                                                       'parameter_id__requirement'),
+                                                   week_day_id=F(
+                                                       'time_slot_id__week_day_id'),
+                                                   day_time_id=F(
+                                                       'time_slot_id__day_time_id'),
+                                                   )
+        return Response({'status': 'SUCCESS', 'data': userTimeAvalibilityForSemester})
+
+    else:
+        return Response({'status': 'user not Logged in!', 'data': []})
 
 
 class UserView(DataAccessView):

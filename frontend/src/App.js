@@ -44,6 +44,7 @@ function App() {
     // used to update loggedInUserData and the local storage
     localStorage.setItem("LoggedInUsrData",  JSON.stringify(data.userData))
     localStorage.setItem('token', data.token)
+    localStorage.setItem('userId', data.userId)
     
     setLoggedInUserData(data.userData)
   }
@@ -52,6 +53,7 @@ function App() {
     // function called during logout
     localStorage.clear('LoggedInUsrData')
     localStorage.clear('token')
+    localStorage.clear('userId')
     setLoggedInUserData(null)
   }
 
@@ -66,13 +68,13 @@ function App() {
             <Route element={<LoginHandler></LoginHandler>}>
               <Route path="/" element={<LandingPage updateLoggedInUserData = {UpdateStateVarAndLocalStorage}></LandingPage>}></Route>
               </Route>
-
+              <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
 
               <Route element={<AdminProtectedRoutes></AdminProtectedRoutes>}>
                 {/* Must be logged in as a admin to view this pages. */}
 
               <Route path="/settings" element={<SettingsInfo></SettingsInfo>}></Route>
-              <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
+              
               <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>
               <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
               <Route path="/welcome" element={<Welcome/>}></Route>

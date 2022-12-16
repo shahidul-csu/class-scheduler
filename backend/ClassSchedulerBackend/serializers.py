@@ -43,7 +43,8 @@ class SemesterSerializer(serializers.ModelSerializer):
 class ParameterDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParameterData
-        fields = ['parameter_id', 'approved', 'requirement', 'score']
+        fields = ['parameter_id', 'approved',
+                  'requirement', 'score', 'semester_id']
 
 
 class TimeSlotSerializer(serializers.ModelSerializer):

@@ -40,15 +40,19 @@ class Semester(models.Model):
 class ParameterData(models.Model):
     class Meta:
         db_table = 'parameter_data'
-        constraints = [
-            models.UniqueConstraint(
-                fields=['parameter_id', 'approved', 'requirement'], name='unique_parameter_data')
-        ]
+
+        # this is only allowing one entry in the DB. other entires were rejected
+        # constraints = [
+        #     models.UniqueConstraint(
+        #         fields=['parameter_id', 'approved', 'requirement'], name='unique_parameter_data')
+        # ]
 
     parameter_id = models.AutoField(primary_key=True)
     approved = models.BooleanField(default=False)
     requirement = models.BooleanField(default=False)
     score = models.IntegerField(default=None)
+    semester_id = models.ForeignKey(
+        Semester, null=True, default=None, on_delete=models.CASCADE)
 
 
 class TimeSlot(models.Model):

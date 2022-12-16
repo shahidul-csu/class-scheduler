@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import socket
 from pathlib import Path
 import environ
 import django_heroku
-
+import mimetypes
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +41,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_NAME = "XSRF-TOKEN"
 
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.AllowAllUsersModelBackend']
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny']
@@ -58,7 +60,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'ClassSchedulerBackend'
+    'ClassSchedulerBackend',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +72,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+
 
 ]
 
@@ -78,8 +84,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,7 +112,7 @@ DATABASES = {
         'HOST': env("DATABASE_HOST"),
         'PORT': env("DATABASE_PORT"),
         'TEST': {
-            'NAME': env("DATABASE_NAME"),
+            'NAME': 'postgres',
             'SERIALIZE': False,
         },
     }
@@ -154,6 +159,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# used by django debug toolbar
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
+# used by django debug toolbar ends here
+
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

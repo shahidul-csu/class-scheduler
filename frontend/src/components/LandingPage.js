@@ -31,7 +31,8 @@ const LandingPage = (props) => {
 
                 if(res.data.status === "SUCCESS")
                 {
-                props.updateLoggedInUserData({userData: res.data.usrOb, token: res.data.Login_token}) 
+                props.updateLoggedInUserData({userData: res.data.usrOb, token: res.data.Login_token,
+                     userId:res.data.LoginId}) 
 
                 }
                 else{

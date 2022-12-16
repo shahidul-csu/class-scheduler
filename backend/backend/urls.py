@@ -20,6 +20,7 @@ from ClassSchedulerBackend.views import *
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login, name="login"),
@@ -48,5 +49,13 @@ urlpatterns = [
              name='classroom_parameter'),
         path('semester_parameter/', SemesterParameterView.as_view(),
              name='semester_parameter'),
+        path('get_avaliability_for_semester/<int:semesterId>/<int:userId>/', getAvaliabilityEntryPerSemester,
+             name='get_avaliability_for_semester'),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
