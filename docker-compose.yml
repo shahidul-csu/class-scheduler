@@ -10,6 +10,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
     
     networks:
       - localNet
@@ -25,6 +27,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/frontend/src
+    environment:
+      - WATCHPACK_POLLING=true
     stdin_open: true
     depends_on:
       - backend
@@ -33,6 +39,7 @@ services:
   
   db:
     image: postgres
+    restart: always
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:

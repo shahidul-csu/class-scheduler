@@ -113,7 +113,7 @@ def getAvaliabilityEntryPerSemester(request, semesterId, userId):
         return Response({'status': 'SUCCESS', 'data': userTimeAvalibilityForSemester})
 
     else:
-        return Response({'status': 'user not Logged in!', 'data': []})
+        return Response({'status': 'user not Specified!', 'data': []})
 
 
 class UserView(DataAccessView):

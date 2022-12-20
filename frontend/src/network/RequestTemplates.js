@@ -1,7 +1,7 @@
 import ROUTER from "./Router";
 import _ from 'underscore';
 
-// const parseQuery = (query) => { // not working
+// const parseQuery = (query) => { // NOT WORKING!! (Olise)
 //     let parsedQuery = ""
 //     if (!_.isEmpty(query)) {
 //         parsedQuery += "?"
@@ -12,7 +12,7 @@ import _ from 'underscore';
 //     return parsedQuery
 // }
 
-const parseQuery = (query) => {
+const parseQuery = (query) => { 
     let parsedQuery = ""
     if (!_.isEmpty(query)) {
         parsedQuery += "/"
@@ -46,7 +46,7 @@ const getAuthConfig = (url, method, data = {}, token=null) => {
     let conf = getGenericConfig(url, method, data)
     conf.headers = {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token == null ? JSON.parse(localStorage.getItem('token')) : token}`
+        "Authorization": `Token ${token == null ? localStorage.getItem('token') : token}`
     }
     return conf
 }

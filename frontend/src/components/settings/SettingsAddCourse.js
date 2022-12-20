@@ -1,8 +1,8 @@
 /* This file is going to contain the form for admin to add a course */
 
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "../../styles/settings/SettingsAddCourse.css";
-import { Form, FormGroup, FieldGroup, CardGroup } from "react-bootstrap"; 
+import { Form, CardGroup } from "react-bootstrap"; 
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button"
 import Row from "react-bootstrap/Row";

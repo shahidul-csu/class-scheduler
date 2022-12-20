@@ -1,16 +1,12 @@
 /* This file is going to contain the contents for the settings page */
 import React, {useState, useEffect} from "react";
-import Nav from 'react-bootstrap/Nav';
-import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button"
-import { Link } from 'react-router-dom';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import axios from "axios";
-import {getUserModelConfig, getLoginConfig, getSignUpConfig} from "../../network/RequestTemplates";
+import {getUserModelConfig,  getSignUpConfig} from "../../network/RequestTemplates";
 import "../../styles/settings/SettingsUsers.css";
 
 const SettingsUsers = () =>  {
