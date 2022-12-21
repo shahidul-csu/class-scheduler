@@ -1,33 +1,101 @@
-import React from 'react';
+import React, {useState, useEffect,createContext, useCallback} from "react";
 import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer.js'
-import LandingPage from './components/LandingPage';
-import Display from './components/faculty-submitAvailability/Display';
+import Header from './components/PgComponents/Header'
+import Footer from './components/PgComponents/Footer.js'
+import LandingPage from './components/pages/generalPages/LandingPage';
+import AdminPage from './components/pages/admin/AdminLandingPg';
+import AddClass from './components/pages/admin/AddClass';
+import GenSchedule from "./components/pages/admin/GenSchedule";
+import UserManagement from './components/pages/admin/UserManagementPg'
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PreferenceTimes from './components/faculty-submitAvailability/PreferenceTimes';
-import PreferenceDropdown from './components/faculty-submitAvailability/PreferenceDropdown';
-import Data from './components/faculty-submitAvailability/Data';
-import Dropdown from './components/faculty-submitAvailability/Dropdown';
-import SettingsInfo from './components/settings/SettingsInfo';
 import SettingsUsers from './components/settings/SettingsUsers';
-import SettingsAddCourse from './components/settings/SettingsAddCourse';
-import SettingsAddClassroom from './components/settings/SettingsAddClassroom';
+
+import AddUserPg from "./components/pages/admin/AddUserPg";
+import AddCoursePg from "./components/pages/admin/AddCoursePg";
+import CourseClassroom from "./components/pages/admin/CourseClassroom";
+import InstructorCourse from "./components/pages/admin/InstructorCourse";
+import CourseTime from "./components/pages/admin/CourseTime";
+import AddSemester from "./components/pages/admin/AddSemester";
+import CourseSemester from "./components/pages/admin/CourseSemester";
+import FacultyLandingPg from "./components/pages/faculty/FacultyLandingPg";
+import AllClassrooms from "./components/pages/admin/AllClassrooms";
+import AllCourses from "./components/pages/admin/AllCourses";
+import FacultyAvaliabiltyPg from "./components/pages/faculty/FacultyAvaliabilityPg";
+import FacultyProtectedRoutes from "./components/PgComponents/FacultyProtectedRoutes";
+import LoginHandler from "./components/PgComponents/QuickLoginHandler"; //LoginHandler-- handels login
+import AdminProtectedRoutes from "./components/PgComponents/AdminProtectedRoutes";
+import  "./styles/Dropdown.css" //Dont remove. customizes all dropdowns in website
+
+
+
+export const LoggedInUserContext = createContext(); //passes the user details to all the pages
 
 function App() {
+  let currentlyLoggedInUser = JSON.parse(localStorage.getItem("LoggedInUsrData"))
+
+   const [loggedInUserData, setLoggedInUserData] = useState(currentlyLoggedInUser? 
+    currentlyLoggedInUser : null); //state vars
+
+  const UpdateStateVarAndLocalStorage = (data) => { 
+    // used to update loggedInUserData and the local storage
+    localStorage.setItem("LoggedInUsrData",  JSON.stringify(data.userData))
+    localStorage.setItem('token', data.token)
+    localStorage.setItem('userId', data.userId)
+    
+    setLoggedInUserData(data.userData)
+  }
+
+  const ClearStateVarAndLocalStorage= () => { 
+    // function called during logout
+    localStorage.clear('LoggedInUsrData')
+    localStorage.clear('token')
+    localStorage.clear('userId')
+    setLoggedInUserData(null)
+  }
+
   return (
     <div>
-      <Header />
+
+
+      <LoggedInUserContext.Provider value={loggedInUserData}>
+      <Header logoutFunc={ClearStateVarAndLocalStorage}/>
         <BrowserRouter>
           <Routes>
-              <Route path="/" element={<LandingPage></LandingPage>}></Route>
-              <Route path="/settings" element={<SettingsInfo></SettingsInfo>}></Route>
+            <Route element={<LoginHandler></LoginHandler>}>
+              <Route path="/" element={<LandingPage updateLoggedInUserData = {UpdateStateVarAndLocalStorage}></LandingPage>}></Route>
+              </Route>
               <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
-              <Route path="/AddCourse" element={<SettingsAddCourse></SettingsAddCourse>}></Route>
-              <Route path="/AddClassroom" element={<SettingsAddClassroom></SettingsAddClassroom>}></Route>
-              <Route path="/display" element={<Display/>}></Route>
+
+              <Route element={<AdminProtectedRoutes></AdminProtectedRoutes>}>
+                {/* Must be logged in as a admin to view this pages. */}
+
+              <Route path="/adminpage" element={<AdminPage clearLoginData={ClearStateVarAndLocalStorage}/>}></Route>
+
+              <Route path="/addclass" element={<AddClass/>}></Route>
+              <Route path="/usermanagement" element={<UserManagement/>}></Route>
+              <Route path="/allclassrooms" element={<AllClassrooms/>}></Route>
+              <Route path="/allcourses" element={<AllCourses/>}></Route>
+              {/* <Route path="/data" element={<Data></Data>}></Route> */}
+              <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
+              <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
+              <Route path="/genschedule" element={<GenSchedule></GenSchedule>}></Route>
+              <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
+              <Route path="/InstructorCourse" element={<InstructorCourse></InstructorCourse>}></Route>
+              <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
+              <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
+              <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
+              </Route>
+
+              <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
+                {/* Must be logged in as a faculty to view this pages. */}
+              <Route path="/FacultyLandingPg" element={<FacultyLandingPg clearLoginData={ClearStateVarAndLocalStorage}></FacultyLandingPg>}></Route>
+              <Route path="/FacultyAvaliability" element={<FacultyAvaliabiltyPg></FacultyAvaliabiltyPg>}></Route>
+
+              </Route>
           </Routes>
         </BrowserRouter>
+        </LoggedInUserContext.Provider>
       <Footer/>
     </div>
   );

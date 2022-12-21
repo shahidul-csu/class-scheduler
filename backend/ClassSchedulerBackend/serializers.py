@@ -7,8 +7,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password',
-                  'group', 'user_permissions', 'is_staff', 'is_active',
-                  'is_superuser', 'last_login', 'data_joined']
+                  'groups', 'user_permissions', 'is_staff', 'is_active',
+                  'is_superuser', 'last_login', 'date_joined']
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -31,7 +31,7 @@ class WeekDaySerializer(serializers.ModelSerializer):
 class ClassroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Classroom
-        fields = ['classroom_id', 'capacity']
+        fields = ['classroom_id', 'capacity', 'classroom_name']
 
 
 class SemesterSerializer(serializers.ModelSerializer):
@@ -43,7 +43,8 @@ class SemesterSerializer(serializers.ModelSerializer):
 class ParameterDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParameterData
-        fields = ['parameter_id', 'approved', 'requirement', 'score']
+        fields = ['parameter_id', 'approved',
+                  'requirement', 'score', 'semester_id']
 
 
 class TimeSlotSerializer(serializers.ModelSerializer):
@@ -67,7 +68,8 @@ class UserTimeParameterSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ['course_id', 'name', 'units', 'number_per_week', 'sync_time', 'capacity']
+        fields = ['course_id', 'name', 'units',
+                  'number_per_week', 'sync_time', 'capacity', 'courseGroup', 'Section']
 
 
 class TeachesSerializer(serializers.ModelSerializer):

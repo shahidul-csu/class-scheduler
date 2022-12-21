@@ -4,13 +4,19 @@ services:
     restart: always
     container_name: backend
     command : python3 manage.py runserver 0.0.0.0:8000
+    
     build:
       context: ./backend/
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+    
     networks:
       - localNet
+    depends_on:
+      - db
 
   frontend:
     restart: always
@@ -21,11 +27,31 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/frontend/src
+    environment:
+      - WATCHPACK_POLLING=true
     stdin_open: true
     depends_on:
       - backend
     networks:
       - localNet
+  
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    container_name: postgres_db
+    ports:
+    - "5442:5432"
+    networks:
+      - localNet
+   
 
 networks:
   localNet:
