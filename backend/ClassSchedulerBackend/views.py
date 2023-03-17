@@ -116,6 +116,16 @@ def getAvaliabilityEntryPerSemester(request, semesterId, userId):
         return Response({'status': 'user not Specified!', 'data': []})
 
 
+@api_view(["GET"])
+def getParameterId(request, semesterId, userId):
+    if userId:
+        userParameterId = UserTimeParameter.objects.select_related('parameter_id').filter(
+            user_id_id=userId).filter(parameter_id__semester_id_id=semesterId).values('parameter_id').distinct()
+        return Response({'status': 'SUCCESS', 'data': userParameterId})
+    else:
+        return Response({'status': 'user not Specified!', 'data': []})
+
+
 class UserView(DataAccessView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
