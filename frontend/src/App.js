@@ -25,6 +25,7 @@ import FacultyAvaliabiltyPg from "./components/pages/faculty/FacultyAvaliability
 import FacultyProtectedRoutes from "./components/PgComponents/FacultyProtectedRoutes";
 import LoginHandler from "./components/PgComponents/QuickLoginHandler"; //LoginHandler-- handels login
 import AdminProtectedRoutes from "./components/PgComponents/AdminProtectedRoutes";
+import ApproveDeny from "./components/pages/admin/ApproveDeny";
 import  "./styles/Dropdown.css" //Dont remove. customizes all dropdowns in website
 
 
@@ -70,21 +71,22 @@ function App() {
               <Route element={<AdminProtectedRoutes></AdminProtectedRoutes>}>
                 {/* Must be logged in as a admin to view this pages. */}
 
-              <Route path="/adminpage" element={<AdminPage clearLoginData={ClearStateVarAndLocalStorage}/>}></Route>
+                <Route path="/adminpage" element={<AdminPage clearLoginData={ClearStateVarAndLocalStorage}/>}></Route>
 
-              <Route path="/addclass" element={<AddClass/>}></Route>
-              <Route path="/usermanagement" element={<UserManagement/>}></Route>
-              <Route path="/allclassrooms" element={<AllClassrooms/>}></Route>
-              <Route path="/allcourses" element={<AllCourses/>}></Route>
-              {/* <Route path="/data" element={<Data></Data>}></Route> */}
-              <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
-              <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
-              <Route path="/genschedule" element={<GenSchedule></GenSchedule>}></Route>
-              <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
-              <Route path="/InstructorCourse" element={<InstructorCourse></InstructorCourse>}></Route>
-              <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
-              <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
-              <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
+                <Route path="/addclass" element={<AddClass/>}></Route>
+                <Route path="/usermanagement" element={<UserManagement/>}></Route>
+                <Route path="/allclassrooms" element={<AllClassrooms/>}></Route>
+                <Route path="/allcourses" element={<AllCourses/>}></Route>
+                {/* <Route path="/data" element={<Data></Data>}></Route> */}
+                <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
+                <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
+                <Route path="/genschedule" element={<GenSchedule></GenSchedule>}></Route>
+                <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
+                <Route path="/InstructorCourse" element={<InstructorCourse></InstructorCourse>}></Route>
+                <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
+                <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
+                <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
+                <Route path="/ApproveDeny" element ={<ApproveDeny></ApproveDeny>}></Route>
               </Route>
 
               <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
