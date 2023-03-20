@@ -1,0 +1,49 @@
+/* This Css is for the avaliability page */
+#container1{
+    text-align: center;
+    width:20%;
+    min-height: 89.9vh;
+    /* overflow: auto; */
+    /* background-color: red; */
+    
+    position: relative;
+    display: none;
+    float: left;
+}
+
+#semesterSelect{
+    width:70%;
+    height: 50px;
+    margin-top: 200px;
+    outline: none;
+    cursor:pointer;
+}
+
+#instructorSelect{
+    width:70%;
+    height: 50px;
+    margin-top: 200px;
+    outline: none;
+    cursor:pointer;
+}
+
+
+/* min-height is the minimum height some
+thing will ever be. but the height can
+increase if there are more element in it */
+#PageBody{
+    /* min-height: 90.2vh;  */
+    overflow: auto; 
+    /* overflow auto forces the page body to grow in height based
+    on the children elements it has */
+    padding-bottom: 1px;
+    padding-top: 1px;
+    background-color: #DADADA;
+
+}
+
+@media only screen and (min-width: 1000px){
+    #container1{
+        display:inline-block;
+    }
+}
