@@ -52,6 +52,8 @@ urlpatterns = [
              name='get_avaliability_for_semester'),
         path('get_user_parameter_id/<int:semesterId>/<int:userId>/',
              getParameterId, name='get_user_parameter_id'),
+        path('get_instructor_list_per_semester/<int:semesterId>/',
+             getInstructorListPerSemester, name='get_instructor_list_per_semester'),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

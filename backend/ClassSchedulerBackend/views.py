@@ -126,6 +126,19 @@ def getParameterId(request, semesterId, userId):
         return Response({'status': 'user not Specified!', 'data': []})
 
 
+@api_view(["GET"])
+def getInstructorListPerSemester(request, semesterId):
+    if semesterId:
+        userIdsPerSemester = UserTimeParameter.objects.select_related('parameter_id').filter(
+            parameter_id__semester_id_id=semesterId).values_list('user_id_id', flat=True)
+        userData = User.objects.filter(id__in=userIdsPerSemester).values(
+            'id', 'first_name', 'last_name')
+
+        return Response({'data': userData})
+    else:
+        return Response({'status': 'semester not Specified!', 'data': []})
+
+
 class UserView(DataAccessView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
