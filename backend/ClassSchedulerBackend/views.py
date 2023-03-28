@@ -141,26 +141,6 @@ def getInstructorListPerSemester(request, semesterId):
         return Response({'status': 'semester not Specified!', 'data': []})
 
 
-@api_view(['POST', 'DELETE'])
-def updateUserTimeEntries(request):
-    try:
-        userId = request.data.get('user_id')
-        parameterId = request.data.get('parameter_id')
-        timeSlotId = request.data.get('time_slot_id')
-    except:
-        return Response({'status': 'FAILED', 'msg': 'User is not valid'})
-    if request.method == 'POST':
-        if (~UserTimeParameter.objects.filter(user_id_id=userId, parameter_id_id=parameterId, time_slot_id_id=timeSlotId).exists()):
-            UserTimeParameter.objects.create(
-                user_id_id=userId, parameter_id_id=parameterId, time_slot_id_id=timeSlotId)
-        return Response({'status': 'SUCCESS'}, status=200)
-    elif request.method == 'DELETE':
-        if (UserTimeParameter.objects.filter(user_id_id=userId, parameter_id_id=parameterId, time_slot_id_id=timeSlotId).exists()):
-            UserTimeParameter.objects.filter(
-                user_id_id=userId, parameter_id_id=parameterId, time_slot_id_id=timeSlotId).delete()
-        return Response({'status': 'SUCCESS'}, status=200)
-
-
 class UserView(DataAccessView):
     serializer_class = UserSerializer
     queryset = User.objects.all()

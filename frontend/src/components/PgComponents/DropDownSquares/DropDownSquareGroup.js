@@ -11,15 +11,15 @@ import ApprovalStatusDisplay from '../ApprovalStatusDisplay';
 
 export const DataContext = createContext()
 
-const DeafultTimeSlots = () => [
+const DefaultTimeSlots = () => [
     { timeSlotName: '8AM-10AM', selected: true }, { timeSlotName: '10AM-12PM', selected: true },
     { timeSlotName: '12PM-2PM', selected: true }, { timeSlotName: '2PM-4PM', selected: true },
     { timeSlotName: '4PM-6PM', selected: true }, { timeSlotName: '6PM-8PM', selected: true }]
 
 const FalseTimeSlots = () => [
-    { timeSlotName: '8AM-10AM', selected: false }, { timeSlotName: '10AM-12PM', selected: false },
-    { timeSlotName: '12PM-2PM', selected: false }, { timeSlotName: '2PM-4PM', selected: false },
-    { timeSlotName: '4PM-6PM', selected: false }, { timeSlotName: '6PM-8PM', selected: false }]
+    { timeSlotName: '8AM-10AM', selected: false, wasSelected: false }, { timeSlotName: '10AM-12PM', selected: false, wasSelected: false },
+    { timeSlotName: '12PM-2PM', selected: false, wasSelected: false }, { timeSlotName: '2PM-4PM', selected: false, wasSelected: false },
+    { timeSlotName: '4PM-6PM', selected: false, wasSelected: false }, { timeSlotName: '6PM-8PM', selected: false, wasSelected: false }]
 // set all time slot selected to false
 
 
@@ -48,11 +48,11 @@ const DropDownSquareGroup = (props) => {
     const isApproved = useRef(true);
 
     const [timeSlotGroupList, setTimeSlotGroupList] = useState([
-        { timeSlotGroup: DeafultTimeSlots() },
-        { timeSlotGroup: DeafultTimeSlots() },
-        { timeSlotGroup: DeafultTimeSlots() },
-        { timeSlotGroup: DeafultTimeSlots() },
-        { timeSlotGroup: DeafultTimeSlots() },
+        { timeSlotGroup: DefaultTimeSlots() },
+        { timeSlotGroup: DefaultTimeSlots() },
+        { timeSlotGroup: DefaultTimeSlots() },
+        { timeSlotGroup: DefaultTimeSlots() },
+        { timeSlotGroup: DefaultTimeSlots() },
     ]);
 
 
@@ -156,6 +156,7 @@ const DropDownSquareGroup = (props) => {
     }
 
     const updateVisualDetails = (data) => {
+        console.log(JSON.stringify(data));
         let newtimeSlotGroupList = [
             { timeSlotGroup: FalseTimeSlots() },
             { timeSlotGroup: FalseTimeSlots() },
@@ -168,6 +169,8 @@ const DropDownSquareGroup = (props) => {
         for (var x = 0; x < data.length; x++) {
             newtimeSlotGroupList[data[x].week_day_id - 1].
                 timeSlotGroup[data[x].day_time_id - 1].selected = true;
+            newtimeSlotGroupList[data[x].week_day_id - 1].
+                timeSlotGroup[data[x].day_time_id - 1].wasSelected = true;
         }
 
         numberOfDeselectedTimeSlote.current = 30 - data.length;
@@ -184,11 +187,11 @@ const DropDownSquareGroup = (props) => {
 
     const resetToDefaultTimeSlots = () => {
         let newtimeSlotGroupList = [
-            { timeSlotGroup: DeafultTimeSlots() },
-            { timeSlotGroup: DeafultTimeSlots() },
-            { timeSlotGroup: DeafultTimeSlots() },
-            { timeSlotGroup: DeafultTimeSlots() },
-            { timeSlotGroup: DeafultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
         ];
 
         numberOfDeselectedTimeSlote.current = 0; // helps disable the submited button
