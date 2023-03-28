@@ -116,6 +116,7 @@ def getAvaliabilityEntryPerSemester(request, semesterId, userId):
         return Response({'status': 'user not Specified!', 'data': []})
 
 
+@api_view(["GET"])
 def getPreferenceEntryPerSemester(request, semesterId, userId):
     if userId:
         userTimePreferenceForSemester = UserTimeParameter.objects.select_related(
