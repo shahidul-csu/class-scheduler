@@ -116,6 +116,26 @@ def getAvaliabilityEntryPerSemester(request, semesterId, userId):
         return Response({'status': 'user not Specified!', 'data': []})
 
 
+def getPreferenceEntryPerSemester(request, semesterId, userId):
+    if userId:
+        userTimePreferenceForSemester = UserTimeParameter.objects.select_related(
+            'parameter_id').select_related('time_slot_id').filter(
+            parameter_id__semester_id_id=semesterId).filter(user_id_id=userId).filter(
+            parameter_id__requirement=False).values('parameter_id', 'time_slot_id',
+                                                    approved=F(
+                                                        'parameter_id__approved'),
+                                                    requirement=F(
+                                                        'parameter_id__requirement'),
+                                                    week_day_id=F(
+                                                        'time_slot_id__week_day_id'),
+                                                    day_time_id=F(
+                                                        'time_slot_id__day_time_id'),
+                                                    )
+        return Response({'status': 'SUCCESS', 'data': userTimePreferenceForSemester})
+    else:
+        return Response({'status': 'user not Specified!', 'data': []})
+
+
 @api_view(["GET"])
 def getParameterId(request, semesterId, userId):
     if userId:
