@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import pageCss from "../../../styles/AddSemester.module.css"
 import pageheaderIcon from "../../../images/UserManagement.png"
 import Form from 'react-bootstrap/Form';
-import { getCourseModelConfig, getSemesterModelConfig } from '../../../network/RequestTemplates';
+import { getSemesterModelConfig } from '../../../network/RequestTemplates';
 import SeasonDropdown from '../../PgComponents/DropDownSquares/SeasonDropdown';
 import axios from "axios";
 
@@ -15,11 +15,36 @@ const AddSemester = () => {
     const [duration, setDuration] = useState(0);
 
     const addSemester = () => {
-        axios(getSemesterModelConfig("POST", "", { year: year, name: semesterName, duration_weeks: duration }, null)).then(
+        // Send a request to retrieve all existing semesters
+        axios(getSemesterModelConfig("GET")).then(
             res => {
-                console.log("Semester Created", res.data)
-                alert("Course Created")
-                window.location.reload(true) // RELOADS PAGE
+                const semesters = res.data;
+
+                // Check whether the new semester already exists
+                const semesterExists = semesters.some(semester => {
+                    return (
+                        semester.name.toLowerCase() === semesterName.toLowerCase() &&
+                        semester.year === parseInt(year)
+                    );
+                });
+
+                if (semesterExists) {
+                    alert("This semester already exists.");
+                } else {
+                    // Create the new semester if it doesn't already exist
+                    axios(getSemesterModelConfig("POST", "", { year: year, name: semesterName, duration_weeks: duration }, null)).then(
+                        res => {
+                            console.log("Semester Created", res.data)
+                            alert("Course Created")
+                            window.location.reload(true) // RELOADS PAGE
+                        }
+                    ).catch(
+                        err => {
+                            alert(err)
+                            console.log(err)
+                        }
+                    )
+                }
             }
         ).catch(
             err => {
@@ -28,6 +53,7 @@ const AddSemester = () => {
             }
         )
     }
+
 
     useEffect(() => {
         document.title = "Class Scheduler"
