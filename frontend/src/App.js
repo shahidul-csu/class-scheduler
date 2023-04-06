@@ -1,4 +1,4 @@
-import React, {useState, useEffect,createContext, useCallback} from "react";
+import React, { useState, useEffect, createContext, useCallback } from "react";
 import './App.css';
 import Header from './components/PgComponents/Header'
 import Footer from './components/PgComponents/Footer.js'
@@ -25,8 +25,7 @@ import FacultyAvaliabiltyPg from "./components/pages/faculty/FacultyAvaliability
 import FacultyProtectedRoutes from "./components/PgComponents/FacultyProtectedRoutes";
 import LoginHandler from "./components/PgComponents/QuickLoginHandler"; //LoginHandler-- handels login
 import AdminProtectedRoutes from "./components/PgComponents/AdminProtectedRoutes";
-import  "./styles/Dropdown.css" //Dont remove. customizes all dropdowns in website
-
+import "./styles/Dropdown.css" //Dont remove. customizes all dropdowns in website
 
 
 export const LoggedInUserContext = createContext(); //passes the user details to all the pages
@@ -34,48 +33,47 @@ export const LoggedInUserContext = createContext(); //passes the user details to
 function App() {
   let currentlyLoggedInUser = JSON.parse(localStorage.getItem("LoggedInUsrData"))
 
-   const [loggedInUserData, setLoggedInUserData] = useState(currentlyLoggedInUser? 
+  const [loggedInUserData, setLoggedInUserData] = useState(currentlyLoggedInUser ?
     currentlyLoggedInUser : null); //state vars
 
-  const UpdateStateVarAndLocalStorage = (data) => { 
+  const UpdateStateVarAndLocalStorage = (data) => {
     // used to update loggedInUserData and the local storage
-    localStorage.setItem("LoggedInUsrData",  JSON.stringify(data.userData))
+    localStorage.setItem("LoggedInUsrData", JSON.stringify(data.userData))
     localStorage.setItem('token', data.token)
     localStorage.setItem('userId', data.userId)
-    
+
     setLoggedInUserData(data.userData)
   }
 
-  const ClearStateVarAndLocalStorage= () => { 
+  const ClearStateVarAndLocalStorage = () => {
     // function called during logout
     localStorage.clear('LoggedInUsrData')
     localStorage.clear('token')
     localStorage.clear('userId')
     setLoggedInUserData(null)
   }
-
   return (
     <div>
 
 
       <LoggedInUserContext.Provider value={loggedInUserData}>
-      <Header logoutFunc={ClearStateVarAndLocalStorage}/>
+        <Header logoutFunc={ClearStateVarAndLocalStorage} />
         <BrowserRouter>
           <Routes>
             <Route element={<LoginHandler></LoginHandler>}>
-              <Route path="/" element={<LandingPage updateLoggedInUserData = {UpdateStateVarAndLocalStorage}></LandingPage>}></Route>
-              </Route>
-              <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
+              <Route path="/" element={<LandingPage updateLoggedInUserData={UpdateStateVarAndLocalStorage}></LandingPage>}></Route>
+            </Route>
+            <Route path="/settingsUser" element={<SettingsUsers></SettingsUsers>}></Route>
 
-              <Route element={<AdminProtectedRoutes></AdminProtectedRoutes>}>
-                {/* Must be logged in as a admin to view this pages. */}
+            <Route element={<AdminProtectedRoutes></AdminProtectedRoutes>}>
+              {/* Must be logged in as a admin to view this pages. */}
 
-              <Route path="/adminpage" element={<AdminPage clearLoginData={ClearStateVarAndLocalStorage}/>}></Route>
+              <Route path="/adminpage" element={<AdminPage clearLoginData={ClearStateVarAndLocalStorage} />}></Route>
 
-              <Route path="/addclass" element={<AddClass/>}></Route>
-              <Route path="/usermanagement" element={<UserManagement/>}></Route>
-              <Route path="/allclassrooms" element={<AllClassrooms/>}></Route>
-              <Route path="/allcourses" element={<AllCourses/>}></Route>
+              <Route path="/addclass" element={<AddClass />}></Route>
+              <Route path="/usermanagement" element={<UserManagement />}></Route>
+              <Route path="/allclassrooms" element={<AllClassrooms />}></Route>
+              <Route path="/allcourses" element={<AllCourses />}></Route>
               {/* <Route path="/data" element={<Data></Data>}></Route> */}
               <Route path="/addUser" element={<AddUserPg></AddUserPg>}></Route>
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
@@ -85,18 +83,18 @@ function App() {
               <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
               <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
               <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
-              </Route>
+            </Route>
 
-              <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
-                {/* Must be logged in as a faculty to view this pages. */}
+            <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
+              {/* Must be logged in as a faculty to view this pages. */}
               <Route path="/FacultyLandingPg" element={<FacultyLandingPg clearLoginData={ClearStateVarAndLocalStorage}></FacultyLandingPg>}></Route>
               <Route path="/FacultyAvaliability" element={<FacultyAvaliabiltyPg></FacultyAvaliabiltyPg>}></Route>
 
-              </Route>
+            </Route>
           </Routes>
         </BrowserRouter>
-        </LoggedInUserContext.Provider>
-      <Footer/>
+      </LoggedInUserContext.Provider>
+      <Footer />
     </div>
   );
 }
