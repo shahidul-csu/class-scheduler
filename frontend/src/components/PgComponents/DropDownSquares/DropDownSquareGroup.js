@@ -29,7 +29,7 @@ const DropDownSquareGroup = (props) => {
 
     //prevents the user from sumbiting if the user doesnt deselect any of the 
     //timeslots
-    const numberOfDeselectedTimeSlote = useRef(0);
+    const numberOfDeselectedTimeSlot = useRef(0);
     const [showLoadingIcon, setShowLoadingIcon] = useState(false)
     const [isDoneFetching, setIsDoneFetching] = useState(false);
 
@@ -79,20 +79,19 @@ const DropDownSquareGroup = (props) => {
         newtimeSlotGroupList[weekdayIndex].
             timeSlotGroup[timeSlotIndex].selected = isselected;
 
-        (isselected) ? numberOfDeselectedTimeSlote.current-- :
-            numberOfDeselectedTimeSlote.current++;
+        (isselected) ? numberOfDeselectedTimeSlot.current-- :
+            numberOfDeselectedTimeSlot.current++;
 
         setTimeSlotGroupList(newtimeSlotGroupList);
     }
 
     const submitData = () => {
         let isNewEntry = null;
-        if (numberOfDeselectedTimeSlote.current !== 0 && numberOfDeselectedTimeSlote.current !== 30
+        if (numberOfDeselectedTimeSlot.current !== 0 && numberOfDeselectedTimeSlot.current !== 30
             && !doesEntryExist.current) {
             isNewEntry = true;
             props.SubmitAvaliability(timeSlotGroupList, isNewEntry);
-        }
-        else {
+        } else if (doesEntryExist.current) {
             isNewEntry = false;
             props.SubmitAvaliability(timeSlotGroupList, isNewEntry);
         }
@@ -100,7 +99,7 @@ const DropDownSquareGroup = (props) => {
 
     //used to diable the slots when a semester has not been selected
     //or when fetching the avaliability Data
-    const isdisAbled = () => {
+    const isDisabled = () => {
         if (props.disabled || !isDoneFetching) {
             return avalibilityPgCss.disabled;
         }
@@ -112,7 +111,7 @@ const DropDownSquareGroup = (props) => {
 
 
     const disableSubmittionBtn = () => {
-        if (numberOfDeselectedTimeSlote.current > 0 && numberOfDeselectedTimeSlote.current < 29
+        if (numberOfDeselectedTimeSlot.current > 0 && numberOfDeselectedTimeSlot.current < 29
             && editMode) {
             return false;
         }
@@ -173,7 +172,7 @@ const DropDownSquareGroup = (props) => {
                 timeSlotGroup[data[x].day_time_id - 1].wasSelected = true;
         }
 
-        numberOfDeselectedTimeSlote.current = 30 - data.length;
+        numberOfDeselectedTimeSlot.current = 30 - data.length;
 
         // lets us know if the fetched timeslots is approved
         isApproved.current = data[0].approved;
@@ -194,7 +193,7 @@ const DropDownSquareGroup = (props) => {
             { timeSlotGroup: DefaultTimeSlots() },
         ];
 
-        numberOfDeselectedTimeSlote.current = 0; // helps disable the submited button
+        numberOfDeselectedTimeSlot.current = 0; // helps disable the submited button
         setTimeSlotGroupList(newtimeSlotGroupList);
     }
 
@@ -206,7 +205,7 @@ const DropDownSquareGroup = (props) => {
 
     const displayApprovalStatus = () => {
         if (doesEntryExist.current && !editMode) {
-            return <ApprovalStatusDisplay is_Approved={isApproved} set_Edit_Mode={setEditMode} />
+            return <ApprovalStatusDisplay is_Approved={isApproved} set_Edit_Mode={setEditMode} entryType="Availability" />
             //     <div id={avalibilityPgCss.avaliabilityStats}>
             //     <span id={avalibilityPgCss.statusHeading}>Avaliability</span>
 
@@ -241,7 +240,7 @@ const DropDownSquareGroup = (props) => {
 
                 <div style={{ position: 'relative' }}>
                     {loadingIconVisibility()}
-                    <div className={`${avalibilityPgCss.dropDownShell} ${isdisAbled()}`}>
+                    <div className={`${avalibilityPgCss.dropDownShell} ${isDisabled()}`}>
 
                         <DropDownSquares weekDayName="Monday" weekdayIndex={0} />
                         <DropDownSquares weekDayName="Tuesday" weekdayIndex={1} />

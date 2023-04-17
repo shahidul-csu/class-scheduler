@@ -12,7 +12,7 @@ import { getSemesterModelConfig, getParameterDataModelConfig, getGenericAuthMode
 // TO WORK.
 
 const FacultyAvaliabiltyPg = () => {
-    const [selectedSemeterId, setSelectedSemesterId] = useState("0");
+    const [selectedSemesterId, setSelectedSemesterId] = useState("0");
     const [semesterList, setSemesterList] = useState([]);
 
 
@@ -74,7 +74,7 @@ const FacultyAvaliabiltyPg = () => {
         await axios(getParameterDataModelConfig(
             "POST", "", {
             approved: false, requirement: true, score: 0, parameter_id: null,
-            'semester_id': +selectedSemeterId
+            'semester_id': +selectedSemesterId
         },
             localStorage.getItem('token'))).then(
                 res => {
@@ -91,11 +91,13 @@ const FacultyAvaliabiltyPg = () => {
     //request to get the parameter id of the logged in user using userId and semesterId
     const getParameterData = async () => {
         let Data = null;
-        await axios(getGenericAuthModelConfig("GET", { 'semester_id': +selectedSemeterId, 'userId': localStorage.getItem('userId') }, {},
-            localStorage.getItem('token'), ROUTER.api.getUserParameterId)).then(
+        await axios(getGenericAuthModelConfig("GET", {
+            'semesterId': selectedSemesterId,
+            'userId': localStorage.getItem('userId')
+        }, {},
+            localStorage.getItem('token'), ROUTER.api.getAvaliabilityData)).then(
                 res => {
-                    Data = res.data.data[0].parameter_id;
-                    console.log(res.data.data[0].parameter_id);
+                    Data = res.data.data[0].parameter_id
                 }
             ).catch(
                 err => {
@@ -205,13 +207,13 @@ const FacultyAvaliabiltyPg = () => {
                 <div id={PageCss.container1}>
 
                     <select id={PageCss.semesterSelect} onChange={(e) => { setSelectedSemesterId(e.target.value) }}
-                        value={selectedSemeterId}>
+                        value={selectedSemesterId}>
                         <option value={0}>Select Semester:</option>
                         {semesterList.map((semester, index) => <option key={index} value={semester.semester_id}>
                             {semester.name + " " + semester.year}</option>)}
                     </select>
                 </div>
-
+                <div id={PageCss.RadioButton}></div>
                 <div id={PageCss.container2}>
 
                     <div className={PageCss.HeaderContainer}>
@@ -220,7 +222,7 @@ const FacultyAvaliabiltyPg = () => {
                     </div>
 
                     <select id={PageCss.semesterSelectMobile} className={PageCss.HideOnMobile}
-                        onChange={(e) => { setSelectedSemesterId(e.target.value) }} value={selectedSemeterId}>
+                        onChange={(e) => { setSelectedSemesterId(e.target.value) }} value={selectedSemesterId}>
                         <option value={0}>Select Semester:</option>
                         {semesterList.map((semester, index) => <option key={index} value={semester.semester_id}>
                             {semester.name + " " + semester.year}</option>)}
@@ -228,7 +230,7 @@ const FacultyAvaliabiltyPg = () => {
                     </select>
 
                     <DropDownSquareGroup disabled={false} SubmitAvaliability={submitAvaliabilityRequest}
-                        selectedSemesterById={selectedSemeterId} />
+                        selectedSemesterById={selectedSemesterId} />
 
 
 
