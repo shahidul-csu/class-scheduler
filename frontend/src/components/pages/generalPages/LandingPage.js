@@ -10,9 +10,10 @@ import "../../../styles/Header.css";
 import { getLoginConfig } from "../../../network/RequestTemplates";
 import axios from "axios";
 import LoadingButton from "../../PgComponents/LoadingButton";
-// import jwt_decode from "jwt-decode";
+//import jwt_decode from "jwt-decode";
+import jwt_decode from "jwt-decode"
 // import jwtDecode from "jwt-decode";
-// import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 const LandingPage = (props) => {
 
     const [Email, setEmail] = useState('');
@@ -24,27 +25,27 @@ const LandingPage = (props) => {
     }, [])
 
 
-    // const google = window.google = window.google ? window.google : {}
+    const google = window.google = window.google ? window.google : {}
 
-    // function handleCallbackResponse(response) {
-    //     console.log("Encoded JWT ID token: " + response.credential);
-    //     // var userObj = jwt_decode(response.credential);
-    //     // console.log(userObj);
-    // }
+    function handleCallbackResponse(response) {
+        console.log("Encoded JWT ID token: " + response.credential);
+        var userObj = jwt_decode(response.credential);
+        console.log(userObj);
+    }
 
-    // useEffect(() => {
-    //     // global google
-    //     google.accounts.id.initialize({
-    //         client_id: "???",
-    //         callback: handleCallbackResponse
-    //     })
+    useEffect(() => {
+        // global google
+        google.accounts.id.initialize({
+            client_id: "",
+            callback: handleCallbackResponse
+        })
 
-    //     google.accounts.id.renderButton(
-    //         document.getElementById("signInDiv"),
-    //         { theme: "outline", size: "large" }
-    //     );
+        google.accounts.id.renderButton(
+            document.getElementById("signInDiv"),
+            { theme: "outline", size: "large" }
+        );
 
-    // }, []);
+    }, []);
 
 
 
