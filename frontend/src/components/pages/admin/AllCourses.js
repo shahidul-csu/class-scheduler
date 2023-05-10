@@ -1,14 +1,55 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TableStyle from "../../../styles/TableStyle.module.css";
-
-
+import axios from "axios";
+import ROUTER from '../../../network/Router'
+import { getSemesterModelConfig, getParameterDataModelConfig, getGenericAuthModelConfig } from '../../../network/RequestTemplates';
 
 const AllCourses = () => {
+
+    const getParameterData = async () => {
+        let response = await axios(getGenericAuthModelConfig("GET", {}, {},
+            localStorage.getItem('token'), ROUTER.api.courses));
+        console.log(response.data);
+        let rows = document.getElementById(TableStyle.cells);
+        console.log(rows);
+        rows.innerHTML = "";
+
+        response.data.forEach(course => {
+            let row = document.createElement("tr");
+            
+            let name = document.createElement("td");
+            name.innerHTML = course.name;
+            row.appendChild(name);
+
+            let capacity = document.createElement("td");
+            capacity.innerHTML = course.capacity;
+            row.appendChild(capacity);
+            
+            let units = document.createElement("td");
+            units.innerHTML = course.units;
+            row.appendChild(units);
+            
+            let freq = document.createElement("td");
+            freq.innerHTML = course.number_per_week;
+            row.appendChild(freq);
+
+            let sync = document.createElement("td");
+            sync.innerHTML = course.sync_time;
+            row.appendChild(sync);
+
+            let group = document.createElement("td");
+            group.innerHTML = course.courseGroup;
+            row.appendChild(group);
+
+            rows.appendChild(row);
+        });
+    }
 
     /* Set page tab name */
     useEffect(() => {
         document.title = "Class Scheduler"
+        getParameterData() 
       }, [])
 
     return (<React.Fragment >
