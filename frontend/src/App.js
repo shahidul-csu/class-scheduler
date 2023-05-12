@@ -16,6 +16,8 @@ import AddCoursePg from "./components/pages/admin/AddCoursePg";
 import CourseClassroom from "./components/pages/admin/CourseClassroom";
 import InstructorCourse from "./components/pages/admin/InstructorCourse";
 import CourseTime from "./components/pages/admin/CourseTime";
+import AdminProfilePage from "./components/pages/admin/AdminProfilePage";
+import FacultyProfilePage from "./components/pages/faculty/FacultyProfilePage";
 import AddSemester from "./components/pages/admin/AddSemester";
 import CourseSemester from "./components/pages/admin/CourseSemester";
 import FacultyLandingPg from "./components/pages/faculty/FacultyLandingPg";
@@ -83,12 +85,14 @@ function App() {
               <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
               <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
               <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
+              <Route path="/AdminProfilePage" element={<AdminProfilePage></AdminProfilePage>}></Route>
             </Route>
 
             <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
               {/* Must be logged in as a faculty to view this pages. */}
               <Route path="/FacultyLandingPg" element={<FacultyLandingPg clearLoginData={ClearStateVarAndLocalStorage}></FacultyLandingPg>}></Route>
               <Route path="/FacultyAvaliability" element={<FacultyAvaliabiltyPg></FacultyAvaliabiltyPg>}></Route>
+              <Route path="/FacultyProfilePage" element={<FacultyProfilePage></FacultyProfilePage>}></Route>
 
             </Route>
           </Routes>

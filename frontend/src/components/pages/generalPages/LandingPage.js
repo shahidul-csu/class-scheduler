@@ -7,18 +7,16 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingStyle from "../../../styles/LandingPage.module.css";
 import "../../../styles/Header.css";
-import { getLoginConfig } from "../../../network/RequestTemplates";
+import { getLoginConfig, getSignUpConfig } from "../../../network/RequestTemplates";
 import axios from "axios";
 import LoadingButton from "../../PgComponents/LoadingButton";
-//import jwt_decode from "jwt-decode";
 import jwt_decode from "jwt-decode"
-// import jwtDecode from "jwt-decode";
-import { GoogleOAuthProvider } from '@react-oauth/google';
 const LandingPage = (props) => {
 
     const [Email, setEmail] = useState('');
     const [Password, setPassword] = useState('');
     const [showLogInError, setShowLoginErrorState] = useState(false);
+    const [userObj, setUserObj] = useState({});
     /* Set page tab name */
     useEffect(() => {
         document.title = "Class Scheduler"
@@ -27,16 +25,52 @@ const LandingPage = (props) => {
 
     const google = window.google = window.google ? window.google : {}
 
+
     function handleCallbackResponse(response) {
-        console.log("Encoded JWT ID token: " + response.credential);
-        var userObj = jwt_decode(response.credential);
-        console.log(userObj);
+        //console.log("Encoded JWT ID token: " + response.credential);
+        //userObj = jwt_decode(response.credential);
+        //console.log(userObj);
+        setUserObj(jwt_decode(response.credential));
+        //console.log(userObj);
+        // googleEmail = userObj.email
+        //console.log("GOOGLE EMAIL: ", userObj.email);
+
+
     }
 
     useEffect(() => {
+        GoogleLogin()
+    }, [userObj]);
+
+
+    // THIS WAY WORKS ONLY IF USER ALREADY EXISTS WITHIN DATABASE
+    const GoogleLogin = async () => {
+        setShowLoginErrorState(false);
+        await axios(getLoginConfig({ email: userObj.email, password: userObj.given_name })).then(
+            res => {
+
+                if (res.data.status === "SUCCESS") {
+                    console.log(userObj.email, "has logged in successfully")
+                    props.updateLoggedInUserData({
+                        userData: res.data.usrOb, token: res.data.Login_token,
+                        userId: res.data.LoginId
+                    })
+                }
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
+    }
+
+
+    useEffect(() => {
         // global google
+        // ADD NEW CLIENT ID HERE
         google.accounts.id.initialize({
-            client_id: "",
+            client_id: "???",
             callback: handleCallbackResponse
         })
 
@@ -44,6 +78,9 @@ const LandingPage = (props) => {
             document.getElementById("signInDiv"),
             { theme: "outline", size: "large" }
         );
+
+
+        // google.accounts.id.prompt()
 
     }, []);
 
@@ -72,6 +109,94 @@ const LandingPage = (props) => {
             }
         )
     }
+
+
+
+    // const GoogleLogin = () => {
+    //     console.log("This method got called");
+
+    //     axios(getSignUpConfig({
+    //         username: userObj.given_name, password: userObj.given_name, email: userObj.email, first_name: userObj.given_name, last_name: userObj.family_name, is_staff: true, is_active: true
+    //     })).then(
+    //         signUpRes => {
+    //             console.log("SIGN UP SUCCESS", signUpRes.data);
+    //             alert("GOOGLE SIGN IN");
+
+    //             // Only perform login if sign-up is successful
+    //             axios(getLoginConfig({
+    //                 email: userObj.email,
+    //                 password: userObj.given_name
+    //             })).then(
+    //                 loginRes => {
+    //                     if (loginRes.data.status === "SUCCESS") {
+    //                         props.updateLoggedInUserData({
+    //                             userData: loginRes.data.usrOb,
+    //                             token: loginRes.data.Login_token,
+    //                             userId: loginRes.data.LoginId
+    //                         });
+    //                     } else {
+    //                         setShowLoginErrorState(true);
+    //                     }
+    //                 }
+    //             ).catch(
+    //                 loginErr => {
+    //                     alert(loginErr);
+    //                     console.log(loginErr);
+    //                 }
+    //             );
+    //         }
+    //     ).catch(
+    //         signUpErr => {
+    //             alert(signUpErr);
+    //             console.log(signUpErr);
+    //         }
+    //     );
+
+
+    // ---------------------------------
+
+
+
+    // axios(getSignUpConfig({
+    //     username: userObj.given_name, password: userObj.given_name, email: userObj.email, first_name: userObj.given_name, last_name: userObj.family_name, is_staff: true, is_active: true
+    // })).then(
+    //     signUpRes => {
+    //         console.log("SIGN UP SUCCESS", signUpRes.data);
+    //         alert("GOOGLE SIGN IN");
+
+    //         // Only perform login if sign-up is successful
+    //         axios(getLoginConfig({
+    //             email: userObj.email,
+    //             password: userObj.given_name
+    //         })).then(
+    //             loginRes => {
+    //                 if (loginRes.data.status === "SUCCESS") {
+    //                     props.updateLoggedInUserData({
+    //                         userData: loginRes.data.usrOb,
+    //                         token: loginRes.data.Login_token,
+    //                         userId: loginRes.data.LoginId
+    //                     });
+    //                 } else {
+    //                     setShowLoginErrorState(true);
+    //                 }
+    //             }
+    //         ).catch(
+    //             loginErr => {
+    //                 alert(loginErr);
+    //                 console.log(loginErr);
+    //             }
+    //         );
+    //     }
+    // ).catch(
+    //     signUpErr => {
+    //         alert(signUpErr);
+    //         console.log(signUpErr);
+    //     }
+    // );
+
+
+    //};
+
 
     const displayError = () => {
         //displays invalid Username or password
@@ -124,57 +249,17 @@ const LandingPage = (props) => {
                                 <div>
                                     or
                                 </div>
-
+                                <br></br>
                                 {/* Google Sign In Code Here */}
-                                <div >
+                                <div>
                                     <div id="signInDiv"></div>
                                 </div>
 
                                 <div style={{ position: "absolute", width: '100%', right: "1%" }}>
                                     {displayError()}
                                 </div>
+
                             </div>
-
-                            {/* <div className="SignUp">
-                            <h3>Sign Up</h3> <hr/>
-                            <Form>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} controlId="formGridEmail">
-                                <Form.Label>First Name</Form.Label>
-                                <Form.Control type="primary" placeholder="First Name" />
-                                </Form.Group>
-
-                                <Form.Group as={Col} controlId="formGridPassword">
-                                <Form.Label>Last Name</Form.Label>
-                                <Form.Control type="lname" placeholder="Last Name" />
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} controlId="formGridPassword">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control type="username" placeholder="Username" />
-                                </Form.Group>
-
-                                <Form.Group as={Col} controlId="formGridEmail">
-                                <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" />
-                                </Form.Group>
-                            </Row>
-                            <Form.Group as={Col} controlId="formGridPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
-                            </Form.Group> 
-                            <br/>
-                            <Form.Group as={Col} controlId="formGridPassword">
-                                <Form.Label>Re-Enter Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
-                            </Form.Group>
-                            <br/>
-                            <Button variant="primary" type="submit" style={{backgroundColor:"#112E51"}}>
-                                Sign Up 
-                            </Button>
-                            </Form>
-                        </div> */}
                         </div>
                     </div>
                 </div>
