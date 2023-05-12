@@ -107,3 +107,9 @@ class SemesterParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = SemesterParameter
         fields = ['parameter_id', 'course_id', 'semester_id']
+
+
+class TeachingParameterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeachingParameter
+        fields = ['parameter_id', 'num_teaching_days', 'user_id']
