@@ -117,32 +117,45 @@ def getAvaliabilityEntryPerSemester(request, semesterId, userId):
 
 
 @api_view(["GET"])
-def getPreferenceEntryPerSemester(request, semesterId, userId):
+def getPreferenceParameterIds(request, semesterId, userId):
+    if semesterId:
+        mediumScoreParameterId = UserTimeParameter.objects.select_related('parameter_id').filter(parameter_id__semester_id_id=semesterId).filter(
+            user_id_id=userId).filter(parameter_id__requirement=False).filter(parameter_id__score=3).values('parameter_id').distinct()
+        highScoreParameterId = UserTimeParameter.objects.select_related('parameter_id').filter(parameter_id__semester_id_id=semesterId).filter(
+            user_id_id=userId).filter(parameter_id__requirement=False).filter(parameter_id__score=5).values('parameter_id').distinct()
+        return Response({'status': 'SUCCESS', 'medium': mediumScoreParameterId, 'high': highScoreParameterId})
+    else:
+        return Response({'status': 'semester or user not specified', 'data': []})
+
+
+@api_view(["GET"])
+def getPreferenceEntriesPerSemester(request, semesterId, userId):
     if userId:
-        userTimePreferenceForSemester = UserTimeParameter.objects.select_related(
-            'parameter_id').select_related('time_slot_id').filter(
-            parameter_id__semester_id_id=semesterId).filter(user_id_id=userId).filter(
-            parameter_id__requirement=False).values('parameter_id', 'time_slot_id',
-                                                    approved=F(
-                                                        'parameter_id__approved'),
-                                                    requirement=F(
-                                                        'parameter_id__requirement'),
-                                                    week_day_id=F(
-                                                        'time_slot_id__week_day_id'),
-                                                    day_time_id=F(
-                                                        'time_slot_id__day_time_id'),
-                                                    )
-        return Response({'status': 'SUCCESS', 'data': userTimePreferenceForSemester})
+        userTimePreferenceEntries = UserTimeParameter.objects.select_related('parameter_id').select_related('time_slot_id').filter(
+            parameter_id__semester_id_id=semesterId).filter(user_id_id=userId).filter(parameter_id__requirement=False).values('parameter_id', 'time_slot_id', score=F('parameter_id__score'),
+                                                                                                                              approved=F(
+                                                                                                                                  'parameter_id__approved'),
+                                                                                                                              requirement=F(
+                                                                                                                                  'parameter_id__requirement'),
+                                                                                                                              week_day_id=F(
+                                                                                                                                  'time_slot_id__week_day_id'),
+                                                                                                                              day_time_id=F(
+                                                                                                                                  'time_slot_id__day_time_id'))
+        return Response({'status': 'SUCCESS', 'data': userTimePreferenceEntries})
     else:
         return Response({'status': 'user not Specified!', 'data': []})
 
 
+# This function is used to get only the number of days per week that the user has selected and if check if group class was selected
 @api_view(["GET"])
-def getParameterId(request, semesterId, userId):
+def getUserPreferenceOptionEntries(request, semesterId, userId):
     if userId:
-        userParameterId = UserTimeParameter.objects.select_related('parameter_id').filter(
-            user_id_id=userId).filter(parameter_id__semester_id_id=semesterId).values('parameter_id').distinct()
-        return Response({'status': 'SUCCESS', 'data': userParameterId})
+        # these two will have different parameter ids variables
+        userGroupTimeParameter = UserGroupClassParameter.objects.select_related('parameter_id').filter(
+            parameter_id__semester_id_id=semesterId).filter(user_id_id=userId).values('parameter_id', 'user_id', score=F('parameter_id__score'))
+        userNumDays = TeachingParameter.objects.select_related('parameter_id').filter(
+            parameter_id__semester_id_id=semesterId).filter(user_id_id=userId).values('parameter_id', 'user_id', 'num_teaching_days')
+        return Response({'status': 'SUCCESS', 'group': userGroupTimeParameter, 'teaching': userNumDays})
     else:
         return Response({'status': 'user not Specified!', 'data': []})
 
@@ -160,6 +173,16 @@ def getInstructorListPerSemester(request, semesterId):
         return Response({'data': userData})
     else:
         return Response({'status': 'semester not Specified!', 'data': []})
+
+
+@api_view(["GET"])
+def getParameterData(request, parameterId):
+    if parameterId:
+        parameterData = ParameterData.objects.filter(parameter_id=parameterId).values(
+            'parameter_id', 'approved', 'requirement', 'score', 'semester_id_id')
+        return Response({'status': 'SUCCESS', 'data': parameterData})
+    else:
+        return Response({'status': 'parameter not Specified!', 'data': []})
 
 
 class UserView(DataAccessView):
@@ -256,3 +279,9 @@ class SemesterParameterView(DataAccessView):
     serializer_class = SemesterParameterSerializer
     queryset = SemesterParameter.objects.all()
     model = SemesterParameter
+
+
+class TeachingParameterView(DataAccessView):
+    serializer_class = TeachingParameterSerializer
+    queryset = TeachingParameter.objects.all()
+    model = TeachingParameter
