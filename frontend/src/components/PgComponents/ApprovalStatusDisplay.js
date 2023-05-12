@@ -9,20 +9,27 @@ const ApprovalStatusDisplay = (props) => {
     const entryType = props.entryType;
     const getApprovalStatus = () => {
         let approved = props.is_Approved.current;
+        if (approved === null) {
+            return <span className={availabilityPgCss.statusTagValue}>Pending..</span>
+        } else {
+            if (approved === true) {
+                return <span className={availabilityPgCss.statusTagValue}>Approved</span>
 
-        if (approved != true) {
-            return <span className={availabilityPgCss.statusTagValue}>Pending ...</span>
-        }
-        else {
-            return <span className={availabilityPgCss.statusTagValue}>Approved</span>
+            } else {
+                return <span className={availabilityPgCss.statusTagValue}>Rejected</span>
+            }
         }
     }
     const availabilityStats = () => {
         let approved = props.is_Approved.current;
-        if (approved == true) {
-            return availabilityPgCss.avaliabilityStatsApproved;
+        if (approved === null) {
+            return availabilityPgCss.availabilityStatsPending;
         } else {
-            return availabilityPgCss.avaliabilityStatsNotApproved;
+            if (approved === true) {
+                return availabilityPgCss.availabilityStatsApproved;
+            } else {
+                return availabilityPgCss.availabilityStatsNotApproved;
+            }
         }
     }
     return (

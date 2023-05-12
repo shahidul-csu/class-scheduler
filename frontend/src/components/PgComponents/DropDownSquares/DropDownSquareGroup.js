@@ -58,16 +58,19 @@ const DropDownSquareGroup = (props) => {
 
     useEffect(async () => {
         //if a dropdown Option has been selected
+        //if a dropdown Option has been selected
         doesEntryExist.current = false;
         setIsDoneFetching(false);
-
+        let newtimeSlotGroupList = [
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() },
+            { timeSlotGroup: DefaultTimeSlots() }];
+        setTimeSlotGroupList(newtimeSlotGroupList);
         if (props.selectedSemesterById != "0") {
-
-
             FetchExistingAvaliabilityData();
         }
-
-
     }, [props.selectedSemesterById])
 
 
@@ -111,7 +114,7 @@ const DropDownSquareGroup = (props) => {
 
 
     const disableSubmittionBtn = () => {
-        if (numberOfDeselectedTimeSlot.current > 0 && numberOfDeselectedTimeSlot.current < 29
+        if (numberOfDeselectedTimeSlot.current >= 0 && numberOfDeselectedTimeSlot.current < 29
             && editMode) {
             return false;
         }
@@ -229,6 +232,30 @@ const DropDownSquareGroup = (props) => {
             return "Submit"
         }
     }
+    const selectOrResetAll = (e) => {
+        if (editMode) {
+            let newtimeSlotGroupList = [...timeSlotGroupList];
+            let value = null;
+            if (e.target.value == "select") {
+                for (var x = 0; x < newtimeSlotGroupList.length; x++) {
+                    for (var y = 0; y < newtimeSlotGroupList[x].timeSlotGroup.length; y++) {
+                        newtimeSlotGroupList[x].timeSlotGroup[y].selected = true;
+                    }
+                }
+                numberOfDeselectedTimeSlot.current = 0;
+            } else {
+                for (var x = 0; x < newtimeSlotGroupList.length; x++) {
+                    for (var y = 0; y < newtimeSlotGroupList[x].timeSlotGroup.length; y++) {
+                        newtimeSlotGroupList[x].timeSlotGroup[y].selected = false;
+                    }
+                }
+                numberOfDeselectedTimeSlot.current = 30;
+            }
+
+
+            setTimeSlotGroupList(newtimeSlotGroupList);
+        }
+    }
 
     return (
         <React.Fragment>
@@ -237,7 +264,12 @@ const DropDownSquareGroup = (props) => {
                     allTimeSlots: timeSlotGroupList, reportTimeBlockSelected: selectTimeBlock,
                     editMode: editMode
                 }} >
+                <div className={avalibilityPgCss.centerButtons}>
 
+                    <Button onClick={selectOrResetAll} id={avalibilityPgCss.selectAllButton} className={`${isDisabled()}`} value="select">Select All</Button>
+                    <Button onClick={selectOrResetAll} id={avalibilityPgCss.resetAllButton} className={`${isDisabled()}`} value="reset">Reset All</Button>
+
+                </div>
                 <div style={{ position: 'relative' }}>
                     {loadingIconVisibility()}
                     <div className={`${avalibilityPgCss.dropDownShell} ${isDisabled()}`}>

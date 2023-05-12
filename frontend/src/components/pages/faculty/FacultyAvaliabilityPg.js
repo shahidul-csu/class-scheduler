@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import PageCss from '../../../styles/AvaliabilityPg.module.css'
 import DropDownSquareGroup from '../../PgComponents/DropDownSquares/DropDownSquareGroup';
@@ -73,7 +73,7 @@ const FacultyAvaliabiltyPg = () => {
         let Data = null
         await axios(getParameterDataModelConfig(
             "POST", "", {
-            approved: false, requirement: true, score: 0, parameter_id: null,
+            approved: null, requirement: true, score: 0, parameter_id: null,
             'semester_id': +selectedSemesterId
         },
             localStorage.getItem('token'))).then(
@@ -145,48 +145,47 @@ const FacultyAvaliabiltyPg = () => {
         let axiosCallVarList = [];
         let currentWeekDayId = null;
         let currentDayTimeId = null;
+
+
+        // for all weekdays
         for (var x = 0; x < availabilityData.length; x++) {
             currentWeekDayId = x + 1;
 
-            // for all timeslotes in each weekday
-            for (var x = 0; x < availabilityData.length; x++) {
-                currentWeekDayId = x + 1;
+            // for all timeslots in each weekday
+            for (var y = 0; y < availabilityData[x].timeSlotGroup.length; y++) {
+                currentDayTimeId = y + 1;
 
-                // for all timeslotes in each weekday
-                for (var y = 0; y < availabilityData[x].timeSlotGroup.length; y++) {
-                    currentDayTimeId = y + 1;
+                // if timeSlot is selected
+                if (availabilityData[x].timeSlotGroup[y].selected && !(availabilityData[x].timeSlotGroup[y].wasSelected)) {
+                    console.log(paramId);
+                    axiosCallVarList = [...axiosCallVarList,
 
-                    // if timeSlote is selected
-                    if (availabilityData[x].timeSlotGroup[y].selected && !(availabilityData[x].timeSlotGroup[y].wasSelected)) {
-                        console.log(paramId);
-                        axiosCallVarList = [...axiosCallVarList,
+                    axios(getGenericAuthModelConfig("POST", "", {
+                        'parameter_id': paramId,
+                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                            currentWeekDayId, currentDayTimeId)
+                    },
+                        localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                    ];
+                } else if (!availabilityData[x].timeSlotGroup[y].selected && availabilityData[x].timeSlotGroup[y].wasSelected) {
 
-                        axios(getGenericAuthModelConfig("POST", "", {
-                            'parameter_id': paramId,
-                            'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                                currentWeekDayId, currentDayTimeId)
-                        },
-                            localStorage.getItem('token'), ROUTER.api.userTimeParam))
-                        ];
-                    } else {
-                        if (!availabilityData[x].timeSlotGroup[y].selected && availabilityData[x].timeSlotGroup[y].wasSelected) {
-                            axiosCallVarList = [...axiosCallVarList,
+                    axiosCallVarList = [...axiosCallVarList,
 
-                            axios(getGenericAuthModelConfig("DELETE", "", {
-                                'parameter_id': paramId,
-                                'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                                    currentWeekDayId, currentDayTimeId)
-                            },
-                                localStorage.getItem('token'), ROUTER.api.userTimeParam))
-                            ];
-                        }
+                    axios(getGenericAuthModelConfig("DELETE", "", {
+                        'parameter_id': paramId,
+                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                            currentWeekDayId, currentDayTimeId)
+                    },
+                        localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                    ];
 
-                    }
+
                 }
-
             }
-            return axiosCallVarList
+
         }
+        return axiosCallVarList
+
     }
 
     const calculateAndReturnTimeSlotId = (weekDayId, dayTimeId) => {
