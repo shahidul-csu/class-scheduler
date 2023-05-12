@@ -125,7 +125,7 @@ const AdminPage = (props) => {
                         <MenuButtonMemo
 
                             btnName="Approval" btn_Pic_Src={preferenceIcon}
-                            onclick={() => navigate("/avaliability_Faculty")}>
+                            onclick={() => navigate("/ApproveDeny")}>
 
                         </MenuButtonMemo>
                     </div>

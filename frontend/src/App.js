@@ -24,10 +24,13 @@ import FacultyLandingPg from "./components/pages/faculty/FacultyLandingPg";
 import AllClassrooms from "./components/pages/admin/AllClassrooms";
 import AllCourses from "./components/pages/admin/AllCourses";
 import FacultyAvaliabiltyPg from "./components/pages/faculty/FacultyAvaliabilityPg";
+import FacultyPreferencePg from "./components/pages/faculty/FacultyPreferencePg";
 import FacultyProtectedRoutes from "./components/PgComponents/FacultyProtectedRoutes";
 import LoginHandler from "./components/PgComponents/QuickLoginHandler"; //LoginHandler-- handels login
 import AdminProtectedRoutes from "./components/PgComponents/AdminProtectedRoutes";
+import ApproveDeny from "./components/pages/admin/ApproveDeny";
 import "./styles/Dropdown.css" //Dont remove. customizes all dropdowns in website
+
 
 
 export const LoggedInUserContext = createContext(); //passes the user details to all the pages
@@ -86,6 +89,7 @@ function App() {
               <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
               <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
               <Route path="/AdminProfilePage" element={<AdminProfilePage></AdminProfilePage>}></Route>
+              <Route path="/ApproveDeny" element={<ApproveDeny></ApproveDeny>}></Route>
             </Route>
 
             <Route element={<FacultyProtectedRoutes></FacultyProtectedRoutes>}>
@@ -94,6 +98,7 @@ function App() {
               <Route path="/FacultyAvaliability" element={<FacultyAvaliabiltyPg></FacultyAvaliabiltyPg>}></Route>
               <Route path="/FacultyProfilePage" element={<FacultyProfilePage></FacultyProfilePage>}></Route>
 
+              <Route path="/FacultyPreference" element={<FacultyPreferencePg></FacultyPreferencePg>}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

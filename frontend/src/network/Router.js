@@ -13,11 +13,16 @@ const ROUTER = {
         courses: `${SWITCH.BASE}/${SWITCH.API}/course/`,
         parameterData: `${SWITCH.BASE}/${SWITCH.API}/parameter_data/`,
         timeSlot: `${SWITCH.BASE}/${SWITCH.API}/time_slot/`,
+        userTeachingParam: `${SWITCH.BASE}/${SWITCH.API}/teaching_parameter/`,
         userTimeParam: `${SWITCH.BASE}/${SWITCH.API}/user_time_parameter/`,
         getAvaliabilityData: `${SWITCH.BASE}/${SWITCH.API}/get_avaliability_for_semester`,
+        getPreferenceData: `${SWITCH.BASE}/${SWITCH.API}/get_preference_for_semester`,
         semester: `${SWITCH.BASE}/${SWITCH.API}/semester/`,
-        getUserParameterId: `${SWITCH.BASE}/${SWITCH.API}/get_user_parameter_id`,
-        courseTimeParam: `${SWITCH.BASE}/${SWITCH.API}/course_time_parameter/`,
+        getInstructorListPerSemester: `${SWITCH.BASE}/${SWITCH.API}/get_instructor_list_per_semester`,
+        getParameterData: `${SWITCH.BASE}/${SWITCH.API}/get_parameter_data`,
+        getUserPreferenceOptionEntries: `${SWITCH.BASE}/${SWITCH.API}/get_user_preference_option_entries`,
+        userBackToBack: `${SWITCH.BASE}/${SWITCH.API}/user_back_to_back_parameter/`,
+        getPreferenceParameterIds: `${SWITCH.BASE}/${SWITCH.API}/get_preference_parameter_ids`,
     }
 }
 

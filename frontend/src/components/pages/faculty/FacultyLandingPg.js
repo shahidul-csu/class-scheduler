@@ -46,7 +46,7 @@ const FacultyLandingPg = (props) => {
                         <MenuButton
 
                             btnName="Preferences" btn_Pic_Src={preferenceIcon}
-                            onclick={() => navigate("/avaliability_Faculty")}>
+                            onclick={() => navigate("/FacultyPreference")}>
 
                         </MenuButton>
                     </div>
