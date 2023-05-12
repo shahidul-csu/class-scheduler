@@ -22,18 +22,30 @@
     position: relative;
 }
 
+
+
 #semesterSelect {
     width: 70%;
     height: 50px;
     margin-top: 200px;
     outline: none;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
-#instructorSelect {
+#groupClassDropDown {
     width: 70%;
     height: 50px;
-    margin-top: 200px;
+    margin-top: 10px;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+#numDaysDropDown {
+    width: 70%;
+    height: 50px;
+    margin-top: 10px;
     outline: none;
     cursor: pointer;
 }
@@ -41,11 +53,29 @@
 #Pgheading {
 
     font-family: Inter;
-    font-size: 25px;
+    font-size: 40px;
     font-weight: 200;
-    line-height: 48px;
+    line-height: 30px;
     letter-spacing: 0em;
     width: 100%;
+    text-align: center;
+}
+
+#groupClassHeading {
+    font-family: Inter;
+    font-size: 15px;
+    text-align: center;
+}
+
+#numDaysHeading {
+    font-family: Inter;
+    font-size: 15px;
+    text-align: center;
+}
+
+#numDaysHeading {
+    font-family: Inter;
+    font-size: 15px;
     text-align: center;
 }
 
@@ -84,13 +114,13 @@ increase if there are more element in it */
     background-color: #061D3D;
 }
 
-.entryTypeShell {
+.weekDayShell {
     width: fit-content;
     margin: 0 auto;
     padding-top: 10px;
 }
 
-.type {
+.day {
     color: white;
 
     font-family: Inter;
@@ -110,6 +140,7 @@ increase if there are more element in it */
 
 }
 
+
 .arrowUpFaceUp {
     /* transition: all 0.1s linear; */
     transform: rotate(-179deg);
@@ -124,6 +155,10 @@ increase if there are more element in it */
     margin: 0 auto;
     width: 98%;
     position: relative;
+}
+
+.modalBody {
+    text-align: center;
 }
 
 .disabled {
@@ -185,18 +220,42 @@ increase if there are more element in it */
 
 
 .OptionBoxBGColorRed {
-    background-color: #C79F89;
+    background-color: #d21c1c;
+}
+
+.OptionBoxBGColorYellow {
+    background-color: #ffea00;
+}
+
+.OptionBoxBGColorGray {
+    background-color: #696969;
 }
 
 .OptionBoxBGColorGreen {
     /* transition: all 0.25s linear; */
-    background-color: rgba(168, 199, 137, 1);
+    background-color: #00c500;
 }
 
 .OptionBox:hover {
     border: 0.2px solid gray;
 }
 
+.centerButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#selectAllButton {
+    margin-right: 5px;
+    background-color: #00c500;
+}
+
+#resetAllButton {
+    margin-left: 5px;
+    background-color: #d21c1c;
+}
 
 .OptionName {
     width: 100%;
@@ -375,7 +434,7 @@ increase if there are more element in it */
     }
 
     #Pgheading {
-        font-size: 32px;
+        font-size: 40px;
 
 
     }
@@ -389,95 +448,4 @@ increase if there are more element in it */
         opacity: 0.8;
     }
 
-    table,
-    th,
-    td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        padding: 10px;
-        text-align: center;
-    }
-
-    th {
-        background-color: #285486;
-        color: white;
-        font-size: 13px;
-    }
-}
-
-.tableSelected {
-    background-color: rgb(70, 191, 90);
-}
-
-.tableNotSelected {
-    background-color: #C79F89;
-}
-
-.buttonContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 2px;
-    margin-bottom: 10px;
-}
-
-#buttonGroup {
-    margin: 0 10px;
-}
-
-.ApproveButton {
-    background-color: #00c500;
-    border: none;
-    transition: all .1s linear;
-    box-shadow: none;
-    border: hidden;
-    margin-left: 10px;
-}
-
-.DenyButton {
-    background-color: #d21c1c;
-    border: none;
-    transition: all .1s linear;
-    box-shadow: none;
-    border: hidden;
-    margin-right: 10px;
-}
-
-.ApproveButton:hover {
-    background-color: #4CAF50;
-    opacity: 0.8;
-}
-
-.ApproveButton:active {
-    background-color: #4CAF50;
-    opacity: 0.9;
-}
-
-.DenyButton:hover {
-    background-color: #f44336;
-    opacity: 0.8;
-}
-
-.DenyButton:active {
-    background-color: #f44336;
-    opacity: 0.9;
-}
-
-.ApproveButton:disabled {
-    background-color: #9a9a9a;
-}
-
-.DenyButton:disabled {
-    background-color: #9a9a9a;
-}
-
-.statusIcon {
-    position: absolute;
-    left: 2%;
-    height: 40px;
-    width: 40px;
-    bottom: 5px;
 }
