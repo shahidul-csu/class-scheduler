@@ -362,10 +362,48 @@ const FacultyAvaliabiltyPg = () => {
                         }
 
                     }
+                } else {
+                    if (availabilityData[x].timeSlotGroup[y].preferenceScore !== null) {
+                        if (availabilityData[x].timeSlotGroup[y].preferenceScore === 5) {
+                            if (highParam !== null) {
+                                axiosCallListForPreference = [...axiosCallListForPreference,
+                                axios(getGenericAuthModelConfig("DELETE", "", {
+                                    'parameter_id': highParam,
+                                    'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                                        currentWeekDayId, currentDayTimeId)
+                                },
+                                    localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                                ];
+                            }
+                        } else if (availabilityData[x].timeSlotGroup[y].preferenceScore === 3) {
+                            if (mediumParam !== null) {
+                                axiosCallListForPreference = [...axiosCallListForPreference,
+                                axios(getGenericAuthModelConfig("DELETE", "", {
+                                    'parameter_id': mediumParam,
+                                    'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                                        currentWeekDayId, currentDayTimeId)
+                                },
+                                    localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                                ];
+                            }
+
+                        } else {
+                            if (lowParam !== null) {
+                                axiosCallListForPreference = [...axiosCallListForPreference,
+                                axios(getGenericAuthModelConfig("DELETE", "", {
+                                    'parameter_id': lowParam,
+                                    'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                                        currentWeekDayId, currentDayTimeId)
+                                },
+                                    localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                                ];
+                            }
+                        }
+                    }
                 }
             }
         }
-        return axiosCallListForPreference;
+        return
     }
     const calculateAndReturnTimeSlotId = (weekDayId, dayTimeId) => {
         //timeSlot fomular *
