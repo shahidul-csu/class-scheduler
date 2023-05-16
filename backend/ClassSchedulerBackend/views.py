@@ -117,6 +117,64 @@ def getAvaliabilityEntryPerSemester(request, semesterId, id):
 
 
 @api_view(["GET"])
+def getCourseAvaliabilityEntryPerSemester(request, semesterId, id):
+    res = {"status": True, "data": ""}
+
+    # semester_id is just the name of the field that holds
+    # a relation to the semester table
+    # semester_id_id is specifying the id of the relational table
+    # F is used to rename a field
+    if id:
+        userTimeAvalibilityForSemester = CourseTimeParameter.objects.select_related(
+            'parameter_id').select_related('time_slot_id').filter(
+            parameter_id__semester_id_id=semesterId).filter(course_id_id=id).filter(
+
+            parameter_id__requirement=True).values('parameter_id', 'time_slot_id',
+                                                   approved=F(
+                                                       'parameter_id__approved'),
+                                                   requirement=F(
+                                                       'parameter_id__requirement'),
+                                                   week_day_id=F(
+                                                       'time_slot_id__week_day_id'),
+                                                   day_time_id=F(
+                                                       'time_slot_id__day_time_id'),
+                                                   )
+        return Response({'status': 'SUCCESS', 'data': userTimeAvalibilityForSemester})
+
+    else:
+        return Response({'status': 'user not Specified!', 'data': []})
+
+
+@api_view(["GET"])
+def getCoursePreferenceEntryPerSemester(request, semesterId, id):
+    res = {"status": True, "data": ""}
+
+    # semester_id is just the name of the field that holds
+    # a relation to the semester table
+    # semester_id_id is specifying the id of the relational table
+    # F is used to rename a field
+    if id:
+        userTimeAvalibilityForSemester = CourseTimeParameter.objects.select_related(
+            'parameter_id').select_related('time_slot_id').filter(
+            parameter_id__semester_id_id=semesterId).filter(course_id_id=id).filter(
+
+            parameter_id__requirement=False).values('parameter_id', 'time_slot_id',
+                                                    approved=F(
+                                                        'parameter_id__approved'),
+                                                    requirement=F(
+                                                        'parameter_id__requirement'),
+                                                    week_day_id=F(
+                                                        'time_slot_id__week_day_id'),
+                                                    day_time_id=F(
+                                                        'time_slot_id__day_time_id'),
+                                                    )
+        return Response({'status': 'SUCCESS', 'data': userTimeAvalibilityForSemester})
+
+    else:
+        return Response({'status': 'user not Specified!', 'data': []})
+
+
+@api_view(["GET"])
 def getPreferenceParameterIds(request, semesterId, id):
     if semesterId:
         mediumScoreParameterId = UserTimeParameter.objects.select_related('parameter_id').filter(parameter_id__semester_id_id=semesterId).filter(

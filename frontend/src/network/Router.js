@@ -24,6 +24,8 @@ const ROUTER = {
         getPreferenceParameterIds: `${SWITCH.BASE}/${SWITCH.API}/get_preference_parameter_ids`,
         courseTimeParam: `${SWITCH.BASE}/${SWITCH.API}/course_time_parameter/`,
         getCourseListPerSemester: `${SWITCH.BASE}/${SWITCH.API}/get_course_list_per_semester`,
+        getCourseAvaliabilityData: `${SWITCH.BASE}/${SWITCH.API}/get_course_avaliability_for_semester`,
+        getCoursePreferenceData: `${SWITCH.BASE}/${SWITCH.API}/get_course_preference_for_semester`,
     }
 }
 

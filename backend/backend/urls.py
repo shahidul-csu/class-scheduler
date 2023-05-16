@@ -60,8 +60,12 @@ urlpatterns = [
              name='get_user_preference_option_entries'),
         path('get_preference_parameter_ids/<int:semesterId>/<int:id>/', getPreferenceParameterIds,
              name='get_preference_parameter_ids'),
-        path('get_course_parameter_id/<int:semesterId>/<int:courseId>/', getCourseParameterId,
+        path('get_course_parameter_id/<int:semesterId>/<int:id>/', getCourseParameterId,
              name='get_course_parameter_id'),
+        path('get_course_avaliability_for_semester/<int:semesterId>/<int:id>/', getCourseAvaliabilityEntryPerSemester,
+             name='get_course_avaliability_for_semester'),
+        path('get_course_preference_for_semester/<int:semesterId>/<int:id>/', getCoursePreferenceEntryPerSemester,
+             name='get_course_preference_for_semester'),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
