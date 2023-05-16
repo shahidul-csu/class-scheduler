@@ -69,7 +69,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['course_id', 'name', 'units',
-                  'number_per_week', 'sync_time', 'capacity', 'courseGroup', 'Section']
+                  'number_per_week', 'sync_time', 'capacity', 'course_group', 'section']
 
 
 class TeachesSerializer(serializers.ModelSerializer):
