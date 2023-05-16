@@ -187,6 +187,31 @@ def getInstructorListPerSemester(request, semesterId):
         return Response({'status': 'semester not Specified!', 'data': []})
 
 
+@api_view(["GET"])
+def getCourseListPerSemester(request, semesterId):
+    if semesterId:
+        # get instructor ids per semester
+        courseIdsPerSemester = CourseTimeParameter.objects.select_related('parameter_id').filter(
+            parameter_id__semester_id_id=semesterId).values_list('course_id_id', flat=True)
+        # get instructor names using the ids
+        courseData = Course.objects.filter(id__in=courseIdsPerSemester).values(
+            'course_id', 'name')
+
+        return Response({'data': courseData})
+    else:
+        return Response({'status': 'semester not Specified!', 'data': []})
+
+
+@api_view(["GET"])
+def getParameterData(request, parameterId):
+    if parameterId:
+        parameterData = ParameterData.objects.filter(parameter_id=parameterId).values(
+            'parameter_id', 'approved', 'requirement', 'score', 'semester_id_id')
+        return Response({'status': 'SUCCESS', 'data': parameterData})
+    else:
+        return Response({'status': 'parameter not Specified!', 'data': []})
+
+
 class UserView(DataAccessView):
     serializer_class = UserSerializer
     queryset = User.objects.all()

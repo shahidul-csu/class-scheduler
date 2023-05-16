@@ -18,12 +18,19 @@ const AddUserPg = () => {
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [is_staff, setIs_staff] = useState(null);
+    // const [is_admin, setIs_admin] = useState(null);
 
     const addUser = () => {
 
-        const isStaffValue = is_staff === "Yes";
+        const isStaffValue = is_staff === "Faculty";
+        const isAdminValue = true;
+
+        if (isStaffValue) {
+            isAdminValue = false;
+        }
 
         axios(getSignUpConfig({
+            is_superuser: isAdminValue,
             username: firstName, password: firstName, email: email,
             first_name: firstName, last_name: lastName, is_staff: isStaffValue, is_active: true
         })).then(
@@ -79,14 +86,14 @@ const AddUserPg = () => {
                 </Form.Group>
 
                 <Form.Group className={pageCss.formGroup}>
-                    <Form.Label className={pageCss.customLabel}>Is Staff?</Form.Label>
+                    <Form.Label className={pageCss.customLabel}>Role?</Form.Label>
                     <Dropdown onSelect={value => setIs_staff(value)}>
                         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                             {is_staff || 'Select an option'}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item eventKey="Yes">Yes</Dropdown.Item>
-                            <Dropdown.Item eventKey="No">No</Dropdown.Item>
+                            <Dropdown.Item eventKey="Admin">Admin</Dropdown.Item>
+                            <Dropdown.Item eventKey="Faculty">Faculty</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Form.Group>

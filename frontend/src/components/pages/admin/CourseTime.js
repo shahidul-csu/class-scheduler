@@ -13,7 +13,7 @@ import DropDownSquareGroup from '../../PgComponents/DropDownSquares/DropDownSqua
 import axios from "axios";
 
 const CourseTime = () => {
-    const [selectedSemeterId, setSelectedSemesterId] = useState("0");
+    const [selectedSemesterId, setSelectedSemesterId] = useState("0");
     const [semesterList, setSemesterList] = useState([]);
     const [selectedCourseId, setSelectedCourseId] = useState("0");
     const [courseList, setCourseList] = useState([]);
@@ -62,17 +62,46 @@ const CourseTime = () => {
 
 
     // Store Time Specifications to Course
-    const assignCourseToTime = async (availabilityData) => {
-        let parameterDataId = await makeNewParameterData();
-        let CurrentCourseId = localStorage.getItem('course_id');
-        let axiosCallListForSelectedSlots = returnAxiosCallList(availabilityData, parameterDataId, CurrentCourseId);
+    // const assignCourseToTime = async (availabilityData) => {
+    //     let parameterDataId = await makeNewParameterData();
+    //     let CurrentCourseId = localStorage.getItem('course_id');
+    //     let axiosCallListForSelectedSlots = returnAxiosCallList(availabilityData, parameterDataId, CurrentCourseId);
+
+    //     await axios.all([...axiosCallListForSelectedSlots]).then(
+    //         axios.spread((...responses) => {
+
+    //             // use/access the results
+    //             console.log(responses);
+    //             alert("Your course specifications has been sent.\n")
+    //         })
+    //     )
+    //         .catch(errors => {
+    //             // react on errors.
+    //             console.error(errors);
+    //         });
+
+    // }
+
+    const submitAvaliabilityRequest = async (availabilityData, isNewEntry) => {
+        let parameterDataId = null;
+        let LoggedInCourseId = localStorage.getItem('courseId');
+        let axiosCallListForSelectedSlots = null;
+        if (isNewEntry) {
+            parameterDataId = await makeNewParameterData();
+            axiosCallListForSelectedSlots = returnAxiosCallList(availabilityData, parameterDataId, LoggedInCourseId);
+        } else {
+            parameterDataId = await getParameterData();
+            axiosCallListForSelectedSlots = returnAxiosCallList(availabilityData, parameterDataId, LoggedInCourseId);
+        }
+
 
         await axios.all([...axiosCallListForSelectedSlots]).then(
             axios.spread((...responses) => {
-
-                // use/access the results
-                console.log(responses);
-                alert("Your course specifications has been sent.\n")
+                if (isNewEntry) {
+                    alert("The course has now been successfully assigned.\n")
+                } else {
+                    alert("The course time specifications have been updated.\n ")
+                }
             })
         )
             .catch(errors => {
@@ -88,13 +117,12 @@ const CourseTime = () => {
         let Data = null
         await axios(getParameterDataModelConfig(
             "POST", "", {
-            approved: false, requirement: true, score: 0, parameter_id: null,
-            'semester_id': +selectedSemeterId
+            approved: null, requirement: true, score: 0, parameter_id: null,
+            'semester_id': +selectedSemesterId
         },
             localStorage.getItem('token'))).then(
                 res => {
                     Data = res.data.parameter_id;
-
                 }
             ).catch(
                 err => {
@@ -105,39 +133,105 @@ const CourseTime = () => {
         return Data; //returns the newly made requirement
     }
 
+    const getParameterData = async () => {
+        let Data = null;
+        await axios(getGenericAuthModelConfig("GET", {
+            'semesterId': selectedSemesterId,
+            'courseId': localStorage.getItem('courseId')
+        }, {},
+            localStorage.getItem('token'), ROUTER.api.getAvaliabilityData)).then(
+                res => {
+                    Data = res.data.data[0].parameter_id
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
+        return Data;
+    }
+
 
     // Return Call List
     //returns a list of axios calls based on the selected timeSlots
+    // const returnAxiosCallList = (availabilityData, paramId, courseId) => {
+    //     //axiosCallVarList is a list of axios post request
+    //     let axiosCallVarList = []
+    //     let currentWeekDayId = null;
+    //     let currentDayTimeId = null;
+
+    //     // for all weekdays
+    //     for (var x = 0; x < availabilityData.length; x++) {
+    //         currentWeekDayId = x + 1;
+
+    //         // for all timeslotes in each weekday
+    //         for (var y = 0; y < availabilityData[x].timeSlotGroup.length; y++) {
+    //             currentDayTimeId = y + 1;
+
+    //             // if timeSlote is selected
+    //             if (availabilityData[x].timeSlotGroup[y].selected) {
+    //                 console.log(paramId);
+    //                 axiosCallVarList = [...axiosCallVarList,
+
+    //                 axios(getGenericAuthModelConfig("POST", "", {
+    //                     'parameter_id': paramId,
+    //                     'course_id': courseId, 'time_slot_id': calculateAndReturnTimeSlotId(
+    //                         currentWeekDayId, currentDayTimeId)
+    //                 },
+    //                     localStorage.getItem('token'), ROUTER.api.courseTimeParam))
+    //                 ];
+    //             }
+    //         }
+    //     }
+    //     return axiosCallVarList
+    // }
+
     const returnAxiosCallList = (availabilityData, paramId, courseId) => {
-        //axiosCallVarList is a list of axios post request
-        let axiosCallVarList = []
+        let axiosCallVarList = [];
         let currentWeekDayId = null;
         let currentDayTimeId = null;
+
 
         // for all weekdays
         for (var x = 0; x < availabilityData.length; x++) {
             currentWeekDayId = x + 1;
 
-            // for all timeslotes in each weekday
+            // for all timeslots in each weekday
             for (var y = 0; y < availabilityData[x].timeSlotGroup.length; y++) {
                 currentDayTimeId = y + 1;
 
-                // if timeSlote is selected
-                if (availabilityData[x].timeSlotGroup[y].selected) {
+                // if timeSlot is selected
+                if (availabilityData[x].timeSlotGroup[y].selected && !(availabilityData[x].timeSlotGroup[y].wasSelected)) {
                     console.log(paramId);
                     axiosCallVarList = [...axiosCallVarList,
 
                     axios(getGenericAuthModelConfig("POST", "", {
+                        'course_id': courseId, 'parameter_id': paramId,
+                        'time_slot_id': calculateAndReturnTimeSlotId(
+                            currentWeekDayId, currentDayTimeId)
+                    },
+                        localStorage.getItem('token'), ROUTER.api.courseTimeParam))
+                    ];
+                } else if (!availabilityData[x].timeSlotGroup[y].selected && availabilityData[x].timeSlotGroup[y].wasSelected) {
+
+                    axiosCallVarList = [...axiosCallVarList,
+
+                    axios(getGenericAuthModelConfig("DELETE", "", {
                         'parameter_id': paramId,
                         'course_id': courseId, 'time_slot_id': calculateAndReturnTimeSlotId(
                             currentWeekDayId, currentDayTimeId)
                     },
                         localStorage.getItem('token'), ROUTER.api.courseTimeParam))
                     ];
+
+
                 }
             }
+
         }
         return axiosCallVarList
+
     }
 
 
@@ -158,7 +252,7 @@ const CourseTime = () => {
             <div id={PageCss.container1}>
 
                 <select id={pageCss.semesterSelect} onChange={(e) => { setSelectedSemesterId(e.target.value) }}
-                    value={selectedSemeterId}>
+                    value={selectedSemesterId}>
                     <option value={0}>Select Semester:</option>
                     {semesterList.map((semester, index) => <option key={index} value={semester.semester_id}>
                         {semester.name + " " + semester.year}</option>)}
@@ -192,10 +286,11 @@ const CourseTime = () => {
             <p id={pageCss.pgInstructions} ><b>Assign a Course to a Time.</b></p>
 
 
-
+            {/* SubmitAvaliability={assignCourseToTime} */}
             <DropDownSquareGroup disabled={false}
-                SubmitAvaliability={assignCourseToTime}
-                selectedSemesterById={selectedSemeterId}
+                SubmitAvaliability={submitAvaliabilityRequest}
+
+                selectedSemesterById={selectedSemesterId}
                 selectedCourseId={selectedCourseId} />
 
         </div>

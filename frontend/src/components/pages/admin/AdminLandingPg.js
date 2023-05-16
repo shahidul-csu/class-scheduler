@@ -158,6 +158,7 @@ const AdminPage = (props) => {
                             {["Time", "/CourseTime"]}
                             {["Classroom", "/CourseClassroom"]}
                             {["Semester", "/CourseSemester"]}
+                            {["Instructor", "/InstructorCourse"]}
 
                             {/* Drop down options */}
 
@@ -196,14 +197,14 @@ const AdminPage = (props) => {
 
 
 
-                    <div className={LandingPage.ButtonShell} >
+                    {/* <div className={LandingPage.ButtonShell} >
                         <MenuButtonMemo
 
                             btnName="Assign Instructor" btn_Pic_Src={instructorIcon}
                             onclick={() => navigate("/InstructorCourse")}>
 
                         </MenuButtonMemo>
-                    </div>
+                    </div> */}
 
                     <div className={LandingPage.ButtonShell} >
                         <MenuButtonMemo

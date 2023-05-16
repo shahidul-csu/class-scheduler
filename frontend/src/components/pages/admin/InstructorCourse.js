@@ -4,44 +4,44 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import pageCss from "../../../styles/InstructorCourse.module.css"
 import pageheaderIcon from "../../../images/UserManagement.png"
 import Form from 'react-bootstrap/Form';
-import { getCourseModelConfig} from '../../../network/RequestTemplates';
+import { getCourseModelConfig } from '../../../network/RequestTemplates';
 import axios from "axios";
 
 const InstructorCourse = () => {
 
 
     const GetAllCourses = () => {
-        
-            axios(getCourseModelConfig( "GET", "", null ,  localStorage.getItem('token') )).then(
-                    res => {
-                        console.log("All Courses", res.data)
-                        // alert("Course created")
-                        // window.location.reload(true) // RELOADS PAGE
-                    }
-                ).catch(
-                    err => {
-                        alert(err)
-                        console.log(err)
-                    }
-                )
+
+        axios(getCourseModelConfig("GET", "", null, localStorage.getItem('token'))).then(
+            res => {
+                console.log("All Courses", res.data)
+                // alert("Course created")
+                // window.location.reload(true) // RELOADS PAGE
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
     }
-        
+
     let courses = [
-        useEffect(()=>{
+        useEffect(() => {
             GetAllCourses();
         })
     ]
     // useEffect(()=>{
     //     GetAllCourses();
     // })
-        
-        return (<React.Fragment >
-            <div id={pageCss.pageBody}>
+
+    return (<React.Fragment >
+        <div id={pageCss.pageBody}>
             <div id={pageCss.headerWrapper}>
                 <div id={pageCss.heading}>
                     <span id={pageCss.headerText} >Assign Instructor to Course </span>
-                    <img id={pageCss.PGIcon} src={pageheaderIcon} alt="UserManagementIcon" 
-                    style={{height: "25px", width:"25px"}}/>
+                    <img id={pageCss.PGIcon} src={pageheaderIcon} alt="UserManagementIcon"
+                        style={{ height: "25px", width: "25px" }} />
 
                 </div>
 
@@ -49,7 +49,7 @@ const InstructorCourse = () => {
                 {/* <div id={pageCss.myButton} >
                     <Button id={pageCss.ULButton}>Course List</Button>
                 </div> */}
-                
+
             </div>
             <p id={pageCss.pgInstructions} ><b>Assign a specific instructor to a course.</b></p>
 
@@ -58,7 +58,7 @@ const InstructorCourse = () => {
                 testcss`  for using multiple css */}
                 <Form.Group className={`${pageCss.formGroup}`} >
                     <Form.Label className={`${pageCss.customLabel}`}>Instructor</Form.Label>
-                    <Form.Control className={pageCss.customInput} type="email"  />
+                    <Form.Control className={pageCss.customInput} type="email" />
                     {/* <div  className={pageCss.formGroup}>
                     <select className={` ${pageCss.mySelect}`}>
                         <option value={0}>Instructor</option>
@@ -75,18 +75,18 @@ const InstructorCourse = () => {
 
                 <Form.Group className={pageCss.formGroup}>
                     <Form.Label className={pageCss.customLabel}>Course</Form.Label>
-                    <Form.Control className={pageCss.customInput}type="email"  />
+                    <Form.Control className={pageCss.customInput} type="email" />
                 </Form.Group>
 
                 <Form.Group className={pageCss.formGroup} >
                     <Form.Label className={pageCss.customLabel}>Semester</Form.Label>
-                    <Form.Control className={pageCss.customInput}type="email"  />
+                    <Form.Control className={pageCss.customInput} type="email" />
                 </Form.Group>
             </Form>
             <div id={pageCss.divSubmit}><Button id={pageCss.submitBTN}>Submit</Button></div>
-            
-            </div>
-        </React.Fragment>);
+
+        </div>
+    </React.Fragment>);
 }
- 
-export default InstructorCourse ;
+
+export default InstructorCourse;

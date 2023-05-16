@@ -26,7 +26,7 @@ const FacultyProfilePage = () => {
             <div className={AdminProfilePageCSS.Container}>
                 <div className={AdminProfilePageCSS.Row}>
                     <div className={AdminProfilePageCSS.Col1}>
-                        <div className={AdminProfilePageCSS.LeftCol}>
+                        <div className={AdminProfilePageCSS.RightCol}>
                             <h1><strong>Profile Picture</strong></h1>
                             <img src={profileIcon} alt="Profile Icon" id={AdminProfilePageCSS.profileIcon}
                             />

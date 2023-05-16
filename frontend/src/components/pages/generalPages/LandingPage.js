@@ -70,7 +70,7 @@ const LandingPage = (props) => {
         // global google
         // ADD NEW CLIENT ID HERE
         google.accounts.id.initialize({
-            client_id: "???",
+            client_id: "??????",
             callback: handleCallbackResponse
         })
 
