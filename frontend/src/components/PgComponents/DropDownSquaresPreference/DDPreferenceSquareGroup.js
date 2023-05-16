@@ -13,9 +13,9 @@ export const DataContext = createContext()
 
 
 const DayTimeSlots = () => [
-    { timeSlotName: '8AM-10AM', isAvailable: false, currentScore: 1, previousScore: 1 }, { timeSlotName: '10AM-12PM', isAvailable: false, currentScore: 1, previousScore: 1 },
-    { timeSlotName: '12PM-2PM', isAvailable: false, currentScore: 1, previousScore: 1 }, { timeSlotName: '2PM-4PM', isAvailable: false, currentScore: 1, previousScore: 1 },
-    { timeSlotName: '4PM-6PM', isAvailable: false, currentScore: 1, previousScore: 1 }, { timeSlotName: '6PM-8PM', isAvailable: false, currentScore: 1, previousScore: 1 }]
+    { timeSlotName: '8AM-10AM', currentScore: 0, previousScore: 0 }, { timeSlotName: '10AM-12PM', currentScore: 0, previousScore: 0 },
+    { timeSlotName: '12PM-2PM', currentScore: 0, previousScore: 0 }, { timeSlotName: '2PM-4PM', currentScore: 0, previousScore: 0 },
+    { timeSlotName: '4PM-6PM', currentScore: 0, previousScore: 0 }, { timeSlotName: '6PM-8PM', currentScore: 0, previousScore: 0 }]
 
 const DDPrefenceSquareGroup = (props) => {
 
@@ -38,53 +38,34 @@ const DDPrefenceSquareGroup = (props) => {
     const isApproved = useRef(true);
 
     const [timeSlotGroupList, setTimeSlotGroupList] = useState([
-        { timeSlotGroup: DayTimeSlots() },
-        { timeSlotGroup: DayTimeSlots() },
-        { timeSlotGroup: DayTimeSlots() },
-        { timeSlotGroup: DayTimeSlots() },
-        { timeSlotGroup: DayTimeSlots() },
+        { timeSlotGroup: DayTimeSlots() },//Monday
+        { timeSlotGroup: DayTimeSlots() },//Tuesday
+        { timeSlotGroup: DayTimeSlots() },//Friday
+        { timeSlotGroup: DayTimeSlots() },//Thursday
+        { timeSlotGroup: DayTimeSlots() },//Friday
     ]);
 
-
+    //fetch preference entries
     useEffect(() => {
-
         async function FetchExistingData() {
-            let availabilityData = null;
-            let availabilityTimeSlots = null;
-            let preferenceData = null;
             setShowLoadingIcon(true);
-
-            availabilityData = await fetchAvailabilityPreference("availability");
-            preferenceData = await fetchAvailabilityPreference("preference");
-            if (preferenceData != null) {
-                doesEntryExist.current = true;
-                setEditMode(false);
-            } else {
-                setEditMode(true);
-                doesEntryExist.current = false;
-            }
-            updateVisualDetails(preferenceData, availabilityData);
-            setIsDoneFetching(true);
-            setShowLoadingIcon(false);
-        }
-
-        async function fetchAvailabilityPreference(dataType) {
-            let route = null;
-            let fetchedData = null;
-            if (dataType === "availability") {
-                route = ROUTER.api.getAvaliabilityData;
-            } else {
-                route = ROUTER.api.getPreferenceData;
-            }
             await axios(getGenericAuthModelConfig("GET", {
                 'semesterId': props.selectedSemesterId,
-                'userId': localStorage.getItem('userId')
+                'id': localStorage.getItem('userId')
             }, {},
-                localStorage.getItem('token'), route)).then(
+                localStorage.getItem('token'), ROUTER.api.getPreferenceData)).then(
                     res => {
                         if (res.data.data.length > 0) {
-                            fetchedData = res.data.data;
+                            doesEntryExist.current = true;
+                            setEditMode(false);
+                            updateVisualDetails(res.data.data);
+                        } else {
+                            doesEntryExist.current = false;
+                            setEditMode(true);
+                            resetToDefaultTimeSlots();
                         }
+                        setIsDoneFetching(true);
+                        setShowLoadingIcon(false);
                     }
                 ).catch(
                     err => {
@@ -93,35 +74,39 @@ const DDPrefenceSquareGroup = (props) => {
                     }
 
                 )
-            return fetchedData;
         }
-        function updateVisualDetails(preferenceData, availabilityData) {
-            let newtimeSlotGroupList = [
-                { timeSlotGroup: DayTimeSlots() },
-                { timeSlotGroup: DayTimeSlots() },
-                { timeSlotGroup: DayTimeSlots() },
-                { timeSlotGroup: DayTimeSlots() },
-                { timeSlotGroup: DayTimeSlots() },
-            ];
-            if (availabilityData != null) {
-                for (let x = 0; x < availabilityData.length; x++) {
-                    newtimeSlotGroupList[availabilityData[x].week_day_id - 1].timeSlotGroup[availabilityData[x].day_time_id - 1].isAvailable = true
-                }
-            } else {
-                for (let x = 0; x < newtimeSlotGroupList.length; x++) {
-                    for (let y = 0; y < newtimeSlotGroupList[x].timeSlotGroup.length; y++) {
-                        newtimeSlotGroupList[x].timeSlotGroup[y].isAvailable = true;
-                    }
-                }
-            }
 
-            if (preferenceData != null) {
-                for (let x = 0; x < preferenceData.length; x++) {
-                    newtimeSlotGroupList[preferenceData[x].week_day_id - 1].timeSlotGroup[preferenceData[x].day_time_id - 1].currentScore = preferenceData[x].score;
-                    newtimeSlotGroupList[preferenceData[x].week_day_id - 1].timeSlotGroup[preferenceData[x].day_time_id - 1].previousScore = preferenceData[x].score;
-                }
+        function updateVisualDetails(data) {
+            let newTimeSlotGroupList = [
+                { timeSlotGroup: DayTimeSlots() },//Monday
+                { timeSlotGroup: DayTimeSlots() },//Tuesday
+                { timeSlotGroup: DayTimeSlots() },//Friday
+                { timeSlotGroup: DayTimeSlots() },//Thursday
+                { timeSlotGroup: DayTimeSlots() },//Friday
+            ];
+            for (let x = 0; x < data.length; x++) {
+                newTimeSlotGroupList[data[x].week_day_id - 1].timeSlotGroup[data[x].day_time_id - 1].currentScore = data[x].score;
+                newTimeSlotGroupList[data[x].week_day_id - 1].timeSlotGroup[data[x].day_time_id - 1].previousScore = data[x].score;
             }
-            setTimeSlotGroupList(newtimeSlotGroupList);
+            console.log(newTimeSlotGroupList);
+            setTimeSlotGroupList(newTimeSlotGroupList);
+        }
+        function resetToDefaultTimeSlots() {
+            let newTimeSlotGroupList = [
+                { timeSlotGroup: DayTimeSlots() },//Monday
+                { timeSlotGroup: DayTimeSlots() },//Tuesday
+                { timeSlotGroup: DayTimeSlots() },//Friday
+                { timeSlotGroup: DayTimeSlots() },//Thursday
+                { timeSlotGroup: DayTimeSlots() },//Friday
+            ];
+            for (let x = 0; x < newTimeSlotGroupList.length; x++) {
+                for (let y = 0; y < newTimeSlotGroupList[x].timeSlotGroup.length; y++) {
+                    newTimeSlotGroupList[x].timeSlotGroup[y].currentScore = 1;
+                }
+
+            }
+            setTimeSlotGroupList(newTimeSlotGroupList);
+            console.log(timeSlotGroupList);
         }
 
         doesEntryExist.current = false;
@@ -205,14 +190,18 @@ const DDPrefenceSquareGroup = (props) => {
             if (e.target.value === "select") {
                 for (let x = 0; x < newtimeSlotGroupList.length; x++) {
                     for (let y = 0; y < newtimeSlotGroupList[x].timeSlotGroup.length; y++) {
-                        newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 5;
+                        if (newtimeSlotGroupList[x].timeSlotGroup[y].currentScore !== 0) {
+                            newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 5;
+                        }
                     }
                 }
 
             } else {
                 for (let x = 0; x < newtimeSlotGroupList.length; x++) {
                     for (let y = 0; y < newtimeSlotGroupList[x].timeSlotGroup.length; y++) {
-                        newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 1;
+                        if (newtimeSlotGroupList[x].timeSlotGroup[y].currentScore !== 0) {
+                            newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 1;
+                        }
                     }
                 }
 

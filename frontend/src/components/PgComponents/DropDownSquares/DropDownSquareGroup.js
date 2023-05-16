@@ -55,7 +55,7 @@ const DropDownSquareGroup = (props) => {
     ]);
 
     //fetch avaliability data
-    useEffect(async () => {
+    useEffect(() => {
         //gets the avaliability entry previously submitted by the user for the 
         //specifed semester
         async function fetchExistingAvaliabilityData() {
