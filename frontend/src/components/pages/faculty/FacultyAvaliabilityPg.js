@@ -22,21 +22,20 @@ const FacultyAvaliabiltyPg = () => {
     // let date = new Date();
     // console.log(date.getDate());
 
-    const populateSemesterDropDown = () => {
-        axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
-            res => {
-                setSemesterList(res.data)
-                setSelectedSemesterId(res.data[res.data.length - 1].semester_id);
-            }
-        ).catch(
-            err => {
-                alert(err)
-                console.log(err)
-            }
-        )
-    }
-
     useEffect(() => {
+        async function populateSemesterDropDown() {
+            await axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
+                res => {
+                    setSemesterList(res.data)
+                    setSelectedSemesterId(res.data[res.data.length - 1].semester_id);
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
+        }
         populateSemesterDropDown();
     }, [])
 
@@ -47,11 +46,9 @@ const FacultyAvaliabiltyPg = () => {
         let parameterDataId = null;
         let LoggedInUserId = localStorage.getItem('userId');
         let axiosCallListForSelectedSlots = null;
-        //sends same timeslot entries to preference paramater
-        let axiosCallListForPreference = null;
-        let preferenceParameterId = null;
+
         if (isNewEntry) {
-            //sendong entries to availability parameter
+            //sending entries to availability parameter
             parameterDataId = await makeNewParameterData("availability");
             axiosCallListForSelectedSlots = returnAxiosCallList(availabilityData, parameterDataId, LoggedInUserId);
         } else {
@@ -75,7 +72,7 @@ const FacultyAvaliabiltyPg = () => {
                     }
                 )
         }
-        //availability
+        //availability responses
         await axios.all([...axiosCallListForSelectedSlots]).then(
             axios.spread((...responses) => {
                 if (isNewEntry) {
@@ -89,25 +86,31 @@ const FacultyAvaliabiltyPg = () => {
             console.error(errors);
         });
 
+        //sends same timeslot entries to preference paramater
+        let axiosCallListForPreference = null;
+        let highParameterId = null;
         //check if preference entries exist, else create new parameter for preference entries
         if (hasPreferenceEntries) {
+            console.log("Updating preference entries");
             //get preference parameter 
             let lowParameterId = await getPreferenceParameterId(1);
             let mediumParameterId = await getPreferenceParameterId(3);
-            let highParameterId = await getPreferenceParameterId(5);
+            highParameterId = await getPreferenceParameterId(5);
 
             //if there's no high score parameter create a new one for new entries
             if (highParameterId === null) {
                 highParameterId = await makeNewParameterData("preference");
             }
+            console.log(availabilityData);
+
             axiosCallListForPreference = returnUpdatedPreferenceList(availabilityData, lowParameterId, mediumParameterId, highParameterId, LoggedInUserId);
             //update preference entries
         } else {
             //sending entries to preference parameter
-            preferenceParameterId = await makeNewParameterData("preference");
-            axiosCallListForPreference = returnAxiosCallList(availabilityData, preferenceParameterId, LoggedInUserId);
+            highParameterId = await makeNewParameterData("preference");
+            axiosCallListForPreference = returnAxiosCallList(availabilityData, highParameterId, LoggedInUserId);
         }
-        //preference
+        //preference responses
         await axios.all([...axiosCallListForPreference]).then(
             axios.spread((...responses) => {
                 if (isNewEntry) {
@@ -184,6 +187,7 @@ const FacultyAvaliabiltyPg = () => {
         return Data;
     }
 
+    //request to get parameter id of the logged in user based on the score
     const getPreferenceParameterId = async (score) => {
         let Data = null;
         await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), ROUTER.api.getPreferenceParameterIds)).then(
@@ -289,7 +293,7 @@ const FacultyAvaliabiltyPg = () => {
             }
 
         }
-        return axiosCallVarList
+        return axiosCallVarList;
 
     }
 
@@ -300,13 +304,13 @@ const FacultyAvaliabiltyPg = () => {
         let currentDayTimeId = null;
 
         //for all weekdays
-        for (let x = 0; availabilityData.length; x++) {
+        for (let x = 0; x < availabilityData.length; x++) {
             currentWeekDayId = x + 1;
             //for all timeslots in each weekday
-            for (let y = 0; availabilityData[x].timeSlotGroup.length; y++) {
+            for (let y = 0; y < availabilityData[x].timeSlotGroup.length; y++) {
                 currentDayTimeId = y + 1;
                 //if timeblock is selected and it wasn't in the database
-                if (availabilityData[x].timeSlotGroup[y].selected && !availabilityData[x].timeSlotGroup[y].wasSelected) {
+                if (availabilityData[x].timeSlotGroup[y].selected && !(availabilityData[x].timeSlotGroup[y].wasSelected)) {
                     if (availabilityData[x].timeSlotGroup[y].preferenceScore === null) {
                         axiosCallListForPreference = [...axiosCallListForPreference,
                         axios(getGenericAuthModelConfig("POST", "", {
@@ -322,37 +326,46 @@ const FacultyAvaliabiltyPg = () => {
                     //Delete all entries from the database dependeding of score
                     if (availabilityData[x].timeSlotGroup[y].preferenceScore !== null) {
                         if (availabilityData[x].timeSlotGroup[y].preferenceScore === 5) {
-                            axiosCallListForPreference = [...axiosCallListForPreference,
-                            axios(getGenericAuthModelConfig("DELETE", "", {
-                                'parameter_id': highParam,
-                                'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                                    currentWeekDayId, currentDayTimeId)
-                            },
-                                localStorage.getItem('token'), ROUTER.api.userTimeParam))
-                            ];
+                            if (highParam !== null) {
+                                axiosCallListForPreference = [...axiosCallListForPreference,
+                                axios(getGenericAuthModelConfig("DELETE", "", {
+                                    'parameter_id': highParam,
+                                    'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                                        currentWeekDayId, currentDayTimeId)
+                                },
+                                    localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                                ];
+                            }
                         } else if (availabilityData[x].timeSlotGroup[y].preferenceScore === 3) {
-                            axiosCallListForPreference = [...axiosCallListForPreference,
-                            axios(getGenericAuthModelConfig("DELETE", "", {
-                                'parameter_id': mediumParam,
-                                'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                                    currentWeekDayId, currentDayTimeId)
-                            },
-                                localStorage.getItem('token'), ROUTER.api.userTimeParam))
-                            ];
+                            if (mediumParam !== null) {
+                                axiosCallListForPreference = [...axiosCallListForPreference,
+                                axios(getGenericAuthModelConfig("DELETE", "", {
+                                    'parameter_id': mediumParam,
+                                    'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                                        currentWeekDayId, currentDayTimeId)
+                                },
+                                    localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                                ];
+                            }
+
                         } else {
-                            axiosCallListForPreference = [...axiosCallListForPreference,
-                            axios(getGenericAuthModelConfig("DELETE", "", {
-                                'parameter_id': lowParam,
-                                'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                                    currentWeekDayId, currentDayTimeId)
-                            },
-                                localStorage.getItem('token'), ROUTER.api.userTimeParam))
-                            ];
+                            if (lowParam !== null) {
+                                axiosCallListForPreference = [...axiosCallListForPreference,
+                                axios(getGenericAuthModelConfig("DELETE", "", {
+                                    'parameter_id': lowParam,
+                                    'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
+                                        currentWeekDayId, currentDayTimeId)
+                                },
+                                    localStorage.getItem('token'), ROUTER.api.userTimeParam))
+                                ];
+                            }
                         }
+
                     }
                 }
             }
         }
+        return axiosCallListForPreference;
     }
     const calculateAndReturnTimeSlotId = (weekDayId, dayTimeId) => {
         //timeSlot fomular *
