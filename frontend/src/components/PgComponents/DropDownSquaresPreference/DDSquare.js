@@ -6,14 +6,14 @@ const DDSquare = (props) => {
     const contextData = useContext(DataContext);
 
     const squareBackgroundColor = () => {
-        if (props.isAvailable) {
-            if (props.currentScore === 5) {
-                return AvalibilityPgCss.OptionBoxBGColorGreen;
-            } else if (props.currentScore === 3) {
-                return AvalibilityPgCss.OptionBoxBGColorYellow;
-            } else {
-                return AvalibilityPgCss.OptionBoxBGColorRed;
-            }
+
+        if (props.currentScore === 5) {
+            return AvalibilityPgCss.OptionBoxBGColorGreen;
+        } else if (props.currentScore === 3) {
+            return AvalibilityPgCss.OptionBoxBGColorYellow;
+        } else if (props.currentScore) {
+            return AvalibilityPgCss.OptionBoxBGColorRed;
+
         } else {
             return AvalibilityPgCss.OptionBoxBGColorGray;
         }
@@ -28,7 +28,7 @@ const DDSquare = (props) => {
     }
 
     const DisableHandler = () => {
-        if (!props.isAvailable) {
+        if (props.currentScore === 0) {
             return AvalibilityPgCss.disabledTimSlot
         }
         if (!contextData.editMode) {

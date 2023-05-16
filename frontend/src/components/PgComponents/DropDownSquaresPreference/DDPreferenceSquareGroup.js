@@ -190,14 +190,18 @@ const DDPrefenceSquareGroup = (props) => {
             if (e.target.value === "select") {
                 for (let x = 0; x < newtimeSlotGroupList.length; x++) {
                     for (let y = 0; y < newtimeSlotGroupList[x].timeSlotGroup.length; y++) {
-                        newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 5;
+                        if (newtimeSlotGroupList[x].timeSlotGroup[y].currentScore !== 0) {
+                            newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 5;
+                        }
                     }
                 }
 
             } else {
                 for (let x = 0; x < newtimeSlotGroupList.length; x++) {
                     for (let y = 0; y < newtimeSlotGroupList[x].timeSlotGroup.length; y++) {
-                        newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 1;
+                        if (newtimeSlotGroupList[x].timeSlotGroup[y].currentScore !== 0) {
+                            newtimeSlotGroupList[x].timeSlotGroup[y].currentScore = 1;
+                        }
                     }
                 }
 
