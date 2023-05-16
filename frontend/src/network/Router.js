@@ -19,7 +19,6 @@ const ROUTER = {
         getPreferenceData: `${SWITCH.BASE}/${SWITCH.API}/get_preference_for_semester`,
         semester: `${SWITCH.BASE}/${SWITCH.API}/semester/`,
         getInstructorListPerSemester: `${SWITCH.BASE}/${SWITCH.API}/get_instructor_list_per_semester`,
-        getParameterData: `${SWITCH.BASE}/${SWITCH.API}/get_parameter_data`,
         getUserPreferenceOptionEntries: `${SWITCH.BASE}/${SWITCH.API}/get_user_preference_option_entries`,
         userBackToBack: `${SWITCH.BASE}/${SWITCH.API}/user_back_to_back_parameter/`,
         getPreferenceParameterIds: `${SWITCH.BASE}/${SWITCH.API}/get_preference_parameter_ids`,
