@@ -26,25 +26,57 @@ const AddUserPg = () => {
         const isAdminValue = true;
 
         if (isStaffValue) {
-            isAdminValue = false;
+            axios(getSignUpConfig({
+                is_superuser: false,
+                username: firstName, password: firstName, email: email,
+                first_name: firstName, last_name: lastName, is_staff: isStaffValue, is_active: true
+            })).then(
+                res => {
+                    console.log("created new faculty member", res.data)
+                    alert("Faculty created")
+                    window.location.reload(true) // RELOADS PAGE
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
+        } else {
+            axios(getSignUpConfig({
+                is_superuser: isAdminValue,
+                username: firstName, password: firstName, email: email,
+                first_name: firstName, last_name: lastName, is_staff: false, is_active: true
+            })).then(
+                res => {
+                    console.log("created new administrator user", res.data)
+                    alert("Administrator created")
+                    window.location.reload(true) // RELOADS PAGE
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
         }
 
-        axios(getSignUpConfig({
-            is_superuser: isAdminValue,
-            username: firstName, password: firstName, email: email,
-            first_name: firstName, last_name: lastName, is_staff: isStaffValue, is_active: true
-        })).then(
-            res => {
-                console.log("created new user", res.data)
-                alert("User created")
-                window.location.reload(true) // RELOADS PAGE
-            }
-        ).catch(
-            err => {
-                alert(err)
-                console.log(err)
-            }
-        )
+        // axios(getSignUpConfig({
+        //     is_superuser: isAdminValue,
+        //     username: firstName, password: firstName, email: email,
+        //     first_name: firstName, last_name: lastName, is_staff: isStaffValue, is_active: true
+        // })).then(
+        //     res => {
+        //         console.log("created new user", res.data)
+        //         alert("User created")
+        //         window.location.reload(true) // RELOADS PAGE
+        //     }
+        // ).catch(
+        //     err => {
+        //         alert(err)
+        //         console.log(err)
+        //     }
+        // )
     }
     return (<React.Fragment >
         <div id={pageCss.pageBody}>
