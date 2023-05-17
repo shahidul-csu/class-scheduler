@@ -97,7 +97,7 @@ const DropDownSquareGroup = (props) => {
                 { timeSlotGroup: DefaultTimeSlots() },
             ];
 
-            numberOfDeselectedTimeSlot.current = 0; // helps disable the submited button
+            numberOfDeselectedTimeSlot.current = 30; // helps disable the submited button
             setTimeSlotGroupList(newtimeSlotGroupList);
         }
         function updateVisualDetails(data) {
@@ -128,10 +128,10 @@ const DropDownSquareGroup = (props) => {
         //if a dropdown Option has been selected
         doesEntryExist.current = false;
         setIsDoneFetching(false);
-        if (props.selectedSemesterById != "0") {
+        if (props.selectedSemesterById != "0" && props.id != "0") {
             fetchExistingAvaliabilityData();
         }
-    }, [props.selectedSemesterById])
+    }, [props.selectedSemesterById, props.id])
 
 
     //wait for the avaliability data to be fetched before fetching the preference data
@@ -178,6 +178,7 @@ const DropDownSquareGroup = (props) => {
     const selectTimeBlock = (weekdayIndex, timeSlotIndex, isselected) => {
         //the DDSqure(Timeslot squares) use this function to 
         //report to this class what DDSuare has been selected.
+        console.log(numberOfDeselectedTimeSlot.current)
         let newtimeSlotGroupList = [...timeSlotGroupList];
 
         newtimeSlotGroupList[weekdayIndex].
