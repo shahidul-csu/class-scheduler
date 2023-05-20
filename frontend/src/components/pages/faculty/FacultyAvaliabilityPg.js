@@ -24,12 +24,10 @@ const FacultyAvaliabiltyPg = () => {
 
     // let date = new Date();
     // console.log(date.getDate());
-
     useEffect(() => {
         async function populateSemesterDropDown() {
             await axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
                 res => {
-
                     setSemesterList(res.data)
                     if (res.data.length > 0) {
                         setSelectedSemesterId(res.data[res.data.length - 1].semester_id);
@@ -45,48 +43,39 @@ const FacultyAvaliabiltyPg = () => {
         populateSemesterDropDown();
     }, [])
 
-
-
-
     const submitAvaliabilityRequest = async (availabilityData, isNewEntry, hasPreferenceEntries) => {
-        let parameterDataId = null;
+        let availabilityParameterId = null;
         let LoggedInUserId = localStorage.getItem('userId');
         let axiosCallListForSelectedSlots = null;
 
         if (isNewEntry) {
             //sending entries to availability parameter
-            parameterDataId = await makeNewParameterData("availability");
-            axiosCallListForSelectedSlots = returnAxiosCallList(availabilityData, parameterDataId, LoggedInUserId);
+            availabilityParameterId = await makeNewParameterData("availability");
+            axiosCallListForSelectedSlots = await returnAxiosCallList(availabilityData, availabilityParameterId, LoggedInUserId);
         } else {
             //get availability parameter id
-            parameterDataId = await getParameterData();
+            availabilityParameterId = await getParameterData();
             //update availability entries 
-            axiosCallListForSelectedSlots = returnUpdatedAxiosCallList(availabilityData, parameterDataId, LoggedInUserId);
-
-            //Update approved status from parameter table
-            await axios(getParameterDataModelConfig(
-                "PUT", "", {
-                approved: null, id: parameterDataId,
-            },
-                localStorage.getItem('token'))).then(
-                    res => {
-                        console.log("Parameter data updated")
-                    }
-                ).catch(
-                    err => {
-                        console.log(err)
-                    }
-                )
+            axiosCallListForSelectedSlots = await returnUpdatedAxiosCallList(availabilityData, availabilityParameterId, LoggedInUserId);
+            //Update approved status from availability entry
+            await axios(getParameterDataModelConfig("PUT", "", { approved: null, id: availabilityParameterId }, localStorage.getItem('token'))).then(
+                res => {
+                    console.log("Parameter data updated")
+                }
+            ).catch(
+                err => {
+                    console.log(err)
+                }
+            )
         }
         //availability responses
-        await axios.all([...axiosCallListForSelectedSlots]).then(
-            axios.spread((...responses) => {
-                if (isNewEntry) {
-                    alert("Your availability specifications have been sent.\n Now Wait for an approval from the admin.")
-                } else {
-                    alert("Your availability specifications have been updated.\n Now Wait for an approval from the admin.")
-                }
-            })
+        await axios.all([...axiosCallListForSelectedSlots]).then(axios.spread((...responses) => {
+            if (isNewEntry) {
+                console.log("Availability entries sent")
+            } else {
+                console.log("Availability entries updated")
+            }
+        })
         ).catch(errors => {
             // react on errors.
             console.error(errors);
@@ -98,7 +87,7 @@ const FacultyAvaliabiltyPg = () => {
         //check if preference entries exist, else create new parameter for preference entries
         if (hasPreferenceEntries) {
             console.log("Updating preference entries");
-            //get preference parameter 
+            //get preference parameter ids (There is a preference parameter id for each score) 
             let lowParameterId = await getPreferenceParameterId(1);
             let mediumParameterId = await getPreferenceParameterId(3);
             highParameterId = await getPreferenceParameterId(5);
@@ -107,81 +96,54 @@ const FacultyAvaliabiltyPg = () => {
             if (highParameterId === null) {
                 highParameterId = await makeNewParameterData("preference");
             }
-            //Send preference entries
-            axiosCallListForPreference = returnUpdatedPreferenceList(availabilityData, lowParameterId, mediumParameterId, highParameterId, LoggedInUserId);
+            //Update preference entries
+            axiosCallListForPreference = await returnUpdatedPreferenceList(availabilityData, lowParameterId, mediumParameterId, highParameterId, LoggedInUserId);
 
+
+            //delete any preference parameter id that is unused
+            //check if any parameterId has no entries in the user_time_parameter table, if not then delete the parameter
+            await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': LoggedInUserId }, {}, localStorage.getItem('token'), ROUTER.api.getPreferenceParameterIds)).then(
+                res => {
+                    if (res.data.low.length == 0 && lowParameterId !== null) {
+                        deletePreferenceParameterId(lowParameterId);
+                    }
+                    if (res.data.medium.length == 0 && mediumParameterId !== null) {
+                        deletePreferenceParameterId(mediumParameterId);
+                    }
+                }
+            ).catch(
+                err => {
+                    console.log(err)
+                }
+            )
         } else {
             //sending entries to preference parameter
             highParameterId = await makeNewParameterData("preference");
-            axiosCallListForPreference = returnAxiosCallList(availabilityData, highParameterId, LoggedInUserId);
+            axiosCallListForPreference = await returnAxiosCallList(availabilityData, highParameterId, LoggedInUserId);
         }
         //preference responses
-        await axios.all([...axiosCallListForPreference]).then(
-            axios.spread((...responses) => {
-                if (isNewEntry) {
-                    console.log("preference entries sent");
-                } else {
-                    console.log("preference entries updated");
-                }
+        await axios.all([...axiosCallListForPreference]).then(axios.spread((...responses) => {
+            console.log("Preference entries updated/sent")
+            if (isNewEntry) {
+                alert("Your availability specifications have been sent.\n Now Wait for an approval from the admin.")
+            } else {
+                alert("Your availability specifications have been updated.\n Now Wait for an approval from the admin.")
             }
-            )).catch(
-                errors => {
-                    console.error(errors);
-                }
-            )
+        }
+        )).catch(
+            errors => {
+                console.error(errors);
+            }
+        )
     }
-
 
     const makeNewParameterData = async (entryType) => {
         let Data = null
         if (entryType === "availability") {
             //availability approved variable is null so that the user knows that their entry waiting for approval/rejection
-            await axios(getParameterDataModelConfig(
-                "POST", "", {
-                approved: null, requirement: true, score: 0, parameter_id: null,
-                'semester_id': +selectedSemesterId
-            },
-                localStorage.getItem('token'))).then(
-                    res => {
-                        Data = res.data.parameter_id;
-                    }
-                ).catch(
-                    err => {
-                        alert(err)
-                        console.log(err)
-                    }
-                )
-        } else if (entryType === "preference") {
-            //preference entries are approved by default and default score is 5
-            await axios(getParameterDataModelConfig(
-                "POST", "", {
-                approved: true, requirement: false, score: 5, parameter_id: null,
-                'semester_id': +selectedSemesterId
-            },
-                localStorage.getItem('token'))).then(
-                    res => {
-                        Data = res.data.parameter_id;
-                    }
-                ).catch(
-                    err => {
-                        alert(err)
-                        console.log(err)
-                    }
-                )
-        }
-
-        return Data; //returns the newly made parameter id
-    }
-    //request to get the parameter id of the logged in user using userId and semesterId
-    const getParameterData = async () => {
-        let Data = null;
-        await axios(getGenericAuthModelConfig("GET", {
-            'semesterId': selectedSemesterId,
-            'id': localStorage.getItem('userId')
-        }, {},
-            localStorage.getItem('token'), getAvailabiityRoute)).then(
+            await axios(getParameterDataModelConfig("POST", "", { approved: null, requirement: true, score: 0, parameter_id: null, 'semester_id': +selectedSemesterId }, localStorage.getItem('token'))).then(
                 res => {
-                    Data = res.data.data[0].parameter_id
+                    Data = res.data.parameter_id;
                 }
             ).catch(
                 err => {
@@ -189,6 +151,35 @@ const FacultyAvaliabiltyPg = () => {
                     console.log(err)
                 }
             )
+        } else if (entryType === "preference") {
+            //preference entries are approved by default and default score is 5
+            await axios(getParameterDataModelConfig("POST", "", { approved: true, requirement: false, score: 5, parameter_id: null, 'semester_id': +selectedSemesterId }, localStorage.getItem('token'))).then(
+                res => {
+                    Data = res.data.parameter_id;
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
+        }
+
+        return Data; //returns the newly made parameter id
+    }
+    //request to get the parameter id of the logged in user using userId and semesterId
+    const getParameterData = async () => {
+        let Data = null;
+        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), getAvailabiityRoute)).then(
+            res => {
+                Data = res.data.data[0].parameter_id
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
         return Data;
     }
 
@@ -201,12 +192,10 @@ const FacultyAvaliabiltyPg = () => {
                     if (res.data.high.length > 0) {
                         Data = res.data.high[0].parameter_id;
                     }
-
                 } else if (score === 3) {
                     if (res.data.medium.length > 0) {
                         Data = res.data.medium[0].parameter_id;
                     }
-
                 } else {
                     if (res.data.low.length > 0) {
                         Data = res.data.low[0].parameter_id;
@@ -221,12 +210,14 @@ const FacultyAvaliabiltyPg = () => {
         )
         return Data;
     }
+
     //returns a list of axios calls based on the selected timeSlots
-    const returnAxiosCallList = (availabilityData, paramId, userId) => {
+    const returnAxiosCallList = async (availabilityData, paramId, userId) => {
         //axiosCallVarList is a list of axios post request
         let axiosCallVarList = []
         let currentWeekDayId = null;
         let currentDayTimeId = null;
+        let request = null;
 
         // for all weekdays
         for (var x = 0; x < availabilityData.length; x++) {
@@ -236,63 +227,50 @@ const FacultyAvaliabiltyPg = () => {
             for (var y = 0; y < availabilityData[x].timeSlotGroup.length; y++) {
                 currentDayTimeId = y + 1;
 
-                // if timeSlote is selected
+                // if timeSlote is selected then save timeslot to the database
                 if (availabilityData[x].timeSlotGroup[y].selected) {
-                    console.log(paramId);
-                    axiosCallVarList = [...axiosCallVarList,
-
-                    axios(getGenericAuthModelConfig("POST", "", {
-                        'parameter_id': paramId,
-                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                            currentWeekDayId, currentDayTimeId)
-                    },
-                        localStorage.getItem('token'), timeParam))
-                    ];
+                    request = await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': paramId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) }, localStorage.getItem('token'), timeParam));
+                    axiosCallVarList = [...axiosCallVarList, request];
+                    request = null;
                 }
             }
-
         }
         return axiosCallVarList
     }
 
     //Update preference entries
-    const returnUpdatedAxiosCallList = (availabilityData, paramId, userId) => {
+    const returnUpdatedAxiosCallList = async (availabilityData, paramId, userId) => {
         let axiosCallVarList = [];
         let currentWeekDayId = null;
         let currentDayTimeId = null;
+        let requestType = null;
+        let request = null;
+
         // for all weekdays
         for (let x = 0; x < availabilityData.length; x++) {
             currentWeekDayId = x + 1;
             // for all timeslots in each weekday
             for (let y = 0; y < availabilityData[x].timeSlotGroup.length; y++) {
                 currentDayTimeId = y + 1;
-                // if timeSlot is selected and was not selected in previous entries then save a new entry to the database
+                // if timeSlot is selected and was not selected in previous entries then save a new timeslot to the database
                 if (availabilityData[x].timeSlotGroup[y].selected && !(availabilityData[x].timeSlotGroup[y].wasSelected)) {
-                    console.log(paramId);
-                    axiosCallVarList = [...axiosCallVarList,
-                    axios(getGenericAuthModelConfig("POST", "", {
-                        'parameter_id': paramId,
-                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                            currentWeekDayId, currentDayTimeId)
-                    },
-                        localStorage.getItem('token'), timeParam))
-                    ];
+                    requestType = "POST";
+                    //else if timeSlot is not selected (currently) but was selected, then delete timeslot from availability entry
                 } else if (!availabilityData[x].timeSlotGroup[y].selected && availabilityData[x].timeSlotGroup[y].wasSelected) {
-
-                    axiosCallVarList = [...axiosCallVarList,
-
-                    axios(getGenericAuthModelConfig("DELETE", "", {
-                        'parameter_id': paramId,
-                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                            currentWeekDayId, currentDayTimeId)
-                    },
-                        localStorage.getItem('token'), timeParam))
-                    ];
+                    requestType = "DELETE";
+                }
+                if (requestType !== null) {
+                    request = await axios(getGenericAuthModelConfig(requestType, "", { 'parameter_id': paramId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) }, localStorage.getItem('token'), timeParam))
+                    axiosCallVarList = [...axiosCallVarList, request];
+                    //reset variables
+                    request = null;
+                    requestType = null;
                 }
             }
 
         }
         return axiosCallVarList;
+
     }
     //delete any parameter id that is unused
     const deletePreferenceParameterId = async (parameterId) => {
@@ -309,12 +287,13 @@ const FacultyAvaliabiltyPg = () => {
         )
     }
     //Update preference entries
-    const returnUpdatedPreferenceList = (availabilityData, lowParam, mediumParam, highParam, userId) => {
+    const returnUpdatedPreferenceList = async (availabilityData, lowParam, mediumParam, highParam, userId) => {
         let axiosCallListForPreference = [];
         let currentWeekDayId = null;
-        let requestType = null;
-        let param = null;
         let currentDayTimeId = null;
+        let request = null;
+        let requestType = null;
+        let paramId = null;
 
         //for all weekdays
         for (let x = 0; x < availabilityData.length; x++) {
@@ -326,53 +305,36 @@ const FacultyAvaliabiltyPg = () => {
                     continue;
                     //if timeblock is selected and it wasn't selected in previous entries then save a new entry to the database
                 } else if (availabilityData[x].timeSlotGroup[y].selected && !(availabilityData[x].timeSlotGroup[y].wasSelected)) {
-                    requestType = "POST";
-                    param = highParam;
-                } else if (!availabilityData[x].timeSlotGroup[y].selected && availabilityData[x].timeSlotGroup[y].wasSelected) { //if timeblock is not selected (currently but was selected, then delete from database)
+                    //new entries are saved with a score of 5
+                    if (availabilityData[x].timeSlotGroup[y].preferenceScore === null) {
+                        requestType = "POST";
+                        paramId = highParam;
+                    }
+                } else { //delete all every other entry
                     //Delete all entries from the database dependeding of score
                     if (availabilityData[x].timeSlotGroup[y].preferenceScore !== null) {
+                        requestType = "DELETE";
                         if (availabilityData[x].timeSlotGroup[y].preferenceScore === 5) {
-                            requestType = "DELETE";
-                            param = highParam;
+                            paramId = highParam;
                         } else if (availabilityData[x].timeSlotGroup[y].preferenceScore === 3) {
-                            requestType = "DELETE";
-                            param = mediumParam;
+                            paramId = mediumParam;
                         } else {
-                            requestType = "DELETE";
-                            param = lowParam;
-                        }
-                    }
-                    //delete entries if they weren't on the availability entries but were on the preference entries
-                } else {
-                    if (availabilityData[x].timeSlotGroup[y].preferenceScore !== null) {
-                        if (availabilityData[x].timeSlotGroup[y].preferenceScore === 5) {
-                            requestType = "DELETE";
-                            param = highParam;
-                        } else if (availabilityData[x].timeSlotGroup[y].preferenceScore === 3) {
-                            requestType = "DELETE";
-                            param = mediumParam;
-                        } else {
-                            requestType = "DELETE";
-                            param = lowParam;
+                            paramId = lowParam;
                         }
                     }
                 }
-                //send request to delete or add entries
-                if (requestType != null && param != null) {
-                    axiosCallListForPreference = [...axiosCallListForPreference,
-                    axios(getGenericAuthModelConfig(requestType, "", {
-                        'parameter_id': param,
-                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                            currentWeekDayId, currentDayTimeId)
-                    },
-                        localStorage.getItem('token'), timeParam))
-                    ];
+                //send request
+                if (paramId !== null) {
+                    request = await axios(getGenericAuthModelConfig(requestType, "", { 'parameter_id': paramId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) }, localStorage.getItem('token'), timeParam))
+                    axiosCallListForPreference = [...axiosCallListForPreference, request];
+                    //reset variables
+                    request = null;
+                    requestType = null;
+                    paramId = null;
                 }
-                requestType = null;
-                param = null;
             }
         }
-        return
+        return axiosCallListForPreference;
     }
     const calculateAndReturnTimeSlotId = (weekDayId, dayTimeId) => {
         //timeSlot fomular *
@@ -383,8 +345,6 @@ const FacultyAvaliabiltyPg = () => {
         //goona be a change or addition to the time_slot table.
         return (6 * (weekDayId - 1)) + dayTimeId;
     }
-
-
 
     return (
         <React.Fragment>
@@ -397,6 +357,7 @@ const FacultyAvaliabiltyPg = () => {
                         {semesterList.map((semester, index) => <option key={index} value={semester.semester_id}>
                             {semester.name + " " + semester.year}</option>)}
                     </select>
+
                 </div>
                 <div id={PageCss.RadioButton}></div>
                 <div id={PageCss.container2}>
@@ -411,18 +372,12 @@ const FacultyAvaliabiltyPg = () => {
                         <option value={0}>Select Semester:</option>
                         {semesterList.map((semester, index) => <option key={index} value={semester.semester_id}>
                             {semester.name + " " + semester.year}</option>)}
-
                     </select>
 
                     <DropDownSquareGroup disabled={false} SubmitAvaliability={submitAvaliabilityRequest}
                         selectedSemesterById={selectedSemesterId} availabilityRoute={availabilityRoute} preferenceRoute={preferenceRoute} id={localStorage.getItem('userId')} />
-
-
-
                 </div>
             </div>
-
-
         </React.Fragment>
     );
 }
