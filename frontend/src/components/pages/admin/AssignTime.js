@@ -131,9 +131,9 @@ const AssignTime = () => {
         await axios.all([...axiosCallListForPreference]).then(axios.spread((...responses) => {
             console.log("Preference entries updated/sent")
             if (isNewEntry) {
-                alert("Your availability specifications have been sent.\n Now Wait for an approval from the admin.")
+                alert("Availability specifications for instructor have been sent.\n ")
             } else {
-                alert("Your availability specifications have been updated.\n Now Wait for an approval from the admin.")
+                alert("Availability specifications have been updated.\n")
             }
         }
         )).catch(
