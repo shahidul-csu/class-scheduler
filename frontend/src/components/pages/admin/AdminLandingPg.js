@@ -129,6 +129,12 @@ const AdminPage = (props) => {
 
                         </MenuButtonMemo>
                     </div>
+                    <div className={LandingPage.ButtonShell} >
+                        <MenuButtonMemo
+                            btnName="Assign Time" btn_Pic_Src={instructorIcon}
+                            onclick={() => navigate("/AssignTime")}>
+                        </MenuButtonMemo>
+                    </div>
 
 
                     <div className={LandingPage.ButtonShell}>
