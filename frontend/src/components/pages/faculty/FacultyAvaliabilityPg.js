@@ -359,7 +359,6 @@ const FacultyAvaliabiltyPg = () => {
                     </select>
 
                 </div>
-                <div id={PageCss.RadioButton}></div>
                 <div id={PageCss.container2}>
 
                     <div className={PageCss.HeaderContainer}>

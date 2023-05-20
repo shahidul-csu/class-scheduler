@@ -128,7 +128,8 @@ const DropDownSquareGroup = (props) => {
         //if a dropdown Option has been selected
         doesEntryExist.current = false;
         setIsDoneFetching(false);
-        if (props.selectedSemesterById != "0" && props.id != "0") {
+        if (props.selectedSemesterById !== "0" && props.id !== "0") {
+            console.log(props.id)
             fetchExistingAvaliabilityData();
         }
     }, [props.selectedSemesterById, props.id])

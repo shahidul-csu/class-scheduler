@@ -32,6 +32,13 @@
     cursor: pointer;
 }
 
+#instructorSelect {
+    width: 70%;
+    height: 50px;
+    margin-top: 50px;
+    outline: none;
+    cursor: pointer;
+}
 
 #Pgheading {
 
