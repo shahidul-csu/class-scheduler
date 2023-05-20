@@ -230,6 +230,7 @@ def getCourseParameterId(request, semesterId, courseId):
         return Response({'status': 'course not Specified!', 'data': []})
 
 
+# this function is only used to get instructors that have entries on that semester
 @api_view(["GET"])
 def getInstructorListPerSemester(request, semesterId):
     if semesterId:
@@ -243,6 +244,13 @@ def getInstructorListPerSemester(request, semesterId):
         return Response({'data': userData})
     else:
         return Response({'status': 'semester not Specified!', 'data': []})
+
+
+@api_view(["GET"])  # this function is only used to get all instructors
+def getInstructorList(request):
+    userData = User.objects.filter(is_superuser=False).values(
+        'id', 'first_name', 'last_name')
+    return Response({'data': userData})
 
 
 @api_view(["GET"])

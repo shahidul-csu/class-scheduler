@@ -26,6 +26,7 @@ const ROUTER = {
         getCourseListPerSemester: `${SWITCH.BASE}/${SWITCH.API}/get_course_list_per_semester`,
         getCourseAvaliabilityData: `${SWITCH.BASE}/${SWITCH.API}/get_course_avaliability_for_semester`,
         getCoursePreferenceData: `${SWITCH.BASE}/${SWITCH.API}/get_course_preference_for_semester`,
+        getInstructorList: `${SWITCH.BASE}/${SWITCH.API}/get_instructor_list/`,
     }
 }
 
