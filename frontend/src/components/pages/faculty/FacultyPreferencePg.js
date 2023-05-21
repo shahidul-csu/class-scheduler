@@ -12,30 +12,32 @@ const FacultyPreferencePg = () => {
     const [selectedNumOfDays, setSelectNumOfDays] = useState(5);
 
     //used to keep track of submitted option preferences
-    const [teachingParameter, setTeachingParameter] = useState(0);
+    const [teachingId, setTeachingId] = useState(null);
+    const [teachingParameter, setTeachingParameter] = useState(null);
     const [teachingDays, setTeachingDays] = useState(0);
-    const [backToBackParameter, setBackToBackParameter] = useState(0);
+    const [backToBackParameter, setBackToBackParameter] = useState(null);
     const [backToBackScore, setBackToBackScore] = useState(0);
 
-
-    const populateSemesterDropDown = () => {
-        axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
-            res => {
-                setSemesterList(res.data)
-            }
-        ).catch(
-            err => {
-                alert(err)
-                console.log(err)
-            }
-        )
-    }
-
-
-    useEffect(
-        () => {
-            populateSemesterDropDown();
-        }, []);
+    //routes to fetch data
+    const getPreferenceData = ROUTER.api.getPreferenceData;
+    const timeParam = ROUTER.api.userTimeParam;
+    const getPreferenceIds = ROUTER.api.getPreferenceParameterIds;
+    useEffect(() => {
+        async function populateSemesterDropDown() {
+            await axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
+                res => {
+                    setSemesterList(res.data)
+                    setSelectedSemesterId(res.data[res.data.length - 1].semester_id);
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
+        }
+        populateSemesterDropDown();
+    }, []);
 
     //wait for selectedSemesterId to change before fetching data
     useEffect(() => {
@@ -43,33 +45,33 @@ const FacultyPreferencePg = () => {
             if (selectedSemesterId !== "0") {
                 setDisableDropDown(false);
                 //check if there if user has entries on database (number of days and group class)
-                await axios(getGenericAuthModelConfig("GET", {
-                    'semesterId': selectedSemesterId, 'userId': localStorage.getItem('userId')
-                }, {}, localStorage.getItem('token'),
-                    ROUTER.api.getUserPreferenceOptionEntries)).then(
-                        res => {
-                            if (res.data.group.length > 0) {
-                                setSelectedGroupClassOption(res.data.group[0].score);
-                                setBackToBackScore(res.data.group[0].score);
-                                setBackToBackParameter(res.data.group[0].parameter_id);
+                await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), ROUTER.api.getUserPreferenceOptionEntries)).then(
+                    res => {
+                        if (res.data.group.length > 0) {
+                            //set the back to back dropdown to the score the user has on the database
+                            setSelectedGroupClassOption(res.data.group[0].score);
+                            setBackToBackScore(res.data.group[0].score);
+                            setBackToBackParameter(res.data.group[0].parameter_id);
 
-                            } else {
-                                setSelectedGroupClassOption(0);
-                            }
-                            if (res.data.teaching.length > 0) {
-                                setSelectNumOfDays(res.data.teaching[0].num_teaching_days);
-                                setTeachingDays(res.data.teaching[0].num_teaching_days);
-                                setTeachingParameter(res.data.teaching[0].parameter_id);
-                            } else {
-                                setSelectNumOfDays(5);
-                            }
+                        } else {
+                            setSelectedGroupClassOption(0);
                         }
-                    ).catch(
-                        err => {
-                            alert(err)
-                            console.log(err)
+                        if (res.data.teaching.length > 0) {
+                            //set the teaching dropdown to the number of days that the user has on the database
+                            setTeachingId(res.data.teaching[0].id);
+                            setSelectNumOfDays(res.data.teaching[0].num_teaching_days);
+                            setTeachingDays(res.data.teaching[0].num_teaching_days);
+                            setTeachingParameter(res.data.teaching[0].parameter_id);
+                        } else {
+                            setSelectNumOfDays(5);
                         }
-                    )
+                    }
+                ).catch(
+                    err => {
+                        alert(err)
+                        console.log(err)
+                    }
+                )
             } else {
                 //reset dropdowns if user has not selected a semester
                 setDisableDropDown(true);
@@ -78,59 +80,103 @@ const FacultyPreferencePg = () => {
             }
         }
         FetchData();
-    }
-        , [selectedSemesterId]);
+    }, [selectedSemesterId]);
 
     const submitPreferenceRequest = async (preferenceData, isNewEntry) => {
         let axiosCallListForSelectedSlots = null;
         let userId = localStorage.getItem('userId');
+        let lowParameterId = null;
         let mediumParameterId = null;
         let highParameterId = null;
         if (isNewEntry) {
-            //create two new parameters with score 3 and 5 (score 3 for medium and score 5 for high) 
-            mediumParameterId = await makeNewParameterData(3);
-            highParameterId = await makeNewParameterData(5);
-            axiosCallListForSelectedSlots = returnAxiosCallList(preferenceData, userId, [mediumParameterId, highParameterId]);
+            //create a parameter id for each score if it has at least one yimeblock selected with that score
+            for (let x = 0; x < preferenceData.length; x++) {
+                for (let y = 0; y < preferenceData[x].timeSlotGroup.length; y++) {
+                    if (preferenceData[x].timeSlotGroup[y].currentScore === 1 && lowParameterId === null) {
+                        lowParameterId = await makeNewParameterData(1);
+                    } else if (preferenceData[x].timeSlotGroup[y].currentScore === 3 && mediumParameterId === null) {
+                        mediumParameterId = await makeNewParameterData(3);
+                    } else if (preferenceData[x].timeSlotGroup[y].currentScore === 5 && highParameterId === null) {
+                        highParameterId = await makeNewParameterData(5);
+                    } else if (lowParameterId !== null && mediumParameterId !== null && highParameterId !== null) {
+                        break;
+                    }
+                }
+            }
+            //save entries on the database
+            axiosCallListForSelectedSlots = await returnAxiosCallList(preferenceData, userId, [lowParameterId, mediumParameterId, highParameterId]);
+        } else {
+            lowParameterId = await getParameterData(1);
+            mediumParameterId = await getParameterData(3);
+            highParameterId = await getParameterData(5);
+            //check if the parameterIds are null, if they are then create new ones
+            for (let x = 0; x < preferenceData.length; x++) {
+                for (let y = 0; y < preferenceData[x].timeSlotGroup.length; y++) {
+                    if (preferenceData[x].timeSlotGroup[y].currentScore === 1 && lowParameterId === null) {
+                        lowParameterId = await makeNewParameterData(1);
+                    } else if (preferenceData[x].timeSlotGroup[y].currentScore === 3 && mediumParameterId === null) {
+                        mediumParameterId = await makeNewParameterData(3);
+                    } else if (preferenceData[x].timeSlotGroup[y].currentScore === 5 && highParameterId === null) {
+                        highParameterId = await makeNewParameterData(5);
+                    } else if (lowParameterId !== null && mediumParameterId !== null && highParameterId !== null) {
+                        break;
+                    }
+                }
+            }
+            axiosCallListForSelectedSlots = await returnUpdatedAxiosCallList(preferenceData, userId, [lowParameterId, mediumParameterId, highParameterId]);
+            //check if any parameterId has no entries in the user_time_parameter table, if not then delete the parameter
+            await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': userId }, {}, localStorage.getItem('token'), getPreferenceIds)).then(
+                res => {
+                    if (res.data.low.length == 0) {
+                        deleteParameterId(lowParameterId);
+                    }
+                    if (res.data.medium.length == 0) {
+                        deleteParameterId(mediumParameterId);
+                    }
+                    if (res.data.high.length == 0) {
+                        deleteParameterId(highParameterId);
+                    }
+                }
+            ).catch(
+                err => {
+                    console.log(err)
+                }
+            )
+        }
 
+        //check if teaching parameter table has entries
+        if (teachingParameter === null) {
+            //parameterId for teachingparameter table
+            let parameterNumOfDays = await makeNewParameterData(0);
+            //save how many days the user wants to teach on the teaching parameter table
+            await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': parameterNumOfDays, 'user_id': userId, 'num_teaching_days': selectedNumOfDays }, localStorage.getItem('token'), ROUTER.api.userTeachingParam))
+        } else {
+            console.log(teachingParameter);
+            if (teachingDays !== selectedNumOfDays) {
+                await axios(getGenericAuthModelConfig("PUT", "", { 'id': teachingId, 'parameter_id': teachingParameter, 'user_id': userId, 'num_teaching_days': selectedNumOfDays }, localStorage.getItem('token'), ROUTER.api.userTeachingParam))
+            }
+        }
+        if (backToBackParameter === null) {
             //create parameterId for back to back class
             //the score depends on user selection (0 means no, 1 means I dont care, 2 means yes)
             let backToBackParameterId = await makeNewParameterData(selectedGroupClassOption);
+            //save entry on user_back_to_back table
             await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': backToBackParameterId, 'user_id': userId }, localStorage.getItem('token'), ROUTER.api.userBackToBack))
-
-            //parameterId for teachingparameter table
-            let parameterNumOfDays = await makeNewParameterData(0);
-            await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': parameterNumOfDays, 'user_id': userId, 'num_teaching_days': selectedNumOfDays }, localStorage.getItem('token'), ROUTER.api.userTeachingParam))
-
-            //check if any parameterId has no entries in the user_time_parameter table, if not then delete the parameter
-            await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'userId': userId }, {}, localStorage.getItem('token'),
-                ROUTER.api.getPreferenceParameterIds)).then(
+        } else {
+            if (backToBackScore !== selectedGroupClassOption) {
+                //Update approved status from availability entry
+                await axios(getParameterDataModelConfig("PUT", "", { score: selectedGroupClassOption, id: backToBackParameter }, localStorage.getItem('token'))).then(
                     res => {
-                        if (res.data.medium.length == 0) {
-                            deleteParameterId(mediumParameterId);
-                        }
-                        if (res.data.high.length == 0) {
-                            deleteParameterId(mediumParameterId);
-                        }
+                        console.log("back to back option updated")
                     }
                 ).catch(
                     err => {
                         console.log(err)
                     }
                 )
-        } else {
-            mediumParameterId = await getParameterData(3);
-            highParameterId = await getParameterData(5);
-            //check if the parameterIds are null, if they are then create new ones
-            if (mediumParameterId === null) {
-                mediumParameterId = await makeNewParameterData(3);
             }
-            if (highParameterId === null) {
-                highParameterId = await makeNewParameterData(5);
-            }
-
         }
-
-
+        //responses of sent entries
         await axios.all([...axiosCallListForSelectedSlots]).then(
             axios.spread((...responses) => {
                 if (isNewEntry) {
@@ -147,12 +193,22 @@ const FacultyPreferencePg = () => {
     }
     const getParameterData = async (score) => {
         let Data = null;
-        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'userId': localStorage.getItem('userId') }, {}, localStorage.getItem('token'))).then(
+        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), getPreferenceIds)).then(
             res => {
-                if (score === 3) {
-                    Data = res.data.medium[0].parameter_id;
+                if (score === 1) {
+                    if (res.data.low.length > 0) {
+                        Data = res.data.low[0].parameter_id;
+                    }
+
+                } else if (score === 3) {
+                    if (res.data.medium.length > 0) {
+                        Data = res.data.medium[0].parameter_id;
+                    }
+
                 } else if (score === 5) {
-                    Data = res.data.high[0].parameter_id;
+                    if (res.data.high.length > 0) {
+                        Data = res.data.high[0].parameter_id;
+                    }
                 }
             }
         ).catch(
@@ -165,21 +221,16 @@ const FacultyPreferencePg = () => {
     }
     const makeNewParameterData = async (score) => {
         let Data = null
-        await axios(getParameterDataModelConfig(
-            "POST", "", {
-            approved: true, requirement: false, score: score, parameter_id: null,
-            'semester_id': +selectedSemesterId
-        },
-            localStorage.getItem('token'))).then(
-                res => {
-                    Data = res.data.parameter_id;
-                }
-            ).catch(
-                err => {
-                    alert(err)
-                    console.log(err)
-                }
-            )
+        await axios(getParameterDataModelConfig("POST", "", { approved: true, requirement: false, score: score, parameter_id: null, 'semester_id': +selectedSemesterId }, localStorage.getItem('token'))).then(
+            res => {
+                Data = res.data.parameter_id;
+            }
+        ).catch(
+            err => {
+                alert(err)
+                console.log(err)
+            }
+        )
         return Data;
     }
     const deleteParameterId = async (parameterId) => {
@@ -195,11 +246,12 @@ const FacultyPreferencePg = () => {
             }
         )
     }
-    const returnAxiosCallList = (preferenceData, userId, parameterIds) => {
+    const returnAxiosCallList = async (preferenceData, userId, parameterIds) => {
         let axiosCallVarList = [];
         let currentWeekDayId = null;
         let currentDayTimeId = null;
-
+        let request = null;
+        let paramId = null;
 
         // for all timeslotes in each weekday
         for (var x = 0; x < preferenceData.length; x++) {
@@ -208,32 +260,82 @@ const FacultyPreferencePg = () => {
             // for all timeslotes in each weekday
             for (var y = 0; y < preferenceData[x].timeSlotGroup.length; y++) {
                 currentDayTimeId = y + 1;
-
-                // if timeSlote is selected
+                //save timeslot depending of score
                 if (preferenceData[x].timeSlotGroup[y].currentScore === 5) {
-
-                    axiosCallVarList = [...axiosCallVarList,
-
-                    axios(getGenericAuthModelConfig("POST", "", {
-                        'parameter_id': parameterIds[1],
-                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                            currentWeekDayId, currentDayTimeId)
-                    },
-                        localStorage.getItem('token'), ROUTER.api.userTimeParam))
-                    ];
+                    paramId = parameterIds[2];
                 } else if (preferenceData[x].timeSlotGroup[y].currentScore === 3) {
-                    axiosCallVarList = [...axiosCallVarList,
-
-                    axios(getGenericAuthModelConfig("POST", "", {
-                        'parameter_id': parameterIds[0],
-                        'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(
-                            currentWeekDayId, currentDayTimeId)
-                    },
-                        localStorage.getItem('token'), ROUTER.api.userTimeParam))
-                    ];
+                    paramId = parameterIds[1];
+                } else {
+                    paramId = parameterIds[0];
                 }
+                //send request to database
+                if (paramId !== null) {
+                    request = await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': paramId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
+                        localStorage.getItem('token'), timeParam))
+                    axiosCallVarList = [...axiosCallVarList, request];
+                    request = null;
+                }
+
             }
 
+        }
+        return axiosCallVarList;
+    }
+    const returnUpdatedAxiosCallList = async (preferenceData, userId, parameterIds) => {
+        let axiosCallVarList = [];
+        let currentWeekDayId = null;
+        let currentDayTimeId = null;
+        let currentScoreParamId = null;
+        let previousScoreParamId
+        let request = null;
+        for (let x = 0; x < preferenceData.length; x++) {
+            currentWeekDayId = x + 1;
+            for (let y = 0; y < preferenceData[x].timeSlotGroup.length; y++) {
+                currentDayTimeId = y + 1;
+                //score 0 means, button is disabled
+                if (preferenceData[x].timeSlotGroup[y].currentScore !== 0) {
+                    if (preferenceData[x].timeSlotGroup[y].currentScore !== preferenceData[x].timeSlotGroup[y].previousScore) {
+                        if (preferenceData[x].timeSlotGroup[y].currentScore === 5) {
+                            currentScoreParamId = parameterIds[2];
+                            if (preferenceData[x].timeSlotGroup[y].previousScore === 3) {
+                                previousScoreParamId = parameterIds[1];
+                            } else {
+                                previousScoreParamId = parameterIds[0];
+                            }
+                        } else if (preferenceData[x].timeSlotGroup[y].currentScore === 3) {
+                            currentScoreParamId = parameterIds[1];
+                            if (preferenceData[x].timeSlotGroup[y].previousScore === 5) {
+                                previousScoreParamId = parameterIds[2];
+                            } else {
+                                previousScoreParamId = parameterIds[0];
+                            }
+                        } else {
+                            currentScoreParamId = parameterIds[0];
+                            if (preferenceData[x].timeSlotGroup[y].previousScore === 5) {
+                                previousScoreParamId = parameterIds[2];
+                            } else {
+                                previousScoreParamId = parameterIds[1];
+                            }
+                        }
+                        //save timeslot on the selected score parameter id
+                        if (currentScoreParamId !== null) {
+                            request = await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': currentScoreParamId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
+                                localStorage.getItem('token'), timeParam))
+                            axiosCallVarList = [...axiosCallVarList, request];
+                            request = null;
+                            currentScoreParamId = null;
+                        }
+                        //delete timeslot from the previous score parameter id
+                        if (previousScoreParamId !== null) {
+                            request = await axios(getGenericAuthModelConfig("DELETE", "", { 'parameter_id': previousScoreParamId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
+                                localStorage.getItem('token'), timeParam));
+                            axiosCallVarList = [...axiosCallVarList, request];
+                            request = null;
+                            previousScoreParamId = null;
+                        }
+                    }
+                }
+            }
         }
         return axiosCallVarList;
     }
@@ -291,7 +393,7 @@ const FacultyPreferencePg = () => {
                             {semester.name + " " + semester.year}</option>)}
 
                     </select>
-                    <DropDownSquareGroup disabled={false} SubmitPreference={submitPreferenceRequest} selectedSemesterId={selectedSemesterId} />
+                    <DropDownSquareGroup disabled={false} SubmitPreference={submitPreferenceRequest} selectedSemesterId={selectedSemesterId} id={localStorage.getItem('userId')} preferenceRoute={getPreferenceData} />
                 </div>
             </div>
         </React.Fragment >

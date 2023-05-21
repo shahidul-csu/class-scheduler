@@ -214,7 +214,7 @@ def getUserPreferenceOptionEntries(request, semesterId, id):
         userGroupTimeParameter = UserGroupClassParameter.objects.select_related('parameter_id').filter(
             parameter_id__semester_id_id=semesterId).filter(user_id_id=id).values('parameter_id', 'user_id', score=F('parameter_id__score'))
         userNumDays = TeachingParameter.objects.select_related('parameter_id').filter(
-            parameter_id__semester_id_id=semesterId).filter(user_id_id=id).values('parameter_id', 'user_id', 'num_teaching_days')
+            parameter_id__semester_id_id=semesterId).filter(user_id_id=id).values('id', 'parameter_id', 'user_id', 'num_teaching_days')
         return Response({'status': 'SUCCESS', 'group': userGroupTimeParameter, 'teaching': userNumDays})
     else:
         return Response({'status': 'user not Specified!', 'data': []})

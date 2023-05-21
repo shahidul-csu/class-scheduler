@@ -49,31 +49,27 @@ const DDPrefenceSquareGroup = (props) => {
     useEffect(() => {
         async function FetchExistingData() {
             setShowLoadingIcon(true);
-            await axios(getGenericAuthModelConfig("GET", {
-                'semesterId': props.selectedSemesterId,
-                'id': localStorage.getItem('userId')
-            }, {},
-                localStorage.getItem('token'), ROUTER.api.getPreferenceData)).then(
-                    res => {
-                        if (res.data.data.length > 0) {
-                            doesEntryExist.current = true;
-                            setEditMode(false);
-                            updateVisualDetails(res.data.data);
-                        } else {
-                            doesEntryExist.current = false;
-                            setEditMode(true);
-                            resetToDefaultTimeSlots();
-                        }
-                        setIsDoneFetching(true);
-                        setShowLoadingIcon(false);
+            await axios(getGenericAuthModelConfig("GET", { 'semesterId': props.selectedSemesterId, 'id': props.id }, {}, localStorage.getItem('token'), props.preferenceRoute)).then(
+                res => {
+                    if (res.data.data.length > 0) {
+                        doesEntryExist.current = true;
+                        setEditMode(false);
+                        updateVisualDetails(res.data.data);
+                    } else {
+                        doesEntryExist.current = false;
+                        setEditMode(true);
+                        resetToDefaultTimeSlots();
                     }
-                ).catch(
-                    err => {
-                        alert(err)
-                        console.log(err)
-                    }
+                    setIsDoneFetching(true);
+                    setShowLoadingIcon(false);
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
 
-                )
+            )
         }
 
         function updateVisualDetails(data) {
@@ -111,11 +107,10 @@ const DDPrefenceSquareGroup = (props) => {
 
         doesEntryExist.current = false;
         setIsDoneFetching(false);
-        if (props.selectedSemesterId !== "0") {
-
+        if (props.selectedSemesterId !== "0" && props.id !== "0") {
             FetchExistingData();
         }
-    }, [props.selectedSemesterId])
+    }, [props.selectedSemesterId, props.id])
 
 
     const selectTimeBlock = (weekdayIndex, timeSlotIndex, score) => {
@@ -153,8 +148,6 @@ const DDPrefenceSquareGroup = (props) => {
         }
     }
 
-
-
     const disableSubmittionBtn = () => {
         if (editMode) {
             return false;
@@ -173,8 +166,6 @@ const DDPrefenceSquareGroup = (props) => {
             return <ApprovalStatusDisplay is_Approved={isApproved} set_Edit_Mode={setEditMode} entryType="Preference" />
         }
     }
-
-
 
     const btnName = () => {
         if (doesEntryExist.current) {
