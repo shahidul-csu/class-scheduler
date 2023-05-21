@@ -51,6 +51,7 @@ const DDPrefenceSquareGroup = (props) => {
             setShowLoadingIcon(true);
             await axios(getGenericAuthModelConfig("GET", { 'semesterId': props.selectedSemesterId, 'id': props.id }, {}, localStorage.getItem('token'), props.preferenceRoute)).then(
                 res => {
+                    console.log(res.data.data)
                     if (res.data.data.length > 0) {
                         doesEntryExist.current = true;
                         setEditMode(false);
@@ -107,6 +108,7 @@ const DDPrefenceSquareGroup = (props) => {
 
         doesEntryExist.current = false;
         setIsDoneFetching(false);
+        console.log(props.preferenceRoute)
         if (props.selectedSemesterId !== "0" && props.id !== "0") {
             FetchExistingData();
         }

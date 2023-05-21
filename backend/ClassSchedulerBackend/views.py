@@ -158,7 +158,7 @@ def getCoursePreferenceEntryPerSemester(request, semesterId, id):
             'parameter_id').select_related('time_slot_id').filter(
             parameter_id__semester_id_id=semesterId).filter(course_id_id=id).filter(
 
-            parameter_id__requirement=False).values('parameter_id', 'time_slot_id',
+            parameter_id__requirement=False).values('parameter_id', 'time_slot_id', score=F('parameter_id__score'),
                                                     approved=F(
                                                         'parameter_id__approved'),
                                                     requirement=F(

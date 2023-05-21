@@ -162,6 +162,7 @@ const AdminPage = (props) => {
 
                             {/*{[option name , routeLink   ]}*/}
                             {["Time", "/CourseTime"]}
+                            {["Preference Time", "/PreferenceCourseTime"]}
                             {["Classroom", "/CourseClassroom"]}
                             {["Semester", "/CourseSemester"]}
                             {["Instructor", "/InstructorCourse"]}

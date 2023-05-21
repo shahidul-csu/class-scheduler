@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import pageCss from "../../../styles/CourseTime.module.css"
 import PageCss from '../../../styles/AvaliabilityPg.module.css'
 import pageheaderIcon from "../../../images/UserManagement.png"
-import Form from 'react-bootstrap/Form';
 import { getCourseModelConfig, getSemesterModelConfig, getParameterDataModelConfig, getGenericAuthModelConfig } from '../../../network/RequestTemplates';
 
 // new imports

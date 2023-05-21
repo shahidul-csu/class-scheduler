@@ -17,6 +17,7 @@ import CourseClassroom from "./components/pages/admin/CourseClassroom";
 import InstructorCourse from "./components/pages/admin/InstructorCourse";
 import AssignTime from "./components/pages/admin/AssignTime";
 import CourseTime from "./components/pages/admin/CourseTime";
+import PreferenceCourseTime from "./components/pages/admin/PreferenceCourseTime";
 import AdminProfilePage from "./components/pages/admin/AdminProfilePage";
 import FacultyProfilePage from "./components/pages/faculty/FacultyProfilePage";
 import AddSemester from "./components/pages/admin/AddSemester";
@@ -88,6 +89,7 @@ function App() {
               <Route path="/AssignTime" element={<AssignTime></AssignTime>}></Route>
               <Route path="/InstructorCourse" element={<InstructorCourse></InstructorCourse>}></Route>
               <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
+              <Route path="/PreferenceCourseTime" element={<PreferenceCourseTime></PreferenceCourseTime>}></Route>
               <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
               <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
               <Route path="/AdminProfilePage" element={<AdminProfilePage></AdminProfilePage>}></Route>
