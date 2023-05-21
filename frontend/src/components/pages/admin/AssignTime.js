@@ -8,13 +8,15 @@ import { getSemesterModelConfig, getParameterDataModelConfig, getGenericAuthMode
 const AssignTime = () => {
     const [selectedSemesterId, setSelectedSemesterId] = useState("0");
     const [semesterList, setSemesterList] = useState([]);
+    const [instructorList, setInstructorList] = useState([]);
+    const [selectedInstructorId, setSelectedInstructorId] = useState("0");
+
+    //routes
     const availabilityRoute = ROUTER.api.getAvaliabilityData;
-    const getAvailabiityRoute = ROUTER.api.getAvaliabilityData;
+    const getAvailabilityRoute = ROUTER.api.getAvaliabilityData;
     const preferenceRoute = ROUTER.api.getPreferenceData;
     const getPreferenceRoute = ROUTER.api.getPreferenceParameterIds;
     const timeParam = ROUTER.api.userTimeParam;
-    const [instructorList, setInstructorList] = useState([]);
-    const [selectedInstructorId, setSelectedInstructorId] = useState("0");
 
     //fetch semester list
     useEffect(() => {
@@ -174,7 +176,7 @@ const AssignTime = () => {
     }
     const getParameterData = async () => {
         let Data = null;
-        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': selectedInstructorId }, {}, localStorage.getItem('token'), getAvailabiityRoute)).then(
+        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': selectedInstructorId }, {}, localStorage.getItem('token'), getAvailabilityRoute)).then(
             res => {
                 Data = res.data.data[0].parameter_id
             }

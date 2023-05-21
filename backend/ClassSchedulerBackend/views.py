@@ -175,6 +175,20 @@ def getCoursePreferenceEntryPerSemester(request, semesterId, id):
 
 
 @api_view(["GET"])
+def getCoursePreferenceParameterIds(request, semesterId, id):
+    if semesterId:
+        mediumScoreParameterId = CourseTimeParameter.objects.select_related('parameter_id').filter(parameter_id__semester_id_id=semesterId).filter(
+            course_id_id=id).filter(parameter_id__requirement=False).filter(parameter_id__score=3).values('parameter_id').distinct()
+        highScoreParameterId = CourseTimeParameter.objects.select_related('parameter_id').filter(parameter_id__semester_id_id=semesterId).filter(
+            course_id_id=id).filter(parameter_id__requirement=False).filter(parameter_id__score=5).values('parameter_id').distinct()
+        lowScoreParameterId = CourseTimeParameter.objects.select_related('parameter_id').filter(parameter_id__semester_id_id=semesterId).filter(
+            course_id_id=id).filter(parameter_id__requirement=False).filter(parameter_id__score=1).values('parameter_id').distinct()
+        return Response({'status': 'SUCCESS', 'low': lowScoreParameterId, 'medium': mediumScoreParameterId, 'high': highScoreParameterId})
+    else:
+        return Response({'status': 'semester or user not specified', 'data': []})
+
+
+@api_view(["GET"])
 def getPreferenceParameterIds(request, semesterId, id):
     if semesterId:
         mediumScoreParameterId = UserTimeParameter.objects.select_related('parameter_id').filter(parameter_id__semester_id_id=semesterId).filter(

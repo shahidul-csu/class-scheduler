@@ -68,6 +68,8 @@ urlpatterns = [
              name='get_course_preference_for_semester'),
         path('get_instructor_list/', getInstructorList,
              name='get_instructor_list'),
+        path('get_course_preference_parameter_ids/<int:semesterId>/<int:id>/',
+             getCoursePreferenceParameterIds, name='get_course_preference_parameter_ids'),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
