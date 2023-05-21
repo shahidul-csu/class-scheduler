@@ -9,9 +9,12 @@ from error import GenerationError, ParameterError, CrossoverError
 from parameters import TimeParameter, ClassroomParameter, UserGroupClassParameter
 from base_entities import Classroom, WeekDay, TimeBlock, Time, TimeSlot, Semester
 from param_entities import Course, Instructor
-from test_data import TIME_SLOTS, CLASSROOMS
-from test_data import INSTRUCTORS_PREDETERMINED as INSTRUCTORS
-from test_data import COURSES_PREDETERMINED as COURSES
+from api import CLASSROOMS, COURSES, INSTRUCTORS, TIME_SLOTS
+#from test_data import TIME_SLOTS
+#from test_data import INSTRUCTORS_PREDETERMINED as INSTRUCTORS
+#from test_data import COURSES_PREDETERMINED as COURSES
+
+#print(CLASSROOMS)
 
 
 class ScheduledCourse:
