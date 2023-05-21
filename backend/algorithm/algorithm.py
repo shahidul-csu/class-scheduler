@@ -142,10 +142,11 @@ class Schedule:
 
     def __str__(self):
         self.__matrix = self.get_matrix_repr()
+        #return "TEMP"
         return tabulate(
             [["time\\day"] + [wd for wd in Schedule.WEEK_DAYS.keys()]] +
             [
-                [Schedule.get_from_int(Schedule.TIME_BLOCKS, i)] +
+                [str(Schedule.get_from_int(Schedule.TIME_BLOCKS, i))] +
                 list(map(lambda el: el.__repr__() if isinstance(el, ScheduledCourse) else str(el), row))
                 for i, row in enumerate(self.__matrix)
             ]
