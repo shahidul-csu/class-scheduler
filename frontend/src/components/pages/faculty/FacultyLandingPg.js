@@ -64,7 +64,7 @@ const FacultyLandingPg = (props) => {
                         <MenuButton
 
                             btnName="Profile" btn_Pic_Src={profileIcon}
-                            onclick={() => navigate("/avaliability_Faculty")}>
+                            onclick={() => navigate("/FacultyProfilePage")}>
 
                         </MenuButton>
                     </div>

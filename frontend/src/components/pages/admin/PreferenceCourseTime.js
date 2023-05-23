@@ -2,32 +2,28 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import ROUTER from '../../../network/Router'
 import PageCss from "../../../styles/PreferencePg.module.css";
-import { getSemesterModelConfig, getGenericAuthModelConfig, getParameterDataModelConfig } from '../../../network/RequestTemplates';
+import { getCourseModelConfig, getSemesterModelConfig, getGenericAuthModelConfig, getParameterDataModelConfig } from '../../../network/RequestTemplates';
 import DropDownSquareGroup from '../../PgComponents/DropDownSquaresPreference/DDPreferenceSquareGroup';
-const FacultyPreferencePg = () => {
+
+const PreferenceCourseTime = () => {
     const [selectedSemesterId, setSelectedSemesterId] = useState("0");
-    const [disableDropDown, setDisableDropDown] = useState(true);
     const [semesterList, setSemesterList] = useState([]);
-    const [selectedGroupClassOption, setSelectedGroupClassOption] = useState(0);
-    const [selectedNumOfDays, setSelectNumOfDays] = useState(5);
+    const [courseList, setCourseList] = useState([]);
+    const [selectedCourseId, setSelectedCourseId] = useState("0");
 
-    //used to keep track of submitted option preferences
-    const [teachingId, setTeachingId] = useState(null);
-    const [teachingParameter, setTeachingParameter] = useState(null);
-    const [teachingDays, setTeachingDays] = useState(0);
-    const [backToBackParameter, setBackToBackParameter] = useState(null);
-    const [backToBackScore, setBackToBackScore] = useState(0);
-
-    //routes to fetch data
-    const getPreferenceData = ROUTER.api.getPreferenceData;
-    const timeParam = ROUTER.api.userTimeParam;
-    const getPreferenceIds = ROUTER.api.getPreferenceParameterIds;
+    //routes
+    const getPreferenceData = ROUTER.api.getCoursePreferenceData;
+    const timeParam = ROUTER.api.courseTimeParam;
+    const getPreferenceIds = ROUTER.api.getCoursePreferenceParameterIds;
     useEffect(() => {
         async function populateSemesterDropDown() {
             await axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
                 res => {
                     setSemesterList(res.data)
-                    setSelectedSemesterId(res.data[res.data.length - 1].semester_id);
+                    if (res.data.length > 0) {
+                        setSelectedSemesterId(res.data[res.data.length - 1].semester_id);
+                    }
+
                 }
             ).catch(
                 err => {
@@ -37,34 +33,14 @@ const FacultyPreferencePg = () => {
             )
         }
         populateSemesterDropDown();
-    }, []);
+    }, [])
 
-    //wait for selectedSemesterId to change before fetching data
     useEffect(() => {
-        async function FetchData() {
-            if (selectedSemesterId !== "0") {
-                setDisableDropDown(false);
-                //check if there if user has entries on database (number of days and group class)
-                await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), ROUTER.api.getUserPreferenceOptionEntries)).then(
+        async function populateCourseDropDown() {
+            await axios(getCourseModelConfig("GET", "", {}, localStorage.
+                getItem('token'))).then(
                     res => {
-                        if (res.data.group.length > 0) {
-                            //set the back to back dropdown to the score the user has on the database
-                            setSelectedGroupClassOption(res.data.group[0].score);
-                            setBackToBackScore(res.data.group[0].score);
-                            setBackToBackParameter(res.data.group[0].parameter_id);
-
-                        } else {
-                            setSelectedGroupClassOption(0);
-                        }
-                        if (res.data.teaching.length > 0) {
-                            //set the teaching dropdown to the number of days that the user has on the database
-                            setTeachingId(res.data.teaching[0].id);
-                            setSelectNumOfDays(res.data.teaching[0].num_teaching_days);
-                            setTeachingDays(res.data.teaching[0].num_teaching_days);
-                            setTeachingParameter(res.data.teaching[0].parameter_id);
-                        } else {
-                            setSelectNumOfDays(5);
-                        }
+                        setCourseList(res.data)
                     }
                 ).catch(
                     err => {
@@ -72,19 +48,12 @@ const FacultyPreferencePg = () => {
                         console.log(err)
                     }
                 )
-            } else {
-                //reset dropdowns if user has not selected a semester
-                setDisableDropDown(true);
-                setSelectNumOfDays(5);
-                setSelectedGroupClassOption(0);
-            }
         }
-        FetchData();
-    }, [selectedSemesterId]);
-
+        populateCourseDropDown();
+    }, [])
     const submitPreferenceRequest = async (preferenceData, isNewEntry) => {
         let axiosCallListForSelectedSlots = null;
-        let userId = localStorage.getItem('userId');
+        let courseId = selectedCourseId;
         let lowParameterId = null;
         let mediumParameterId = null;
         let highParameterId = null;
@@ -104,7 +73,7 @@ const FacultyPreferencePg = () => {
                 }
             }
             //save entries on the database
-            axiosCallListForSelectedSlots = await returnAxiosCallList(preferenceData, userId, [lowParameterId, mediumParameterId, highParameterId]);
+            axiosCallListForSelectedSlots = await returnAxiosCallList(preferenceData, courseId, [lowParameterId, mediumParameterId, highParameterId]);
         } else {
             lowParameterId = await getParameterData(1);
             mediumParameterId = await getParameterData(3);
@@ -123,9 +92,9 @@ const FacultyPreferencePg = () => {
                     }
                 }
             }
-            axiosCallListForSelectedSlots = await returnUpdatedAxiosCallList(preferenceData, userId, [lowParameterId, mediumParameterId, highParameterId]);
+            axiosCallListForSelectedSlots = await returnUpdatedAxiosCallList(preferenceData, courseId, [lowParameterId, mediumParameterId, highParameterId]);
             //check if any parameterId has no entries in the user_time_parameter table, if not then delete the parameter
-            await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': userId }, {}, localStorage.getItem('token'), getPreferenceIds)).then(
+            await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': courseId }, {}, localStorage.getItem('token'), getPreferenceIds)).then(
                 res => {
                     if (res.data.low.length == 0) {
                         deleteParameterId(lowParameterId);
@@ -142,39 +111,6 @@ const FacultyPreferencePg = () => {
                     console.log(err)
                 }
             )
-        }
-
-        //check if teaching parameter table has entries
-        if (teachingParameter === null) {
-            //parameterId for teachingparameter table
-            let parameterNumOfDays = await makeNewParameterData(0);
-            //save how many days the user wants to teach on the teaching parameter table
-            await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': parameterNumOfDays, 'user_id': userId, 'num_teaching_days': selectedNumOfDays }, localStorage.getItem('token'), ROUTER.api.userTeachingParam))
-        } else {
-            console.log(teachingParameter);
-            if (teachingDays !== selectedNumOfDays) {
-                await axios(getGenericAuthModelConfig("PUT", "", { 'id': teachingId, 'parameter_id': teachingParameter, 'user_id': userId, 'num_teaching_days': selectedNumOfDays }, localStorage.getItem('token'), ROUTER.api.userTeachingParam))
-            }
-        }
-        if (backToBackParameter === null) {
-            //create parameterId for back to back class
-            //the score depends on user selection (0 means no, 1 means I dont care, 2 means yes)
-            let backToBackParameterId = await makeNewParameterData(selectedGroupClassOption);
-            //save entry on user_back_to_back table
-            await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': backToBackParameterId, 'user_id': userId }, localStorage.getItem('token'), ROUTER.api.userBackToBack))
-        } else {
-            if (backToBackScore !== selectedGroupClassOption) {
-                //Update approved status from availability entry
-                await axios(getParameterDataModelConfig("PUT", "", { score: selectedGroupClassOption, id: backToBackParameter }, localStorage.getItem('token'))).then(
-                    res => {
-                        console.log("back to back option updated")
-                    }
-                ).catch(
-                    err => {
-                        console.log(err)
-                    }
-                )
-            }
         }
         //responses of sent entries
         await axios.all([...axiosCallListForSelectedSlots]).then(
@@ -193,7 +129,7 @@ const FacultyPreferencePg = () => {
     }
     const getParameterData = async (score) => {
         let Data = null;
-        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), getPreferenceIds)).then(
+        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': selectedCourseId }, {}, localStorage.getItem('token'), getPreferenceIds)).then(
             res => {
                 if (score === 1) {
                     if (res.data.low.length > 0) {
@@ -246,7 +182,7 @@ const FacultyPreferencePg = () => {
             }
         )
     }
-    const returnAxiosCallList = async (preferenceData, userId, parameterIds) => {
+    const returnAxiosCallList = async (preferenceData, courseId, parameterIds) => {
         let axiosCallVarList = [];
         let currentWeekDayId = null;
         let currentDayTimeId = null;
@@ -270,7 +206,7 @@ const FacultyPreferencePg = () => {
                 }
                 //send request to database
                 if (paramId !== null) {
-                    request = await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': paramId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
+                    request = await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': paramId, 'course_id': courseId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
                         localStorage.getItem('token'), timeParam))
                     axiosCallVarList = [...axiosCallVarList, request];
                     request = null;
@@ -281,7 +217,7 @@ const FacultyPreferencePg = () => {
         }
         return axiosCallVarList;
     }
-    const returnUpdatedAxiosCallList = async (preferenceData, userId, parameterIds) => {
+    const returnUpdatedAxiosCallList = async (preferenceData, courseId, parameterIds) => {
         let axiosCallVarList = [];
         let currentWeekDayId = null;
         let currentDayTimeId = null;
@@ -319,7 +255,7 @@ const FacultyPreferencePg = () => {
                         }
                         //save timeslot on the selected score parameter id
                         if (currentScoreParamId !== null) {
-                            request = await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': currentScoreParamId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
+                            request = await axios(getGenericAuthModelConfig("POST", "", { 'parameter_id': currentScoreParamId, 'course_id': courseId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
                                 localStorage.getItem('token'), timeParam))
                             axiosCallVarList = [...axiosCallVarList, request];
                             request = null;
@@ -327,7 +263,7 @@ const FacultyPreferencePg = () => {
                         }
                         //delete timeslot from the previous score parameter id
                         if (previousScoreParamId !== null) {
-                            request = await axios(getGenericAuthModelConfig("DELETE", "", { 'parameter_id': previousScoreParamId, 'user_id': userId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
+                            request = await axios(getGenericAuthModelConfig("DELETE", "", { 'parameter_id': previousScoreParamId, 'course_id': courseId, 'time_slot_id': calculateAndReturnTimeSlotId(currentWeekDayId, currentDayTimeId) },
                                 localStorage.getItem('token'), timeParam));
                             axiosCallVarList = [...axiosCallVarList, request];
                             request = null;
@@ -339,8 +275,6 @@ const FacultyPreferencePg = () => {
         }
         return axiosCallVarList;
     }
-
-
     const calculateAndReturnTimeSlotId = (weekDayId, dayTimeId) => {
         //timeSlot fomular *
         //(6 *(weekDayId -1) ) + timeslotId
@@ -350,6 +284,7 @@ const FacultyPreferencePg = () => {
         //goona be a change or addition to the time_slot table.
         return (6 * (weekDayId - 1)) + dayTimeId;
     }
+
     return (
         <React.Fragment>
             <div id={PageCss.PageBody}>
@@ -361,29 +296,19 @@ const FacultyPreferencePg = () => {
                         {semesterList.map((semester, index) => <option key={index} value={semester.semester_id}>
                             {semester.name + " " + semester.year}</option>)}
                     </select>
-                    <br></br>
-                    <span id={PageCss.groupClassHeading}><b>Would you like to teach <br></br>two back to back classes:
-                    </b></span>
-                    <br></br>
-                    <select id={PageCss.groupClassDropDown} onChange={(e) => { setSelectedGroupClassOption(e.target.value) }} value={selectedGroupClassOption} disabled={disableDropDown}>
-                        <option value={0}>No</option>
-                        <option value={1}>I don't care</option>
-                        <option value={2}>Yes</option>
-                    </select>
-                    <br></br>
-                    <span id={PageCss.numDaysHeading}><b>Select how many days you<br></br> would like to teach:</b></span>
-                    <select id={PageCss.numDaysDropDown} onChange={(e) => { setSelectNumOfDays(e.target.value) }} value={selectedNumOfDays} disabled={disableDropDown}>
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                        <option value={3}>3</option>
-                        <option value={4}>4</option>
-                        <option value={5}>5</option>
+                    <select id={PageCss.courseSelect} onChange={(e) => { setSelectedCourseId(e.target.value) }}
+                        value={selectedCourseId}>
+                        <option value={0}>Select Course:</option>
+                        {courseList.map((course, index) => (
+                            <option key={index} value={course.course_id}>
+                                {course.name}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div id={PageCss.container2}>
                     <div className={PageCss.HeaderContainer}>
-                        <span id={PageCss.Pgheading}>Please select your preferences.</span>
-
+                        <span id={PageCss.Pgheading}>Please select course preferences.</span>
                     </div>
 
                     <select id={PageCss.semesterSelectMobile} className={PageCss.HideOnMobile}
@@ -393,11 +318,11 @@ const FacultyPreferencePg = () => {
                             {semester.name + " " + semester.year}</option>)}
 
                     </select>
-                    <DropDownSquareGroup disabled={false} SubmitPreference={submitPreferenceRequest} selectedSemesterId={selectedSemesterId} id={localStorage.getItem('userId')} preferenceRoute={getPreferenceData} />
+                    <DropDownSquareGroup disabled={false} SubmitPreference={submitPreferenceRequest} selectedSemesterId={selectedSemesterId} id={selectedCourseId} preferenceRoute={getPreferenceData} />
                 </div>
             </div>
         </React.Fragment >
     );
 }
 
-export default FacultyPreferencePg;
+export default PreferenceCourseTime;

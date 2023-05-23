@@ -64,6 +64,11 @@ h2 {
 /* Left side of the landing page */
 .Container .LeftCol {
     padding-top: 14.5%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 .Container .LeftCol p {
@@ -79,6 +84,13 @@ h2 {
     font-size: 50px;
 }
 
+.Container .LeftCol img {
+    height: 100px;
+
+}
+
+
+
 /* Right side of the landing page */
 .Container .RightCol {
     background-color: #e9e9e9;
@@ -89,18 +101,6 @@ h2 {
     padding-bottom: 21.8%;
 }
 
-.Container .SignIn {
-    background-color: #dadada;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 16px;
-    padding: 50px max(min(120px, calc((100% - 1024px) / 2)), 20px);
-    border: solid thin black;
-}
-
-.Container input {
-    text-align: center;
-}
 
 #myPageBody {
     background: #DADADA;
@@ -144,7 +144,6 @@ h2 {
 
     color: #000000;
 }
-
 
 
 #myHeader {
@@ -199,12 +198,3 @@ h2 {
         font-size: 31px;
     }
 }
-
-/* .Container .SignUp{
-    background-color: #dadada;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 16px;
-    padding: 20px max(min(120px, calc((100% - 1024px) / 2)), 20px);
-    border: solid thin black;
-} */

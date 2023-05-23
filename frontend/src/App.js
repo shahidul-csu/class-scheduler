@@ -15,7 +15,11 @@ import AddUserPg from "./components/pages/admin/AddUserPg";
 import AddCoursePg from "./components/pages/admin/AddCoursePg";
 import CourseClassroom from "./components/pages/admin/CourseClassroom";
 import InstructorCourse from "./components/pages/admin/InstructorCourse";
+import AssignTime from "./components/pages/admin/AssignTime";
 import CourseTime from "./components/pages/admin/CourseTime";
+import PreferenceCourseTime from "./components/pages/admin/PreferenceCourseTime";
+import AdminProfilePage from "./components/pages/admin/AdminProfilePage";
+import FacultyProfilePage from "./components/pages/faculty/FacultyProfilePage";
 import AddSemester from "./components/pages/admin/AddSemester";
 import CourseSemester from "./components/pages/admin/CourseSemester";
 import FacultyLandingPg from "./components/pages/faculty/FacultyLandingPg";
@@ -55,7 +59,6 @@ function App() {
     localStorage.clear('userId')
     setLoggedInUserData(null)
   }
-
   return (
     <div>
 
@@ -83,10 +86,13 @@ function App() {
               <Route path="/addCourse2" element={<AddCoursePg></AddCoursePg>}></Route>
               <Route path="/genschedule" element={<GenSchedule></GenSchedule>}></Route>
               <Route path="/CourseClassroom" element={<CourseClassroom></CourseClassroom>}></Route>
+              <Route path="/AssignTime" element={<AssignTime></AssignTime>}></Route>
               <Route path="/InstructorCourse" element={<InstructorCourse></InstructorCourse>}></Route>
               <Route path="/CourseTime" element={<CourseTime></CourseTime>}></Route>
+              <Route path="/PreferenceCourseTime" element={<PreferenceCourseTime></PreferenceCourseTime>}></Route>
               <Route path="/AddSemester" element={<AddSemester></AddSemester>}></Route>
               <Route path="/CourseSemester" element={<CourseSemester></CourseSemester>}></Route>
+              <Route path="/AdminProfilePage" element={<AdminProfilePage></AdminProfilePage>}></Route>
               <Route path="/ApproveDeny" element={<ApproveDeny></ApproveDeny>}></Route>
             </Route>
 
@@ -94,6 +100,8 @@ function App() {
               {/* Must be logged in as a faculty to view this pages. */}
               <Route path="/FacultyLandingPg" element={<FacultyLandingPg clearLoginData={ClearStateVarAndLocalStorage}></FacultyLandingPg>}></Route>
               <Route path="/FacultyAvaliability" element={<FacultyAvaliabiltyPg></FacultyAvaliabiltyPg>}></Route>
+              <Route path="/FacultyProfilePage" element={<FacultyProfilePage></FacultyProfilePage>}></Route>
+
               <Route path="/FacultyPreference" element={<FacultyPreferencePg></FacultyPreferencePg>}></Route>
             </Route>
           </Routes>

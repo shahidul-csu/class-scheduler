@@ -12,47 +12,53 @@ const ApproveDeny = () => {
     const [instructorList, setInstructorList] = useState([]);
     const [isDoneFetching, setIsDoneFetching] = useState(false);
 
-    const populateSemesterDropDown = () => {
-        axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
-            res => {
-                setSemesterList(res.data)
-                console.log(JSON.stringify(res.data))
-            }
-        ).catch(
-            err => {
-                alert(err)
-                console.log(err)
-            }
-        )
-    }
 
     useEffect(() => {
+        async function populateSemesterDropDown() {
+            await axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
+                res => {
+                    setSemesterList(res.data)
+                    setSelectedSemesterId(res.data[res.data.length - 1].semester_id);
+                    console.log(JSON.stringify(res.data))
+                }
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
+        }
         populateSemesterDropDown();
     }, [])
+
     useEffect(() => {
+        async function populateInstructorDropDown() {
+            await axios(getGenericAuthModelConfig("GET", { 'semester_id': selectedSemeterId }, {}, localStorage.getItem('token'), ROUTER.api.getInstructorListPerSemester)).then(
+                res => {
+                    setInstructorList(res.data.data)
+                    console.log(JSON.stringify(res.data.data))
+                }
+
+            ).catch(
+                err => {
+                    alert(err)
+                    console.log(err)
+                }
+            )
+        }
         setSelectedInstructorId("0");
+        if (selectedSemeterId != "0") {
+            populateInstructorDropDown()
+        }
+
     }, [selectedSemeterId])
+
+
     const handleSemesterChange = (e) => {
         const semesterId = e.target.value;
         setSelectedSemesterId(semesterId);
-        if (semesterId != 0) {
-            populateInstructorDropDown(semesterId);
-        }
     }
-    const populateInstructorDropDown = (semesterId) => {
-        axios(getGenericAuthModelConfig("GET", { 'semester_id': semesterId }, {}, localStorage.getItem('token'), ROUTER.api.getInstructorListPerSemester)).then(
-            res => {
-                setInstructorList(res.data.data)
-                console.log(JSON.stringify(res.data.data))
-            }
 
-        ).catch(
-            err => {
-                alert(err)
-                console.log(err)
-            }
-        )
-    }
     return (
         <React.Fragment>
 

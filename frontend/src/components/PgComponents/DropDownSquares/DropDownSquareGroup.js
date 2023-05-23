@@ -11,15 +11,11 @@ import ApprovalStatusDisplay from '../ApprovalStatusDisplay';
 
 export const DataContext = createContext()
 
-const DefaultTimeSlots = () => [
-    { timeSlotName: '8AM-10AM', selected: true }, { timeSlotName: '10AM-12PM', selected: true },
-    { timeSlotName: '12PM-2PM', selected: true }, { timeSlotName: '2PM-4PM', selected: true },
-    { timeSlotName: '4PM-6PM', selected: true }, { timeSlotName: '6PM-8PM', selected: true }]
 
-const FalseTimeSlots = () => [
-    { timeSlotName: '8AM-10AM', selected: false, wasSelected: false }, { timeSlotName: '10AM-12PM', selected: false, wasSelected: false },
-    { timeSlotName: '12PM-2PM', selected: false, wasSelected: false }, { timeSlotName: '2PM-4PM', selected: false, wasSelected: false },
-    { timeSlotName: '4PM-6PM', selected: false, wasSelected: false }, { timeSlotName: '6PM-8PM', selected: false, wasSelected: false }]
+const DefaultTimeSlots = () => [
+    { timeSlotName: '8AM-10AM', selected: false, wasSelected: false, preferenceScore: null }, { timeSlotName: '10AM-12PM', selected: false, wasSelected: false, preferenceScore: null },
+    { timeSlotName: '12PM-2PM', selected: false, wasSelected: false, preferenceScore: null }, { timeSlotName: '2PM-4PM', selected: false, wasSelected: false, preferenceScore: null },
+    { timeSlotName: '4PM-6PM', selected: false, wasSelected: false, preferenceScore: null }, { timeSlotName: '6PM-8PM', selected: false, wasSelected: false, preferenceScore: null }]
 // set all time slot selected to false
 
 
@@ -36,6 +32,9 @@ const DropDownSquareGroup = (props) => {
     // specifies if the displayed timeslots
     // is from the dataBase are not.
     const doesEntryExist = useRef(false);
+
+    //check if there are preference entries on the database
+    const hasPreferenceEntries = useRef(false);
 
     // if the displyed timeslot came from the 
     // dataBase we use this to activate or deactivate
@@ -55,28 +54,132 @@ const DropDownSquareGroup = (props) => {
         { timeSlotGroup: DefaultTimeSlots() },
     ]);
 
+    //fetch avaliability data
+    useEffect(() => {
+        //gets the avaliability entry previously submitted by the user for the 
+        //specifed semester
+        async function fetchExistingAvaliabilityData() {
+            setShowLoadingIcon(true);
 
-    useEffect(async () => {
-        //if a dropdown Option has been selected
+            await axios(getGenericAuthModelConfig("GET", {
+                'semesterId': props.selectedSemesterById,
+                'id': props.id
+            }, {},
+                localStorage.getItem('token'), props.availabilityRoute)).then(
+                    res => {
+
+                        if (res.data.data.length > 0) {
+                            doesEntryExist.current = true;
+                            setEditMode(false); // dont let timeslot be clickable
+                            updateVisualDetails(res.data.data);
+                        }
+                        else {
+                            doesEntryExist.current = false;
+                            setEditMode(true);
+                            resetToDefaultTimeSlots();
+                        }
+                        setIsDoneFetching(true);
+                        setShowLoadingIcon(false);
+                    }
+                ).catch(
+                    err => {
+                        alert(err)
+                        console.log(err)
+                    }
+                )
+        }
+        function resetToDefaultTimeSlots() {
+            let newtimeSlotGroupList = [
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+            ];
+
+            numberOfDeselectedTimeSlot.current = 30; // helps disable the submited button
+            setTimeSlotGroupList(newtimeSlotGroupList);
+        }
+        function updateVisualDetails(data) {
+            console.log(JSON.stringify(data));
+            let newtimeSlotGroupList = [
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+                { timeSlotGroup: DefaultTimeSlots() },
+            ];
+
+
+            for (let x = 0; x < data.length; x++) {
+                newtimeSlotGroupList[data[x].week_day_id - 1].timeSlotGroup[data[x].day_time_id - 1].selected = true;
+                newtimeSlotGroupList[data[x].week_day_id - 1].timeSlotGroup[data[x].day_time_id - 1].wasSelected = true;
+            }
+
+            numberOfDeselectedTimeSlot.current = 30 - data.length;
+
+            // lets us know if the fetched timeslots is approved
+            isApproved.current = data[0].approved;
+
+            setTimeSlotGroupList(newtimeSlotGroupList);
+
+        }
+
         //if a dropdown Option has been selected
         doesEntryExist.current = false;
         setIsDoneFetching(false);
-        let newtimeSlotGroupList = [
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() }];
-        setTimeSlotGroupList(newtimeSlotGroupList);
-        if (props.selectedSemesterById != "0") {
-            FetchExistingAvaliabilityData();
+        if (props.selectedSemesterById !== "0" && props.id !== "0") {
+            console.log(props.id)
+            fetchExistingAvaliabilityData();
         }
-    }, [props.selectedSemesterById])
+    }, [props.selectedSemesterById, props.id])
 
+
+    //wait for the avaliability data to be fetched before fetching the preference data
+    useEffect(() => {
+        async function fetchPreferenceEntries() {
+            await axios(getGenericAuthModelConfig("GET", {
+                'semesterId': props.selectedSemesterById,
+                'id': props.id
+            }, {},
+                localStorage.getItem('token'), props.preferenceRoute)).then(
+                    res => {
+                        if (res.data.data.length > 0) {
+                            hasPreferenceEntries.current = true;
+                        } else {
+                            hasPreferenceEntries.current = false;
+                        }
+                        console.log(hasPreferenceEntries.current)
+                        updateTimeSlotData(res.data.data);
+                    }
+                ).catch(
+                    err => {
+                        alert("Error has occurred, please try reloading the page")
+                        console.log(err)
+                    }
+                );
+
+
+        }
+        function updateTimeSlotData(data) {
+            let newtimeSlotGroupList = [...timeSlotGroupList];
+            for (var x = 0; x < data.length; x++) {
+                newtimeSlotGroupList[data[x].week_day_id - 1].timeSlotGroup[data[x].day_time_id - 1].preferenceScore = data[x].score;
+            }
+            setTimeSlotGroupList(newtimeSlotGroupList);
+            console.log(timeSlotGroupList);
+        }
+
+        //if there are availiability entries then fetch the preference entries
+        if (isDoneFetching) {
+            fetchPreferenceEntries();
+        }
+    }, [isDoneFetching])
 
     const selectTimeBlock = (weekdayIndex, timeSlotIndex, isselected) => {
         //the DDSqure(Timeslot squares) use this function to 
         //report to this class what DDSuare has been selected.
+        console.log(numberOfDeselectedTimeSlot.current)
         let newtimeSlotGroupList = [...timeSlotGroupList];
 
         newtimeSlotGroupList[weekdayIndex].
@@ -93,10 +196,10 @@ const DropDownSquareGroup = (props) => {
         if (numberOfDeselectedTimeSlot.current !== 0 && numberOfDeselectedTimeSlot.current !== 30
             && !doesEntryExist.current) {
             isNewEntry = true;
-            props.SubmitAvaliability(timeSlotGroupList, isNewEntry);
+            props.SubmitAvaliability(timeSlotGroupList, isNewEntry, hasPreferenceEntries.current);
         } else if (doesEntryExist.current) {
             isNewEntry = false;
-            props.SubmitAvaliability(timeSlotGroupList, isNewEntry);
+            props.SubmitAvaliability(timeSlotGroupList, isNewEntry, hasPreferenceEntries.current);
         }
     }
 
@@ -123,82 +226,7 @@ const DropDownSquareGroup = (props) => {
         }
     }
 
-    //gets the avaliability entry previously submitted by the user for the 
-    //specifed semester
-    const FetchExistingAvaliabilityData = async () => {
 
-        setShowLoadingIcon(true);
-
-        await axios(getGenericAuthModelConfig("GET", {
-            'semesterId': props.selectedSemesterById,
-            'userId': localStorage.getItem('userId')
-        }, {},
-            localStorage.getItem('token'), ROUTER.api.getAvaliabilityData)).then(
-                res => {
-
-                    if (res.data.data.length > 0) {
-                        doesEntryExist.current = true;
-                        setEditMode(false); // dont let timeslot be clickable
-                        updateVisualDetails(res.data.data);
-                    }
-                    else {
-                        doesEntryExist.current = false;
-                        setEditMode(true);
-                        resetToDefaultTimeSlots();
-                    }
-                    setIsDoneFetching(true);
-                    setShowLoadingIcon(false);
-                }
-            ).catch(
-                err => {
-                    alert(err)
-                    console.log(err)
-                }
-            )
-    }
-
-    const updateVisualDetails = (data) => {
-        console.log(JSON.stringify(data));
-        let newtimeSlotGroupList = [
-            { timeSlotGroup: FalseTimeSlots() },
-            { timeSlotGroup: FalseTimeSlots() },
-            { timeSlotGroup: FalseTimeSlots() },
-            { timeSlotGroup: FalseTimeSlots() },
-            { timeSlotGroup: FalseTimeSlots() },
-        ];
-
-
-        for (var x = 0; x < data.length; x++) {
-            newtimeSlotGroupList[data[x].week_day_id - 1].
-                timeSlotGroup[data[x].day_time_id - 1].selected = true;
-            newtimeSlotGroupList[data[x].week_day_id - 1].
-                timeSlotGroup[data[x].day_time_id - 1].wasSelected = true;
-        }
-
-        numberOfDeselectedTimeSlot.current = 30 - data.length;
-
-        // lets us know if the fetched timeslots is approved
-        isApproved.current = data[0].approved;
-
-        setTimeSlotGroupList(newtimeSlotGroupList);
-
-    }
-
-
-
-
-    const resetToDefaultTimeSlots = () => {
-        let newtimeSlotGroupList = [
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() },
-            { timeSlotGroup: DefaultTimeSlots() },
-        ];
-
-        numberOfDeselectedTimeSlot.current = 0; // helps disable the submited button
-        setTimeSlotGroupList(newtimeSlotGroupList);
-    }
 
     const loadingIconVisibility = () => {
         if (showLoadingIcon) {
@@ -209,16 +237,6 @@ const DropDownSquareGroup = (props) => {
     const displayApprovalStatus = () => {
         if (doesEntryExist.current && !editMode) {
             return <ApprovalStatusDisplay is_Approved={isApproved} set_Edit_Mode={setEditMode} entryType="Availability" />
-            //     <div id={avalibilityPgCss.avaliabilityStats}>
-            //     <span id={avalibilityPgCss.statusHeading}>Avaliability</span>
-
-            //     <span className={avalibilityPgCss.statusTag}>Approval Status:</span>
-
-            //     {getApprovalStatus()}
-            //     <img id={avalibilityPgCss.editButton} src={EditButtonImg} onClick={()=>setEditMode(true)}
-            //     ></img>
-
-            // </div>
         }
     }
 

@@ -417,6 +417,22 @@ increase if there are more element in it */
     background-color: #C79F89;
 }
 
+.tableHighScore {
+    background-color: #00c500;
+}
+
+.tableMediumScore {
+    background-color: #ffea00;
+}
+
+.tableLowScore {
+    background-color: #d21c1c;
+}
+
+.tableDisabled {
+    background-color: #787878;
+}
+
 .buttonContainer {
     display: flex;
     justify-content: center;

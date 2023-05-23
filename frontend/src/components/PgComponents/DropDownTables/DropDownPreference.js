@@ -26,10 +26,14 @@ const DropDownPreference = (props) => {
     }
 
     const checkIfSelected = (day, time) => {
-        if (selectedTimeSlots[day].timeSlotGroup[time].selected) {
-            return PageCss.tableSelected;
+        if (selectedTimeSlots[day].timeSlotGroup[time].score === 5) {
+            return PageCss.tableHighScore;
+        } else if (selectedTimeSlots[day].timeSlotGroup[time].score === 3) {
+            return PageCss.tableMediumScore;
+        } else if (selectedTimeSlots[day].timeSlotGroup[time].score === 1) {
+            return PageCss.tableLowScore;
         } else {
-            return PageCss.tableNotSelected;
+            return PageCss.tableDisabled;
         }
     }
     const handleChange = async (event) => {

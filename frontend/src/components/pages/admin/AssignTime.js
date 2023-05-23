@@ -1,31 +1,26 @@
 import React, { useEffect, useState } from 'react';
-
 import PageCss from '../../../styles/AvaliabilityPg.module.css'
 import DropDownSquareGroup from '../../PgComponents/DropDownSquares/DropDownSquareGroup';
 import axios from "axios";
 import ROUTER from '../../../network/Router'
 import { getSemesterModelConfig, getParameterDataModelConfig, getGenericAuthModelConfig } from '../../../network/RequestTemplates';
 
-//Note: to cut down on api calls Mondays id = 1, tuesday id =2 ...
-//and for timeslots 8:AM-10:AM id = 1, 10AM-12PM id =2 ..
-//THE DATABASE MUST ALWAYS MATCH THIS LOGIC FOR THIS IMPLEMENTATION
-// TO WORK.
-
-const FacultyAvaliabiltyPg = () => {
+const AssignTime = () => {
     const [selectedSemesterId, setSelectedSemesterId] = useState("0");
     const [semesterList, setSemesterList] = useState([]);
-    //routes to fetch data from the database
+    const [instructorList, setInstructorList] = useState([]);
+    const [selectedInstructorId, setSelectedInstructorId] = useState("0");
+
+    //routes
     const availabilityRoute = ROUTER.api.getAvaliabilityData;
-    const getAvailabiityRoute = ROUTER.api.getAvaliabilityData;
+    const getAvailabilityRoute = ROUTER.api.getAvaliabilityData;
     const preferenceRoute = ROUTER.api.getPreferenceData;
     const getPreferenceRoute = ROUTER.api.getPreferenceParameterIds;
     const timeParam = ROUTER.api.userTimeParam;
 
-
-    // let date = new Date();
-    // console.log(date.getDate());
+    //fetch semester list
     useEffect(() => {
-        async function populateSemesterDropDown() {
+        async function populateSemeterDropDown() {
             await axios(getSemesterModelConfig("GET", "", {}, localStorage.getItem('token'))).then(
                 res => {
                     setSemesterList(res.data)
@@ -40,12 +35,25 @@ const FacultyAvaliabiltyPg = () => {
                 }
             )
         }
-        populateSemesterDropDown();
+        populateSemeterDropDown();
+    }, [])
+
+    //fetch instructor list
+    useEffect(() => {
+        async function populateInstructorDropDown() {
+            await axios(getGenericAuthModelConfig("GET", {}, {}, localStorage.getItem('token'), ROUTER.api.getInstructorList)).then(
+                res => {
+                    setInstructorList(res.data.data)
+                    console.log(res.data.data)
+                }
+            )
+        }
+        populateInstructorDropDown();
     }, [])
 
     const submitAvaliabilityRequest = async (availabilityData, isNewEntry, hasPreferenceEntries) => {
         let availabilityParameterId = null;
-        let LoggedInUserId = localStorage.getItem('userId');
+        let LoggedInUserId = selectedInstructorId;
         let axiosCallListForSelectedSlots = null;
 
         if (isNewEntry) {
@@ -58,7 +66,7 @@ const FacultyAvaliabiltyPg = () => {
             //update availability entries 
             axiosCallListForSelectedSlots = await returnUpdatedAxiosCallList(availabilityData, availabilityParameterId, LoggedInUserId);
             //Update approved status from availability entry
-            await axios(getParameterDataModelConfig("PUT", "", { approved: null, id: availabilityParameterId }, localStorage.getItem('token'))).then(
+            await axios(getParameterDataModelConfig("PUT", "", { approved: true, id: availabilityParameterId }, localStorage.getItem('token'))).then(
                 res => {
                     console.log("Parameter data updated")
                 }
@@ -125,9 +133,9 @@ const FacultyAvaliabiltyPg = () => {
         await axios.all([...axiosCallListForPreference]).then(axios.spread((...responses) => {
             console.log("Preference entries updated/sent")
             if (isNewEntry) {
-                alert("Your availability specifications have been sent.\n Now Wait for an approval from the admin.")
+                alert("Availability specifications for instructor have been sent.\n ")
             } else {
-                alert("Your availability specifications have been updated.\n Now Wait for an approval from the admin.")
+                alert("Availability specifications have been updated.\n")
             }
         }
         )).catch(
@@ -136,12 +144,11 @@ const FacultyAvaliabiltyPg = () => {
             }
         )
     }
-
     const makeNewParameterData = async (entryType) => {
         let Data = null
         if (entryType === "availability") {
-            //availability approved variable is null so that the user knows that their entry waiting for approval/rejection
-            await axios(getParameterDataModelConfig("POST", "", { approved: null, requirement: true, score: 0, parameter_id: null, 'semester_id': +selectedSemesterId }, localStorage.getItem('token'))).then(
+            //availability approved variable is true since admin is sending these entries
+            await axios(getParameterDataModelConfig("POST", "", { approved: true, requirement: true, score: 0, parameter_id: null, 'semester_id': +selectedSemesterId }, localStorage.getItem('token'))).then(
                 res => {
                     Data = res.data.parameter_id;
                 }
@@ -167,10 +174,9 @@ const FacultyAvaliabiltyPg = () => {
 
         return Data; //returns the newly made parameter id
     }
-    //request to get the parameter id of the logged in user using userId and semesterId
     const getParameterData = async () => {
         let Data = null;
-        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), getAvailabiityRoute)).then(
+        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': selectedInstructorId }, {}, localStorage.getItem('token'), getAvailabilityRoute)).then(
             res => {
                 Data = res.data.data[0].parameter_id
             }
@@ -182,11 +188,10 @@ const FacultyAvaliabiltyPg = () => {
         )
         return Data;
     }
-
     //request to get parameter id of the logged in user based on the score
     const getPreferenceParameterId = async (score) => {
         let Data = null;
-        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': localStorage.getItem('userId') }, {}, localStorage.getItem('token'), getPreferenceRoute)).then(
+        await axios(getGenericAuthModelConfig("GET", { 'semesterId': selectedSemesterId, 'id': selectedInstructorId }, {}, localStorage.getItem('token'), getPreferenceRoute)).then(
             res => {
                 if (score === 5) {
                     if (res.data.high.length > 0) {
@@ -210,7 +215,6 @@ const FacultyAvaliabiltyPg = () => {
         )
         return Data;
     }
-
     //returns a list of axios calls based on the selected timeSlots
     const returnAxiosCallList = async (availabilityData, paramId, userId) => {
         //axiosCallVarList is a list of axios post request
@@ -237,7 +241,6 @@ const FacultyAvaliabiltyPg = () => {
         }
         return axiosCallVarList
     }
-
     //Update preference entries
     const returnUpdatedAxiosCallList = async (availabilityData, paramId, userId) => {
         let axiosCallVarList = [];
@@ -345,7 +348,6 @@ const FacultyAvaliabiltyPg = () => {
         //goona be a change or addition to the time_slot table.
         return (6 * (weekDayId - 1)) + dayTimeId;
     }
-
     return (
         <React.Fragment>
             <div id={PageCss.PageBody}>
@@ -357,12 +359,17 @@ const FacultyAvaliabiltyPg = () => {
                         {semesterList.map((semester, index) => <option key={index} value={semester.semester_id}>
                             {semester.name + " " + semester.year}</option>)}
                     </select>
+                    <select id={PageCss.instructorSelect} onChange={(e) => { setSelectedInstructorId(e.target.value) }} value={selectedInstructorId}>
+                        <option value={"0"}>Select Instructor:</option>
+                        {instructorList.map((instructor, index) => <option key={index} value={instructor.id}>
+                            {instructor.first_name + " " + instructor.last_name}</option>)}
+                    </select>
 
                 </div>
                 <div id={PageCss.container2}>
 
-                    <div className={PageCss.HeaderContainer}>
-                        <span id={PageCss.Pgheading}>Please select your availability.</span>
+                    <div className={PageCss.HeaderContainer} >
+                        <span id={PageCss.Pgheading}>Assign Availability Time to Instructor.</span>
 
                     </div>
 
@@ -374,11 +381,12 @@ const FacultyAvaliabiltyPg = () => {
                     </select>
 
                     <DropDownSquareGroup disabled={false} SubmitAvaliability={submitAvaliabilityRequest}
-                        selectedSemesterById={selectedSemesterId} availabilityRoute={availabilityRoute} preferenceRoute={preferenceRoute} id={localStorage.getItem('userId')} />
+                        selectedSemesterById={selectedSemesterId} availabilityRoute={availabilityRoute} preferenceRoute={preferenceRoute} id={selectedInstructorId} />
                 </div>
+
             </div>
         </React.Fragment>
     );
 }
 
-export default FacultyAvaliabiltyPg;
+export default AssignTime;
