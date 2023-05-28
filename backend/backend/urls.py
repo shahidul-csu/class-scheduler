@@ -1,5 +1,4 @@
 """backend URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
 Examples:
@@ -34,7 +33,7 @@ urlpatterns = [
         path('classroom/', ClassroomView.as_view(), name='classroom'),
         path('parameter_data/', ParameterDataView.as_view(), name='parameter_data'),
         path('time_slot/', TimeSlotView.as_view(), name='time_slot'),
-        path('user_group_class_parameter/', UserGroupClassParameterView.as_view(),
+        path('user_back_to_back_parameter/', UserGroupClassParameterView.as_view(),
              name='user_group_class_parameter'),
         path('user_time_parameter/', UserTimeParameterView.as_view(),
              name='user_time_parameter'),
@@ -49,8 +48,28 @@ urlpatterns = [
              name='classroom_parameter'),
         path('semester_parameter/', SemesterParameterView.as_view(),
              name='semester_parameter'),
-        path('get_avaliability_for_semester/<int:semesterId>/<int:userId>/', getAvaliabilityEntryPerSemester,
+        path('teaching_parameter/', TeachingParameterView.as_view(),
+             name='teaching_parameter'),
+        path('get_avaliability_for_semester/<int:semesterId>/<int:id>/', getAvaliabilityEntryPerSemester,
              name='get_avaliability_for_semester'),
+        path('get_preference_for_semester/<int:semesterId>/<int:id>/', getPreferenceEntriesPerSemester,
+             name='get_preference_for_semester'),
+        path('get_instructor_list_per_semester/<int:semesterId>/', getInstructorListPerSemester,
+             name='get_instructor_list_per_semester'),
+        path('get_user_preference_option_entries/<int:semesterId>/<int:id>/', getUserPreferenceOptionEntries,
+             name='get_user_preference_option_entries'),
+        path('get_preference_parameter_ids/<int:semesterId>/<int:id>/', getPreferenceParameterIds,
+             name='get_preference_parameter_ids'),
+        path('get_course_parameter_id/<int:semesterId>/<int:id>/', getCourseParameterId,
+             name='get_course_parameter_id'),
+        path('get_course_avaliability_for_semester/<int:semesterId>/<int:id>/', getCourseAvaliabilityEntryPerSemester,
+             name='get_course_avaliability_for_semester'),
+        path('get_course_preference_for_semester/<int:semesterId>/<int:id>/', getCoursePreferenceEntryPerSemester,
+             name='get_course_preference_for_semester'),
+        path('get_instructor_list/', getInstructorList,
+             name='get_instructor_list'),
+        path('get_course_preference_parameter_ids/<int:semesterId>/<int:id>/',
+             getCoursePreferenceParameterIds, name='get_course_preference_parameter_ids'),
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

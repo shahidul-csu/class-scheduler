@@ -48,7 +48,7 @@ class ParameterData(models.Model):
         # ]
 
     parameter_id = models.AutoField(primary_key=True)
-    approved = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False, null=True)
     requirement = models.BooleanField(default=False)
     score = models.IntegerField(default=None)
     semester_id = models.ForeignKey(
@@ -68,10 +68,10 @@ class TimeSlot(models.Model):
 
 class UserGroupClassParameter(models.Model):
     class Meta:
-        db_table = 'user_group_class_parameter'
+        db_table = 'user_back_to_back_class'
         constraints = [
             models.UniqueConstraint(
-                fields=['user_id', 'parameter_id'], name='unique_user_group_class_parameter')
+                fields=['user_id', 'parameter_id'], name='unique_user_back_to_back_class_parameter')
         ]
 
     user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
@@ -94,6 +94,19 @@ class UserTimeParameter(models.Model):
         TimeSlot, default=None, on_delete=models.CASCADE)
 
 
+class TeachingParameter(models.Model):
+    class Meta:
+        db_table = 'teaching_parameter'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user_id', 'parameter_id'], name='unique_teaching_parameter')
+        ]
+    num_teaching_days = models.IntegerField(default=None)
+    user_id = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+    parameter_id = models.ForeignKey(
+        ParameterData, default=None, on_delete=models.CASCADE)
+
+
 class Course(models.Model):
     class Meta:
         db_table = 'course'
@@ -104,8 +117,8 @@ class Course(models.Model):
     number_per_week = models.IntegerField(default=None)
     sync_time = models.BooleanField(default=False)
     capacity = models.IntegerField(default=None)
-    courseGroup = models.CharField(default=None, max_length=100)
-    Section = models.CharField(default=None, max_length=100)
+    course_group = models.CharField(default=None, max_length=100)
+    section = models.CharField(default=None, max_length=100)
 
 
 class Teaches(models.Model):

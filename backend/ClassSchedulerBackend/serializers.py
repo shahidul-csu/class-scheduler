@@ -69,7 +69,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['course_id', 'name', 'units',
-                  'number_per_week', 'sync_time', 'capacity', 'courseGroup', 'Section']
+                  'number_per_week', 'sync_time', 'capacity', 'course_group', 'section']
 
 
 class TeachesSerializer(serializers.ModelSerializer):
@@ -107,3 +107,9 @@ class SemesterParameterSerializer(serializers.ModelSerializer):
     class Meta:
         model = SemesterParameter
         fields = ['parameter_id', 'course_id', 'semester_id']
+
+
+class TeachingParameterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeachingParameter
+        fields = ['parameter_id', 'num_teaching_days', 'user_id']

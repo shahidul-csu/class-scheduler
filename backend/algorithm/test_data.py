@@ -34,11 +34,13 @@ COURSE_CAPACITIES = [20, 30]
 TIME_SLOTS = [
     TimeSlot(wd, t) for wd in WeekDay.get_work_days() for t in TimeBlock.get_time_blocks(Time(START_TIME), Time(END_TIME), Time(DURATION))
 ]
+print(TIME_SLOTS)
 
 CLASSROOMS = [
     Classroom(f"BIT-{i}", rd.choice(CLASSROOM_CAPACITES)) for i in CLASSROOM_NUMBERS
 ]
 
+#print(CLASSROOMS)
 
 def get_random_UserParameter():
     is_req = rd.choice((True, False))
@@ -76,6 +78,9 @@ COURSES = [
            capacity=rd.choice(COURSE_CAPACITIES))
     for course_id in COURSE_IDS
 ]
+
+
+print(COURSES[0])
 
 CLASSROOMS_PREDETERMINED = {
     104: Classroom(f"BIT-{104}", 40),
