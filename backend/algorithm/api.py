@@ -49,18 +49,20 @@ def getWeekDayTuple(course_id):
 
     cur.execute(f"SELECT * FROM course_time_parameter WHERE course_id_id={course_id}")
     result = cur.fetchall()
-
+    time_slot = 0
     for i in result:
         time_slot = i[3]
     
     cur.execute(f"SELECT * FROM time_slot WHERE time_slot_id={time_slot}")
     result = cur.fetchall()
+    weekday_id = 0
     for i in result:
         day_time_id = i[1]
         weekday_id = i[2]
 
     cur.execute(f"(SELECT * FROM week_day WHERE week_day_id={weekday_id})")
     result = cur.fetchall()
+    day1 = ""
     for i in result:
         day1 = i[1]
 
@@ -145,7 +147,7 @@ def getTimeSlot(instructor_id):
 # Connect to Database
 with psycopg.connect(user="ffesmtozmpyghm",
                      password="dc203ed02f12dcc3b402201415eba2ee53a891196a69de65d6494c304b27cffa",
-                     host="0.0.0.0",
+                     host="localhost",
                      port="5442",
                      dbname="MainSchedular_DB") as conn:
 
